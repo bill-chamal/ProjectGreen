@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ProjectGreen</string>
+    <string name="environment_care">What is the best for</string>
+    <string name="environment">environment?</string>
+    <string name="sign_in">Sign in</string>
+    <string name="createAccount">Create an account</string>
+
+    <string name="welcomeback">Welcome back</string>
+    <string name="loginyouraccount">Log in to your account</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dont_have_an_account">Don\'t have an account?</string>
+    <string name="create_one">Create one</string>
+    <string name="enter_full_name">Full name</string>
+    <string name="passwd">Password</string>
+    <string name="register">Register</string>
+    <string name="create_your_new_acount">Create your new account</string>
+    <string name="enter_email">Email</string>
+    <string name="Create_account">Create account</string>
+    <string name="icon_size">30dp</string>
+
+    <string name="have_an_account">Already have an account?</string>
+
+</resources>

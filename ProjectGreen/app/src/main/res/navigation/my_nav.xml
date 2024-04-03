@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/enterScreen">
+
+    <fragment
+        android:id="@+id/userLoginScreen"
+        android:name="com.example.projectgreen.UserLoginScreen"
+        android:label="fragment_user_login_screen"
+        tools:layout="@layout/fragment_user_login_screen" >
+        <action
+            android:id="@+id/action_userLoginScreen_to_enterScreen"
+            app:destination="@id/enterScreen"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_userLoginScreen_to_createAccountScreen"
+            app:destination="@id/createAccountScreen"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.projectgreen.MainActivity"
+        android:label="fragment_enter_screen"
+        tools:layout="@layout/fragment_enter_screen" />
+    <fragment
+        android:id="@+id/enterScreen"
+        android:name="com.example.projectgreen.EnterScreen"
+        android:label="EnterScreen" >
+        <action
+            android:id="@+id/action_enterScreen_to_userLoginScreen"
+            app:destination="@id/userLoginScreen"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_enterScreen_to_createAccountScreen"
+            app:destination="@id/createAccountScreen"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountScreen"
+        android:name="com.example.projectgreen.CreateAccountScreen"
+        android:label="fragment_create_account_screen"
+        tools:layout="@layout/fragment_create_account_screen" >
+        <action
+            android:id="@+id/action_createAccountScreen_to_enterScreen"
+            app:destination="@id/enterScreen"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_createAccountScreen_to_userLoginScreen"
+            app:destination="@id/userLoginScreen"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+    </fragment>
+</navigation>
