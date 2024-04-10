@@ -22,10 +22,10 @@
         <td>Ιωάννα</td>
     </tr>
     <tr>
-        <td colspan="5">Πανεπιστήμιο Μακεδονίας - University of Macedonia</td>
+        <td colspan="6">Πανεπιστήμιο Μακεδονίας - University of Macedonia</td>
     </tr>
-    <tr colspan="5">
-        <td colspan="5">Τμήμα Εφαρμοσμένης Πληροφορικής - Department of Applied Informatics</td>
+    <tr colspan="6">
+        <td colspan="6">Τμήμα Εφαρμοσμένης Πληροφορικής - Department of Applied Informatics</td>
     </tr>
 </table>
 <br>
