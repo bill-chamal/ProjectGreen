@@ -1,14 +1,11 @@
 package com.example.projectgreen;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +95,7 @@ public class CreateAccountScreen extends Fragment {
         view.findViewById(R.id.btnCreateNewAccount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = String.valueOf(((EditText)view.findViewById(R.id.txtbox_UserName)).getText());
+                String name = String.valueOf(((EditText)view.findViewById(R.id.txtbox_UserEmail)).getText());
                 String email = String.valueOf(((EditText)view.findViewById(R.id.txtbox_email)).getText());
                 String password = String.valueOf(((EditText)view.findViewById(R.id.txtbox_password)).getText());
 
@@ -113,13 +110,12 @@ public class CreateAccountScreen extends Fragment {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         FirebaseUser user = mAuth.getCurrentUser();
-                                        Toast.makeText(getContext(), "Authentication Successfully. " + user.getDisplayName(),
-                                                Toast.LENGTH_SHORT).show();
-                                        // updateUI(user);
+                                        Toast.makeText(getContext(), "Authentication Successfully. " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                        new User(name, email, false).sendUser();
+                                        // updateUI(user); NEXT FRAGMENT
                                     } else {
                                         // If sign in fails, display a message to the user.
-                                        Toast.makeText(getContext(), "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
                                         // updateUI(null);
                                     }
                                 }

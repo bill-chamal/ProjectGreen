@@ -104,7 +104,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnCreateNewAccount" />
 
     <EditText
-        android:id="@+id/txtbox_UserName"
+        android:id="@+id/txtbox_UserEmail"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/transparent_green"
@@ -139,7 +139,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnCreateNewAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtbox_UserName"
+        app:layout_constraintTop_toBottomOf="@+id/txtbox_UserEmail"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView

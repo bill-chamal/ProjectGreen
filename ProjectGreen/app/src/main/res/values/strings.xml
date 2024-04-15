@@ -10,7 +10,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="dont_have_an_account">Don\'t have an account?</string>
     <string name="create_one">Create one</string>
-    <string name="enter_full_name">Full name</string>
+    <string name="enter_full_name">Your Gmail</string>
     <string name="passwd">Password</string>
     <string name="register">Register</string>
     <string name="create_your_new_acount">Create your new account</string>

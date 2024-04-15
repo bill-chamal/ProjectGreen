@@ -106,7 +106,7 @@
         app:layout_constraintEnd_toEndOf="@+id/btnCreateNewAccount" />
 
     <EditText
-        android:id="@+id/txtbox_UserName"
+        android:id="@+id/txtbox_UserEmail"
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
