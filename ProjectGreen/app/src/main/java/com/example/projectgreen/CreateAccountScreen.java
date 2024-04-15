@@ -1,13 +1,25 @@
 package com.example.projectgreen;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +32,8 @@ public class CreateAccountScreen extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private FirebaseAuth mAuth;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -50,10 +64,15 @@ public class CreateAccountScreen extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // the shared instance of the FirebaseAuth object
+        mAuth = FirebaseAuth.getInstance();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // When initializing your Activity, check to see if the user is currently signed in:
     }
 
     @Override
@@ -76,6 +95,40 @@ public class CreateAccountScreen extends Fragment {
             }
         });
 
+        view.findViewById(R.id.btnCreateNewAccount).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = String.valueOf(((EditText)view.findViewById(R.id.txtbox_UserName)).getText());
+                String email = String.valueOf(((EditText)view.findViewById(R.id.txtbox_email)).getText());
+                String password = String.valueOf(((EditText)view.findViewById(R.id.txtbox_password)).getText());
+
+                if (name.length() == 0 || email.length() == 0 || password.length() == 0)
+                    Toast.makeText(getContext(), "Fields cant be empty", Toast.LENGTH_SHORT).show();
+                else {
+                    // CREATE ACCOUNT
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        Toast.makeText(getContext(), "Authentication Successfully. " + user.getDisplayName(),
+                                                Toast.LENGTH_SHORT).show();
+                                        // updateUI(user);
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        Toast.makeText(getContext(), "Authentication failed.",
+                                                Toast.LENGTH_SHORT).show();
+                                        // updateUI(null);
+                                    }
+                                }
+                            });
+                }
+            }
+        });
+
         return view;
     }
+
 }

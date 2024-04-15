@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnCreateNewAccount"
         android:layout_width="320dp"
         android:layout_height="60dp"
         android:layout_marginBottom="16dp"
@@ -89,7 +89,7 @@
         android:text="@string/dont_have_an_account"
         android:textSize="8pt"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/btnCreateNewAccount" />
 
     <TextView
         android:id="@+id/btnLoginAccount"
@@ -101,7 +101,7 @@
         android:textColor="@color/font_dark_green"
         android:textSize="8pt"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/button" />
+        app:layout_constraintEnd_toEndOf="@+id/btnCreateNewAccount" />
 
     <EditText
         android:id="@+id/txtbox_UserName"
@@ -115,7 +115,7 @@
         android:inputType="text"
         android:padding="10dp"
         android:textColor="@color/font_dark_green"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreateNewAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,7 +136,7 @@
         android:padding="10dp"
         android:password="true"
         android:textColor="@color/font_dark_green"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/btnCreateNewAccount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtbox_UserName"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "944101086246",
+    "project_id": "projectgreen-fb",
+    "storage_bucket": "projectgreen-fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944101086246:android:f02865efd6809fd08e02e7",
+        "android_client_info": {
+          "package_name": "com.example.projectgreen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbg5ZIETq-hZRxLhGGalPojk6yGlwij18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
