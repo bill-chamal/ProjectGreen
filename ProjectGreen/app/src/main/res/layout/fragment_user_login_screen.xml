@@ -108,7 +108,7 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:background="@drawable/transparent_green"
-        android:drawableLeft="@drawable/icon_person"
+        android:drawableLeft="@drawable/email"
         android:ems="10"
         android:fontFamily="@font/candara"
         android:hint="@string/enter_full_name"

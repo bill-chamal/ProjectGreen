@@ -15,16 +15,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,6 +44,9 @@ public class UserLoginScreen extends Fragment {
     private FirebaseAuth mAuth;
     private EditText txtUserEmail, txtUserPasswd;
     private Button btnSignIn;
+    // User fields
+    private FirebaseUser fb_user;
+    private User user = new User();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,7 +93,8 @@ public class UserLoginScreen extends Fragment {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             Toast.makeText(getContext(), "Successfully auto sign in " + currentUser.getDisplayName() + ", email:" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-            //reload();
+            fb_user = currentUser;
+            getCredentials();
         }
     }
     @Override
@@ -100,6 +107,11 @@ public class UserLoginScreen extends Fragment {
         txtUserPasswd = view.findViewById(R.id.txtbox_password);
         btnSignIn = view.findViewById(R.id.btnCreateNewAccount);
 
+        /*
+        user1
+        user1@gmail.com
+        passwd1
+         */
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,43 +122,25 @@ public class UserLoginScreen extends Fragment {
                     Toast.makeText(getContext(), "Fields cant be empty", Toast.LENGTH_SHORT).show();
                 else {
                     // doc https://firebase.google.com/docs/firestore/query-data/queries#java
-                    // Sign in method - when completed, do the followings
+                    // Sign in method - when successfully completed, do the followings
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        User userm = new User();
-                                        // Search the user from Firestore db to find his name and admin rights
-                                        Task<QuerySnapshot> taskk = db.collection("user").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        Map<String, Object> doc = null;
-                                                        if (task.isSuccessful()) {
-                                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                                doc = document.getData();
-                                                            }
-                                                            userm.populate(doc);
-                                                        } else {
-                                                            Toast.makeText(getContext(), "Error reading documents from the server.", Toast.LENGTH_LONG).show();
-                                                        }
-                                                    }
-                                                });
-                                        Toast.makeText(getContext(), "Welcome " + userm.getName() + ", email:" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()){
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user1 = mAuth.getCurrentUser();
+                            Toast.makeText(getContext(), "Authentication successful:" + user1.getEmail(), Toast.LENGTH_SHORT).show();
+                            fb_user = user1;
 
-                                        // NEXT FRAGMENT
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                            // Search the user from Firestore db to find his name and admin rights
+                            getCredentials();}
+                            else
+                                printUnsuccessfulLogIn();
+                        }
+                    });
                 }
-
             }
         });
-
 
         view.findViewById(R.id.btnBack_to_EnterScreen).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,5 +160,30 @@ public class UserLoginScreen extends Fragment {
         return view;
     }
 
+    private void getCredentials() {
+        db.collection("user").whereEqualTo("email", fb_user.getEmail()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Map<String, Object> doc = null;
 
+                    for (DocumentSnapshot document : task.getResult())
+                        doc = document.getData();
+
+                    assert doc != null;
+                    user.populate(doc);
+                    printSuccessfulLogIn();
+                } else
+                    printUnsuccessfulLogIn();
+            }
+        });
+    }
+
+    private void printUnsuccessfulLogIn(){
+        Toast.makeText(getContext(), "Authentication failure", Toast.LENGTH_SHORT).show();
+    }
+
+    private void printSuccessfulLogIn(){
+        Toast.makeText(getContext(), "Welcome back, " + user.getName(), Toast.LENGTH_SHORT).show();
+    }
 }

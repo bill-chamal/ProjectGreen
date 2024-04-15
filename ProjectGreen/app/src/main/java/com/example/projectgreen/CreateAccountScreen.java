@@ -103,14 +103,13 @@ public class CreateAccountScreen extends Fragment {
                     Toast.makeText(getContext(), "Fields cant be empty", Toast.LENGTH_SHORT).show();
                 else {
                     // CREATE ACCOUNT
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         FirebaseUser user = mAuth.getCurrentUser();
-                                        Toast.makeText(getContext(), "Authentication Successfully. " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
                                         new User(name, email, false).sendUser();
                                         // updateUI(user); NEXT FRAGMENT
                                     } else {

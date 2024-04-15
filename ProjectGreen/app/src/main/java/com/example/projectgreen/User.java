@@ -40,7 +40,7 @@ public class User {
 
     }
 
-    public void populate(Map<String, Object> m){
+    public void populate(@NonNull Map<String, Object> m){
         usermap = m;
         this.name = (String)m.get("name");
         this.email = (String)m.get("email");
