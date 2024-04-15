@@ -79,3 +79,14 @@ Registry:
  - com.google.firebase:firebase-auth:21.0.3
  - com.google.firebase:firebase-firestore:24.4.1
  - com.daimajia.easing:library:2.4@aar
+
+ *Fake account to log in*
+WITH ADMIN RIGHTS
+  - Admin
+  - admin@gmail.com
+  - 24admin
+  
+WITH USER RIGHTS
+ - user1
+ - user1@gmail.com
+ - passwd1
