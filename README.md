@@ -52,9 +52,16 @@ Registry:
     gradle.version.catalogs.dynamic.support=true
 
 
+<hr>
 
+## Agile-Scrum
 
-<h3><a href="https://mit-license.org/">The MIT License (MIT)</a></h3>
+ - 15/04/2024
+
+![agile board](img/agile2_Page_1.png)
+
+## <a href="https://mit-license.org/">The MIT License (MIT)</a>
+
 <p>Copyright © 2024 Bill Chamalidis, Dimidtra Tzika, Argyro Balatsou, Dimitrios Foulidis, Eriola Hajdari, Ioanna Tserkezi</p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
@@ -64,7 +71,8 @@ Registry:
 <p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 
 
-<h2>About:</h2>
-<p><b>Created:</b> 1 Apr 2024</p>
-<p><b>Version:</b> 0.0.1</p>
-<p><b>Thessaloniki 2024 6th semester UOM</b></p>
+**About:**
+
+ - Created: 1 Apr 2024
+ - Version: 0.0.1
+ - Thessaloniki 2024 6th semester UOM
