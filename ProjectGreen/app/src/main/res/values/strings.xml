@@ -17,7 +17,7 @@
     <string name="enter_email">Email</string>
     <string name="Create_account">Create account</string>
     <string name="icon_size">30dp</string>
-
+    <string name="points">Points</string>
     <string name="have_an_account">Already have an account?</string>
 
 </resources>

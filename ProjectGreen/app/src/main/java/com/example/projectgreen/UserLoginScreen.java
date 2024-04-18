@@ -41,6 +41,7 @@ public class UserLoginScreen extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private View view;
     private FirebaseAuth mAuth;
     private EditText txtUserEmail, txtUserPasswd;
     private Button btnSignIn;
@@ -101,7 +102,7 @@ public class UserLoginScreen extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_login_screen, container, false);
+        view = inflater.inflate(R.layout.fragment_user_login_screen, container, false);
 
         txtUserEmail = view.findViewById(R.id.txtbox_UserEmail);
         txtUserPasswd = view.findViewById(R.id.txtbox_password);
@@ -170,9 +171,17 @@ public class UserLoginScreen extends Fragment {
                     for (DocumentSnapshot document : task.getResult())
                         doc = document.getData();
 
-                    assert doc != null;
-                    user.populate(doc);
+                    // if no user data are registered to firestore
+                    if (doc == null)
+                    {
+                        user = new User("user0", fb_user.getEmail(), false);
+                        user.sendUser();
+                    }
+                    else
+                        user.populate(doc);
+
                     printSuccessfulLogIn();
+                    Navigation.findNavController(view).navigate(R.id.action_userLoginScreen_to_userViewScreen);
                 } else
                     printUnsuccessfulLogIn();
             }

@@ -87,10 +87,10 @@ public class EnterScreen extends Fragment {
 //        set.start();
 
 
-        YoYo.with(Techniques.SlideInDown).duration(4000).repeat(0)
+        YoYo.with(Techniques.SlideInDown).duration(1000).repeat(0)
                 .playOn(view.findViewById(R.id.textView));
 
-        YoYo.with(Techniques.SlideInDown).duration(5600).repeat(0)
+        YoYo.with(Techniques.SlideInDown).duration(5000).repeat(0)
                 .playOn(view.findViewById(R.id.textView2));
 
         YoYo.with(Techniques.Wobble).delay(4000).duration(1000).repeat(2)

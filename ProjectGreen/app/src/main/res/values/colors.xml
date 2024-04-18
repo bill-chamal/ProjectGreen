@@ -6,4 +6,7 @@
     <color name="font_dark_green">#7E8C4E</color>
     <color name="font_gray">#A2A2A2</color>
     <color name="btn_dark_green">#7E8C4E</color>
+
+    <color name="bottom_user_menu">#EAECE4</color>
+
 </resources>

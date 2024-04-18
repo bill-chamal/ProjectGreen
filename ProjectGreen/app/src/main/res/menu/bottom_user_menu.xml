@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item
+    android:id="@+id/points"
+    android:title="@string/points"
+    android:icon="@drawable/ic_euro"/>
+
+    <item
+    android:id="@+id/fab"
+    android:title=""
+    android:enabled="false"/>
+
+    <item
+    android:id="@+id/reg"
+    android:title="@string/register"
+    android:icon="@drawable/ic_reg"/>
+
+
+</menu>
