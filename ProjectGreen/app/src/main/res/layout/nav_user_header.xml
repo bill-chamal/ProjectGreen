@@ -15,21 +15,23 @@
         android:src="@mipmap/ic_profile_round"/>
 
     <TextView
+        android:id="@+id/lblSlideMenuName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/candara"
         android:text="Hi, user.getName()"
         android:textColor="@color/font_dark_green"
-        android:fontFamily="@font/candara"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/lblSlideMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/candara"
         android:text="Just do it"
         android:textColor="@color/font_dark_green"
-        android:fontFamily="@font/candara"
-        android:textSize="14sp"
-        android:layout_marginBottom="16dp"/>
+        android:textSize="14sp" />
 
 </LinearLayout>

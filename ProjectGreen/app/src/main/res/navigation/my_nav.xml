@@ -68,10 +68,18 @@
         android:id="@+id/userViewScreen"
         android:name="com.example.projectgreen.UserViewScreen"
         android:label="fragment_user_view_screen"
-        tools:layout="@layout/fragment_user_view_screen" />
+        tools:layout="@layout/fragment_user_view_screen" >
+        <argument
+            android:name="userData"
+            app:argType="com.example.projectgreen.User" />
+    </fragment>
     <fragment
         android:id="@+id/userStatisticsFragment"
         android:name="com.example.projectgreen.UserStatisticsFragment"
         android:label="fragment_user_statistics"
-        tools:layout="@layout/fragment_user_statistics" />
+        tools:layout="@layout/fragment_user_statistics" >
+        <argument
+            android:name="userRecycle"
+            app:argType="com.example.projectgreen.User" />
+    </fragment>
 </navigation>

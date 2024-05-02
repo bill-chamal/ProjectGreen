@@ -21,7 +21,12 @@ import java.util.ArrayList;
 
 public class UserStatisticsFragment extends Fragment {
 
+    private User user;
     private PieChart piechart;
+
+    public UserStatisticsFragment(User user){
+        this.user = user;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,7 +40,7 @@ public class UserStatisticsFragment extends Fragment {
         piechart.setExtraOffsets(5, 10, 5, 5);
         piechart.setDragDecelerationFrictionCoef(0.95f);
         piechart.animateXY(900,900);
-        piechart.setDrawRoundedSlices(true);
+        piechart.setDrawRoundedSlices(false);
 
         piechart.setCenterText("44" );
         piechart.setCenterTextSize(34f);
@@ -48,15 +53,15 @@ public class UserStatisticsFragment extends Fragment {
 
         ArrayList<PieEntry> pValues = new ArrayList<>();
 
-        pValues.add(new PieEntry(32f, "Plastic"));
-        pValues.add(new PieEntry(12f, "Metal"));
-        pValues.add(new PieEntry(52f, "Paper"));
-        pValues.add(new PieEntry(11f, "Glass"));
+        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn1), "Plastic"));
+        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn2), "Paper"));
+        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn3), "Glass"));
+        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn4), "Metal"));
 
         PieDataSet dataSet = new PieDataSet(pValues, "Materials");
         dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);;
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         PieData data = new PieData(dataSet);
         data.setValueTextSize(12f);

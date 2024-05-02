@@ -3,6 +3,7 @@ package com.example.projectgreen;
 
 import static android.content.ContentValues.TAG;
 
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,12 +60,12 @@ public class User implements Serializable {
         // Empty constructor
     }
 
-//    public void populate(@NonNull Map<String, Object> m){
-//        if (!m.containsKey(FIELD_RECYCLE)){
-//            m.put(FIELD_RECYCLE, new ArrayList<Recycled>());
-//        }
-//        usermap = m;
-//    }
+    public void populate(@NonNull Map<String, Object> m){
+        if (!m.containsKey(FIELD_RECYCLE)){
+            m.put(FIELD_RECYCLE, new HashMap<String, Object>());
+        }
+        convertMapToUser(m);
+    }
 
     public void sendUser(){
         // send him to cloud!!!
@@ -70,10 +74,10 @@ public class User implements Serializable {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, "User data uploaded successful");
+                    Log.d(TAG, "User: " + userName + " data uploaded successful. Email: " + email);
                 }
                 else {
-                    Log.d(TAG, "Error while uploading User data");
+                    Log.d(TAG, "Error while uploading User: " + email + " data");
                 }
             }
         });
@@ -107,10 +111,45 @@ public class User implements Serializable {
         return usermap;
     }
 
+    private void convertMapToUser(Map<String, Object> m) {
+        this.userName = (String) m.get(FIELD_NAME);
+        this.email = (String) m.get(FIELD_EMAIL);
+        this.isAdmin = (boolean) m.get(FIELD_IS_ADMIN);
 
+        recycledList = new ArrayList<>();
+
+        // FIELD_RECYCLE is Map that will be converted to ArrayList
+        Map<String, Object> reclist = (Map<String, Object>) m.get(FIELD_RECYCLE);
+
+        if (!reclist.isEmpty())
+            for (Map.Entry<String, Object> entry : reclist.entrySet()) {
+
+                Map<String, Object> rec = (Map<String, Object>) entry.getValue();
+
+                Map<String, Object> mat = (Map<String, Object>) rec.get(FIELD_MATERIAL);
+
+                Material material = new Material((String) mat.get(FIELD_MAT_NAME), (double) mat.get(FIELD_MAT_VALUE));
+
+                int p = Integer.parseInt(rec.get(FIELD_PIECES).toString());
+                Timestamp t = (Timestamp) rec.get(FIELD_TIMESTAMP);
+                boolean aprv = (boolean) rec.get(FIELD_APPROVED);
+
+                Recycled recycled = new Recycled(material, p, t , aprv );
+
+                recycledList.add(recycled);
+            }
+    }
+
+    public int getTotalPieceOfMaterial(String mat_name){
+        int sum = 0;
+        for (Recycled r : recycledList){
+            if (r.getMat().getMatName().equals(mat_name))
+                sum += r.getPieces();
+        }
+        return sum;
+    }
 
     // GETTERS AND SETTERS //
-
     public String getUserName() {
         return userName;
     }

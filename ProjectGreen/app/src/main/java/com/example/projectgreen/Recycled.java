@@ -8,10 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Recycled implements Serializable {
-
-
-
-
     private Timestamp timestamp;
     private int pieces;
     private Material mat;
@@ -19,13 +15,12 @@ public class Recycled implements Serializable {
 
     public Recycled(){}
 
-    public Recycled(Material mat, int pieces, Timestamp tt){
+    public Recycled(Material mat, int pieces, Timestamp tt, boolean approved){
         this.mat = mat;
         this.pieces = pieces;
         this.timestamp = tt;
-        approved = false;
+        this.approved = approved;
     }
-
 
 
     // GETTERS AND SETTERS //

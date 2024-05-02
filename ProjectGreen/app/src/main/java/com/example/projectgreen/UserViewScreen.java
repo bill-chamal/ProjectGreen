@@ -6,47 +6,85 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatViewInflater;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.projectgreen.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
 
 public class UserViewScreen extends Fragment {
-    ActivityMainBinding binding;
     public UserViewScreen() {
         // Required empty public constructor
     }
+
+    private User user;
+    private NavigationView naview;
+    private DrawerLayout drawerLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_view_screen, container, false);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        //getActivity().setContentView(binding.getRoot());
+
+        user = UserViewScreenArgs.fromBundle(getArguments()).getUserData();
 
         // LEFT SLIDE MENU
-        DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout);
+        drawerLayout = view.findViewById(R.id.drawer_layout);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        naview = (NavigationView)view.findViewById(R.id.nav_view);
+
+        // Set username to the slide menu bar
+        ((TextView)naview.getHeaderView(0).findViewById(R.id.lblSlideMenuName)).setText("Hi, " + user.getUserName());
+
+        // Not working!!
+        naview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if(item.getItemId() == R.id.nav_home){
+                    Toast.makeText(getActivity(), "Home clicked", Toast.LENGTH_LONG);
+                } else if(item.getItemId() == R.id.nav_about){
+                    Toast.makeText(getActivity(), "about  clicked", Toast.LENGTH_LONG);
+
+                } else if (item.getItemId() == R.id.nav_future) {
+                    Toast.makeText(getActivity(), "futu clicked", Toast.LENGTH_LONG);
+
+                } else if (item.getItemId() == R.id.nav_logout) {
+                    Toast.makeText(getActivity(), "logout clicked", Toast.LENGTH_LONG);
+                }
+                drawerLayout.closeDrawer((GravityCompat.START));
+                //drawerLayout.close();
+                return true;
+            }
+        });
 
         // FAB BUTTON
         view.findViewById(R.id.userFabBtn).setOnClickListener(new View.OnClickListener() {
@@ -72,12 +110,12 @@ public class UserViewScreen extends Fragment {
             }
         });
 
-        replaceFragment(new UserStatisticsFragment());
+        replaceFragment(new UserStatisticsFragment(user));
 
         ((BottomNavigationView) view.findViewById(R.id.bottomUserNavView)).setOnItemSelectedListener(item -> {
             // From file "bottom_user_menu.xml" id name
             if (item.getItemId() == R.id.points)
-                replaceFragment(new UserStatisticsFragment());
+                replaceFragment(new UserStatisticsFragment(user));
              else if (item.getItemId() == R.id.reg)
                 replaceFragment(new UserRegisterFragment());
 

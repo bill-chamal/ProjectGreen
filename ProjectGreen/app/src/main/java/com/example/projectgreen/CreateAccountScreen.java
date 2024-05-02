@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,12 +119,23 @@ public class CreateAccountScreen extends Fragment {
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
                                         ArrayList<Recycled> re = new ArrayList<>(); // Empty material list
-                                        // TEST
-                                        re.add( new Recycled(MaterialType.PAPER(), 42, Timestamp.now() )) ;
-                                        new User(name, email, false, re).sendUser();
 
-                                        // updateUI(user); NEXT FRAGMENT
-                                        Navigation.findNavController(view).navigate(R.id.action_createAccountScreen_to_userViewScreen);
+                                        // TEST
+                                        re.add( new Recycled(MaterialType.PAPER(), 82, Timestamp.now(), false )) ;
+                                        SystemClock.sleep(100);
+                                        re.add( new Recycled(MaterialType.GLASS(), 23, Timestamp.now(), false )) ;
+                                        SystemClock.sleep(140);
+                                        re.add( new Recycled(MaterialType.METAL(), 55, Timestamp.now(), true )) ;
+                                        SystemClock.sleep(150);
+                                        re.add( new Recycled(MaterialType.PAPER(), 32, Timestamp.now(), false )) ;
+                                        SystemClock.sleep(160);
+
+                                        User user1 = new User(name, email, false, re);
+                                        user1.sendUser();
+
+                                        // updateUI(userData); NEXT FRAGMENT
+                                        NavDirections action = CreateAccountScreenDirections.actionCreateAccountScreenToUserViewScreen(user1);
+                                        Navigation.findNavController(view).navigate(action);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();

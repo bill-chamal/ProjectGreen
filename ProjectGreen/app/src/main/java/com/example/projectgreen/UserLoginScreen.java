@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.provider.Telephony;
@@ -32,6 +33,7 @@ import org.checkerframework.checker.units.qual.A;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -178,16 +180,17 @@ public class UserLoginScreen extends Fragment {
                     // if no user data are registered to firestore
                     if (doc == null)
                     {
-
-                        user = new User("user0", fb_user.getEmail(), false, new ArrayList<Recycled>());
+                        Random r = new Random();
+                        user = new User("user"+ r.toString(), fb_user.getEmail(), false, new ArrayList<Recycled>());
                         user.sendUser();
                     }
                     else
-                        ;
-                        // user.populate(doc);
+                        user.populate(doc);
 
                     printSuccessfulLogIn();
-                    Navigation.findNavController(view).navigate(R.id.action_userLoginScreen_to_userViewScreen);
+
+                    NavDirections action = UserLoginScreenDirections.actionUserLoginScreenToUserViewScreen(user);
+                    Navigation.findNavController(view).navigate(action);
                 } else
                     printUnsuccessfulLogIn();
             }
