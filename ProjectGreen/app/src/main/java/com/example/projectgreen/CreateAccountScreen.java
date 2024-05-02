@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -118,19 +119,20 @@ public class CreateAccountScreen extends Fragment {
                                         // Sign in success, update UI with the signed-in user's information
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
-                                        ArrayList<Recycled> re = new ArrayList<>(); // Empty material list
+
+                                        User user1 = new User(name, email, false, new ArrayList<>(), 0,0,0);
 
                                         // TEST
-                                        re.add( new Recycled(MaterialType.PAPER(), 82, Timestamp.now(), false )) ;
+                                        Random r = new Random();
+                                        user1.addRecycle(new Recycled(MaterialType.PAPER()  , r.nextInt(50-4+1)+4, Timestamp.now(), false ));
                                         SystemClock.sleep(100);
-                                        re.add( new Recycled(MaterialType.GLASS(), 23, Timestamp.now(), false )) ;
+                                        user1.addRecycle( new Recycled(MaterialType.GLASS() , r.nextInt(50-4+1)+4, Timestamp.now(), false )) ;
                                         SystemClock.sleep(140);
-                                        re.add( new Recycled(MaterialType.METAL(), 55, Timestamp.now(), true )) ;
+                                        user1.addRecycle( new Recycled(MaterialType.METAL() , r.nextInt(50-4+1)+4, Timestamp.now(), true )) ;
                                         SystemClock.sleep(150);
-                                        re.add( new Recycled(MaterialType.PAPER(), 32, Timestamp.now(), false )) ;
+                                        user1.addRecycle( new Recycled(MaterialType.PAPER() , r.nextInt(50-4+1)+4, Timestamp.now(), false )) ;
                                         SystemClock.sleep(160);
 
-                                        User user1 = new User(name, email, false, re);
                                         user1.sendUser();
 
                                         // updateUI(userData); NEXT FRAGMENT

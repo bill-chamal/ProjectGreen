@@ -42,7 +42,7 @@ public class UserStatisticsFragment extends Fragment {
         piechart.animateXY(900,900);
         piechart.setDrawRoundedSlices(false);
 
-        piechart.setCenterText("44" );
+        piechart.setCenterText( String.valueOf(user.getPoints()) );
         piechart.setCenterTextSize(34f);
         piechart.setCenterTextColor(R.color.font_dark_green);
         piechart.setDrawCenterText(true);

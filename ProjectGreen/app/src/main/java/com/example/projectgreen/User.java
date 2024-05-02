@@ -28,6 +28,9 @@ public class User implements Serializable {
     private static final String FIELD_NAME = "name";
     private static final String FIELD_IS_ADMIN = "isAdmin";
     private static final String FIELD_EMAIL = "email";
+    private static final String FIELD_SCORE = "score";
+    private static final String FIELD_BALANCE = "balance";
+    private static final String FIELD_POINTS = "points";
     // Recycle fields
     private static final String FIELD_TIMESTAMP = "timestamp";
     private static final String FIELD_PIECES = "pieces";
@@ -40,6 +43,9 @@ public class User implements Serializable {
     private String userName;
     private boolean isAdmin;
     private String email;
+    private double balance;
+    private int points;
+    private double score;
     private ArrayList<Recycled> recycledList;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -49,12 +55,17 @@ public class User implements Serializable {
         this.email = gmail;
         this.isAdmin = isAdmin;
         this.recycledList = re;
-
     }
 
-//    public User (Map<String, Object> m){
-//        populate(m);
-//    }
+    public User (String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re, double balance, int points, double score){
+        this.userName = name;
+        this.email = gmail;
+        this.isAdmin = isAdmin;
+        this.recycledList = re;
+        this.balance = balance;
+        this.points = points;
+        this.score = score;
+    }
 
     public User (){
         // Empty constructor
@@ -64,6 +75,13 @@ public class User implements Serializable {
         if (!m.containsKey(FIELD_RECYCLE)){
             m.put(FIELD_RECYCLE, new HashMap<String, Object>());
         }
+
+        if (!m.containsKey(FIELD_BALANCE)){
+            m.put(FIELD_BALANCE,    0);
+            m.put(FIELD_POINTS,     0);
+            m.put(FIELD_SCORE,      0);
+        }
+
         convertMapToUser(m);
     }
 
@@ -105,6 +123,9 @@ public class User implements Serializable {
         Map<String, Object> usermap = new HashMap<String, Object>();
         usermap.put(FIELD_NAME, userName);
         usermap.put(FIELD_EMAIL, email);
+        usermap.put(FIELD_BALANCE, balance);
+        usermap.put(FIELD_SCORE, score);
+        usermap.put(FIELD_POINTS, points);
         usermap.put(FIELD_RECYCLE, recycle_list );
         usermap.put(FIELD_IS_ADMIN, isAdmin);
 
@@ -112,9 +133,12 @@ public class User implements Serializable {
     }
 
     private void convertMapToUser(Map<String, Object> m) {
-        this.userName = (String) m.get(FIELD_NAME);
-        this.email = (String) m.get(FIELD_EMAIL);
-        this.isAdmin = (boolean) m.get(FIELD_IS_ADMIN);
+        this.userName   = (String)          m.get(FIELD_NAME);
+        this.email      = (String)          m.get(FIELD_EMAIL);
+        this.isAdmin    = (boolean)         m.get(FIELD_IS_ADMIN);
+        this.balance    = (double)          m.get(FIELD_BALANCE);
+        this.score      = (double)          m.get(FIELD_SCORE);
+        this.points     = Integer.parseInt( m.get(FIELD_POINTS).toString());
 
         recycledList = new ArrayList<>();
 
@@ -140,6 +164,11 @@ public class User implements Serializable {
             }
     }
 
+    public void addRecycle(Recycled recycled){
+        recycledList.add(recycled);
+        points += recycled.getPieces();
+    }
+
     public int getTotalPieceOfMaterial(String mat_name){
         int sum = 0;
         for (Recycled r : recycledList){
@@ -149,7 +178,8 @@ public class User implements Serializable {
         return sum;
     }
 
-    // GETTERS AND SETTERS //
+
+    // = = =    GETTERS AND SETTERS     = = = //
     public String getUserName() {
         return userName;
     }
@@ -188,5 +218,17 @@ public class User implements Serializable {
 
     public void setDb(FirebaseFirestore db) {
         this.db = db;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public double getScore() {
+        return score;
     }
 }
