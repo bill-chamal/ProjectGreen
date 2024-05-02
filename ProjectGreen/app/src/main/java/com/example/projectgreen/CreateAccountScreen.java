@@ -14,9 +14,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -110,8 +116,13 @@ public class CreateAccountScreen extends Fragment {
                                         // Sign in success, update UI with the signed-in user's information
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
-                                        new User(name, email, false).sendUser();
+                                        ArrayList<Recycled> re = new ArrayList<>(); // Empty material list
+                                        // TEST
+                                        re.add( new Recycled(MaterialType.PAPER(), 42, Timestamp.now() )) ;
+                                        new User(name, email, false, re).sendUser();
+
                                         // updateUI(user); NEXT FRAGMENT
+                                        Navigation.findNavController(view).navigate(R.id.action_createAccountScreen_to_userViewScreen);
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();

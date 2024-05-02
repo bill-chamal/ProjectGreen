@@ -27,6 +27,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,6 +101,7 @@ public class UserLoginScreen extends Fragment {
             getCredentials();
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -174,11 +178,13 @@ public class UserLoginScreen extends Fragment {
                     // if no user data are registered to firestore
                     if (doc == null)
                     {
-                        user = new User("user0", fb_user.getEmail(), false);
+
+                        user = new User("user0", fb_user.getEmail(), false, new ArrayList<Recycled>());
                         user.sendUser();
                     }
                     else
-                        user.populate(doc);
+                        ;
+                        // user.populate(doc);
 
                     printSuccessfulLogIn();
                     Navigation.findNavController(view).navigate(R.id.action_userLoginScreen_to_userViewScreen);
@@ -193,6 +199,6 @@ public class UserLoginScreen extends Fragment {
     }
 
     private void printSuccessfulLogIn(){
-        Toast.makeText(getContext(), "Welcome back, " + user.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Welcome back, " + user.getUserName(), Toast.LENGTH_SHORT).show();
     }
 }

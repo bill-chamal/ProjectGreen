@@ -60,10 +60,18 @@
             android:id="@+id/action_createAccountScreen_to_userLoginScreen"
             app:destination="@id/userLoginScreen"
             app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_createAccountScreen_to_userViewScreen"
+            app:destination="@id/userViewScreen" />
     </fragment>
     <fragment
         android:id="@+id/userViewScreen"
         android:name="com.example.projectgreen.UserViewScreen"
         android:label="fragment_user_view_screen"
         tools:layout="@layout/fragment_user_view_screen" />
+    <fragment
+        android:id="@+id/userStatisticsFragment"
+        android:name="com.example.projectgreen.UserStatisticsFragment"
+        android:label="fragment_user_statistics"
+        tools:layout="@layout/fragment_user_statistics" />
 </navigation>

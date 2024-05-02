@@ -1,71 +1,122 @@
+
 package com.example.projectgreen;
 
-import android.widget.Toast;
+import static android.content.ContentValues.TAG;
+
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User {
-    private String name;
-    private String email;
-    private boolean isAdmin;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private DocumentReference alovelaceDocumentRef = db.collection("users").document("alovelace");
-    private Map<String, Object> usermap ;
+public class User implements Serializable {
+    // User fields
+    private static final String FIELD_RECYCLE = "recycle";
+    private static final String FIELD_NAME = "name";
+    private static final String FIELD_IS_ADMIN = "isAdmin";
+    private static final String FIELD_EMAIL = "email";
+    // Recycle fields
+    private static final String FIELD_TIMESTAMP = "timestamp";
+    private static final String FIELD_PIECES = "pieces";
+    private static final String FIELD_MATERIAL = "material";
+    private static final String FIELD_APPROVED = "approved";
+    // Material fields
+    private static final String FIELD_MAT_NAME = "material_name";
+    private static final String FIELD_MAT_VALUE = "value";
 
-    public User (String name, String gmail, boolean isAdmin){
-        this.name = name;
+    private String userName;
+    private boolean isAdmin;
+    private String email;
+    private ArrayList<Recycled> recycledList;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+    public User (String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re){
+        this.userName = name;
         this.email = gmail;
         this.isAdmin = isAdmin;
+        this.recycledList = re;
 
-        // Set name fields
-        usermap = new HashMap<>();
-        usermap.put("name", name);
-        usermap.put("isAdmin", isAdmin);
-        usermap.put("email", email);
     }
 
-    public User (Map<String, Object> m){
-        populate(m);
-    }
+//    public User (Map<String, Object> m){
+//        populate(m);
+//    }
 
     public User (){
-
+        // Empty constructor
     }
 
-    public void populate(@NonNull Map<String, Object> m){
-        usermap = m;
-        this.name = (String)m.get("name");
-        this.email = (String)m.get("email");
-        this.isAdmin = (boolean)m.get("isAdmin") ;
-    }
+//    public void populate(@NonNull Map<String, Object> m){
+//        if (!m.containsKey(FIELD_RECYCLE)){
+//            m.put(FIELD_RECYCLE, new ArrayList<Recycled>());
+//        }
+//        usermap = m;
+//    }
+
     public void sendUser(){
         // send him to cloud!!!
-        db.collection("user").document(email).set(usermap);
+        // New user => user creation
+        db.collection("user").document( this.email ).set( convertUserToMap() ).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "User data uploaded successful");
+                }
+                else {
+                    Log.d(TAG, "Error while uploading User data");
+                }
+            }
+        });
+    }
+
+    private Map<String, Object> convertUserToMap(){
+
+        Map<String, Object> recycle_list = new HashMap<String, Object>();
+
+        for (Recycled r : recycledList) {
+            // Get material type
+            Map<String, Object> mat = new HashMap<String, Object>();
+            mat.put(FIELD_MAT_NAME, r.getMat().getMatName());
+            mat.put(FIELD_MAT_VALUE, r.getMat().getValue());
+            // Get recycle information
+            Map<String, Object> recycle = new HashMap<String, Object>();
+            recycle.put(FIELD_PIECES, r.getPieces());
+            recycle.put(FIELD_APPROVED, r.isApproved());
+            recycle.put(FIELD_TIMESTAMP, r.getTimestamp());
+            recycle.put(FIELD_MATERIAL, mat);
+            // Put it to array
+            recycle_list.put(String.valueOf(r.getTimestamp().hashCode()), recycle);
+        }
+
+        Map<String, Object> usermap = new HashMap<String, Object>();
+        usermap.put(FIELD_NAME, userName);
+        usermap.put(FIELD_EMAIL, email);
+        usermap.put(FIELD_RECYCLE, recycle_list );
+        usermap.put(FIELD_IS_ADMIN, isAdmin);
+
+        return usermap;
     }
 
 
-    public String getName() {
-        return name;
+
+    // GETTERS AND SETTERS //
+
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public boolean isAdmin() {
@@ -76,11 +127,27 @@ public class User {
         isAdmin = admin;
     }
 
-    public Map<String, Object> getUsermap() {
-        return usermap;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsermap(Map<String, Object> usermap) {
-        this.usermap = usermap;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public ArrayList<Recycled> getRecycledList() {
+        return recycledList;
+    }
+
+    public void setRecycledList(ArrayList<Recycled> recycledList) {
+        this.recycledList = recycledList;
+    }
+
+    public FirebaseFirestore getDb() {
+        return db;
+    }
+
+    public void setDb(FirebaseFirestore db) {
+        this.db = db;
     }
 }

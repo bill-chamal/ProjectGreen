@@ -6,7 +6,17 @@
     <color name="font_dark_green">#7E8C4E</color>
     <color name="font_gray">#A2A2A2</color>
     <color name="btn_dark_green">#7E8C4E</color>
-
+    <color name="slightly_gray_white">#FAFAFA</color>
     <color name="bottom_user_menu">#EAECE4</color>
+<color name="logout_red">#DE6962</color>
 
+
+    <color name="color_one">#fb7268</color>
+    <color name="color_white">#ededf2</color>
+    <color name="color_two">#E3E0E0</color>
+
+    <color name="R">#FFA726</color>
+    <color name="Python">#66BB6A</color>
+    <color name="CPP">#EF5350</color>
+    <color name="Java">#29B6F6</color>
 </resources>
