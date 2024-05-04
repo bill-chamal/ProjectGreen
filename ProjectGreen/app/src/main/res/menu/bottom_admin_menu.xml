@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/adminRequestMenu"
+        android:title="@string/requests"
+        android:icon="@drawable/ic_rule"/>
+
+    <item
+        android:id="@+id/adminLeaderboardMenu"
+        android:title="Leaderboard"
+        android:icon="@drawable/ic_social_leaderboard"/>
+
+    <item
+        android:id="@+id/adminTuneRewardsMenu"
+        android:title="@string/tune_rewards"
+        android:icon="@drawable/ic_tune"/>
+
+</menu>

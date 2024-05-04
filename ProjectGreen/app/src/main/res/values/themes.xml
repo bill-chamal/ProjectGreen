@@ -6,12 +6,15 @@
 
         <item name="colorPrimary">@color/btn_dark_green</item>
         <item name="colorPrimaryVariant">@color/light_green</item>
-        <item name="colorOnPrimary">@color/light_green</item>
+<!--        <item name="colorOnPrimary">@color/light_green</item>-->
         <item name="colorPrimaryDark">@color/btn_dark_green</item>
 
     </style>
 
-
+    <style name="roundedImageViewRound">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">45%</item>
+    </style>
 
     <style name="Theme.ProjectGreen" parent="Base.Theme.ProjectGreen" />
 </resources>

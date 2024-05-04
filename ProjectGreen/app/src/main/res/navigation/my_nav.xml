@@ -24,6 +24,9 @@
             app:destination="@id/userViewScreen"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_userLoginScreen_to_admin_main_screen"
+            app:destination="@id/admin_main_screen" />
     </fragment>
     <activity
         android:id="@+id/mainActivity"
@@ -82,4 +85,33 @@
             android:name="userRecycle"
             app:argType="com.example.projectgreen.User" />
     </fragment>
+    <fragment
+        android:id="@+id/admin_main_screen"
+        android:name="com.example.projectgreen.admin_main_screen"
+        android:label="fragment_admin_main_screen"
+        tools:layout="@layout/fragment_admin_main_screen" >
+        <argument
+            android:name="adminData"
+            app:argType="com.example.projectgreen.User" />
+    </fragment>
+    <fragment
+        android:id="@+id/adminViewMaterialApprove"
+        android:name="com.example.projectgreen.AdminViewMaterialApprove"
+        android:label="fragment_admin_view_material_approve"
+        tools:layout="@layout/fragment_admin_view_material_approve" />
+    <fragment
+        android:id="@+id/adminApproveScreen"
+        android:name="com.example.projectgreen.AdminApproveScreen"
+        android:label="fragment_admin_approve_screen"
+        tools:layout="@layout/fragment_admin_approve_screen" />
+    <fragment
+        android:id="@+id/adminViewUserUnapprovedRecycles"
+        android:name="com.example.projectgreen.AdminViewUserUnapprovedRecycles"
+        android:label="fragment_admin_view_user_unapproved_recycles"
+        tools:layout="@layout/fragment_admin_view_user_unapproved_recycles" />
+    <fragment
+        android:id="@+id/adminViewLeaderboard"
+        android:name="com.example.projectgreen.AdminViewLeaderboard"
+        android:label="fragment_admin_view_leaderboard"
+        tools:layout="@layout/fragment_admin_view_leaderboard" />
 </navigation>

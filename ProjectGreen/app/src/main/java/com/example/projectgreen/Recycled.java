@@ -11,11 +11,15 @@ public class Recycled implements Serializable {
     private Timestamp timestamp;
     private int pieces;
     private Material mat;
-    private boolean approved;
+
+    public final static int NOT_APPROVED = 0;
+    public final static int APPROVED = 1;
+    public final static int REJECTED = 2;
+    private int approved;
 
     public Recycled(){}
 
-    public Recycled(Material mat, int pieces, Timestamp tt, boolean approved){
+    public Recycled(Material mat, int pieces, Timestamp tt, int approved){
         this.mat = mat;
         this.pieces = pieces;
         this.timestamp = tt;
@@ -49,11 +53,11 @@ public class Recycled implements Serializable {
         this.mat = mat;
     }
 
-    public boolean isApproved() {
+    public int isApproved() {
         return approved;
     }
 
-    public void setApproved(boolean approved) {
+    public void setApproved(int approved) {
         this.approved = approved;
     }
 }

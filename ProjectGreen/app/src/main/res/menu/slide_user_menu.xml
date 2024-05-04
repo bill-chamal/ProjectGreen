@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn = "navigation_view">
+    tools:showIn="navigation_view">
 
     <group
-        android:checkableBehavior="all"
-        android:id="@+id/menugrpHome">
+        android:id="@+id/menugrpHome"
+        android:checkableBehavior="all">
 
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
-            android:title="@string/home"/>
+            android:title="@string/home" />
 
         <item
             android:id="@+id/nav_future"
-            android:title="Future setting"/>
-
+            android:title="Future setting" />
 
         <item
             android:id="@+id/nav_about"
-            android:title="@string/about_us"/>
+            android:title="@string/about_us" />
     </group>
 
-    <group
-        android:id="@+id/menugrpLogout">
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/nav_logout"
-                android:iconTint="@color/logout_red"
-                android:title="@string/logout"/>
+
+    <group android:id="@+id/menugrpLogout">
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/nav_logout"
+            android:iconTint="@color/logout_red"
+            android:title="@string/logout" />
     </group>
 
 </menu>

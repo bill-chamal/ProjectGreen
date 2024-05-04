@@ -19,25 +19,26 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 public class User implements Serializable {
     // User fields
-    private static final String FIELD_RECYCLE = "recycle";
-    private static final String FIELD_NAME = "name";
-    private static final String FIELD_IS_ADMIN = "isAdmin";
-    private static final String FIELD_EMAIL = "email";
-    private static final String FIELD_SCORE = "score";
-    private static final String FIELD_BALANCE = "balance";
-    private static final String FIELD_POINTS = "points";
+    private static final String FIELD_RECYCLE   = "recycle";
+    private static final String FIELD_NAME      = "name";
+    private static final String FIELD_IS_ADMIN  = "isAdmin";
+    private static final String FIELD_EMAIL     = "email";
+    private static final String FIELD_SCORE     = "score";
+    private static final String FIELD_BALANCE   = "balance";
+    private static final String FIELD_POINTS    = "points";
     // Recycle fields
     private static final String FIELD_TIMESTAMP = "timestamp";
-    private static final String FIELD_PIECES = "pieces";
-    private static final String FIELD_MATERIAL = "material";
-    private static final String FIELD_APPROVED = "approved";
+    private static final String FIELD_PIECES    = "pieces";
+    private static final String FIELD_MATERIAL  = "material";
+    private static final String FIELD_APPROVED  = "approved";
     // Material fields
-    private static final String FIELD_MAT_NAME = "material_name";
+    private static final String FIELD_MAT_NAME  = "material_name";
     private static final String FIELD_MAT_VALUE = "value";
 
     private String userName;
@@ -62,7 +63,7 @@ public class User implements Serializable {
         this.email = gmail;
         this.isAdmin = isAdmin;
         this.recycledList = re;
-        this.balance = balance;
+        this.balance = (int)(balance*100+0.5)/100.0 ;
         this.points = points;
         this.score = score;
     }
@@ -156,7 +157,7 @@ public class User implements Serializable {
 
                 int p = Integer.parseInt(rec.get(FIELD_PIECES).toString());
                 Timestamp t = (Timestamp) rec.get(FIELD_TIMESTAMP);
-                boolean aprv = (boolean) rec.get(FIELD_APPROVED);
+                int aprv = Integer.parseInt(rec.get(FIELD_APPROVED).toString());
 
                 Recycled recycled = new Recycled(material, p, t , aprv );
 
@@ -166,18 +167,81 @@ public class User implements Serializable {
 
     public void addRecycle(Recycled recycled){
         recycledList.add(recycled);
-        points += recycled.getPieces();
     }
 
     public int getTotalPieceOfMaterial(String mat_name){
         int sum = 0;
         for (Recycled r : recycledList){
-            if (r.getMat().getMatName().equals(mat_name))
+            if (r.getMat().getMatName().equals(mat_name) && r.isApproved() == Recycled.APPROVED)
                 sum += r.getPieces();
         }
         return sum;
     }
 
+    public int getValueOfTotalPieceOfMaterial(String mat_name){
+        int sumvalue = 0;
+        for (Recycled r : recycledList){
+            if (r.getMat().getMatName().equals(mat_name) && r.isApproved() == Recycled.APPROVED)
+                sumvalue += r.getPieces()*r.getMat().getValue();
+        }
+        return sumvalue;
+    }
+
+    public int getTotalPieceOfUnapprovedMaterial(){
+        int sum = 0;
+        for (Recycled r : recycledList){
+            if (r.isApproved() == Recycled.NOT_APPROVED)
+                sum += r.getPieces();
+        }
+        return sum;
+    }
+
+    public int countOfUnapprovedMaterial(){
+        int count = 0;
+        for (Recycled r : recycledList){
+            if (r.isApproved() == Recycled.NOT_APPROVED)
+                count ++;
+        }
+        return count;
+    }
+
+    public ArrayList<Recycled> getUnapprovedMat(){
+        ArrayList<Recycled> recUn = new ArrayList<>();
+        for (Recycled r :
+                recycledList) {
+            if (r.isApproved() == Recycled.NOT_APPROVED)
+                recUn.add(r);
+        }
+        return recUn;
+    }
+
+    public void approveRecycleRequest(Recycled r){
+        r.setApproved(Recycled.APPROVED);
+        balance += (int)(r.getPieces() * r.getMat().getValue()*100+0.5)/100;
+
+        switch (r.getMat().getMatName()){
+            case MaterialType.matn1:
+                points += 2 + Math.floor(r.getPieces() * 0.3);
+                break;
+            case MaterialType.matn2:
+                points += 1 + Math.floor(r.getPieces() * 0.1);
+                break;
+            case MaterialType.matn3:
+                points += 6 + Math.floor(r.getPieces() * 0.7);
+                break;
+            case MaterialType.matn4:
+                points += 8 + Math.floor(r.getPieces() * 0.8);
+                break;
+            default:
+                Log.w("User.java approveRecycleRequest", "Not material type found to give points");
+        }
+    }
+
+    public void setNewScore(){
+        score += (int)(balance*100+.5)/100. ;
+        balance = 0;
+        sendUser();
+    }
 
     // = = =    GETTERS AND SETTERS     = = = //
     public String getUserName() {
@@ -230,5 +294,19 @@ public class User implements Serializable {
 
     public double getScore() {
         return score;
+    }
+
+}
+
+class UserComparator implements Comparator<User>{
+
+    @Override
+    public int compare(User o1, User o2) {
+        if (o1.getScore() == o2.getScore())
+            return 0;
+        else if (o1.getScore() > o2.getScore())
+            return 1;
+        else
+            return -1;
     }
 }

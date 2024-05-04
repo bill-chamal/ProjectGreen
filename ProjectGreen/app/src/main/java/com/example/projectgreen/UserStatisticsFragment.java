@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -15,7 +18,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -23,7 +25,8 @@ public class UserStatisticsFragment extends Fragment {
 
     private User user;
     private PieChart piechart;
-
+    private TextView lblScore;
+    private ProgressBar progressBar;
     public UserStatisticsFragment(User user){
         this.user = user;
     }
@@ -53,10 +56,15 @@ public class UserStatisticsFragment extends Fragment {
 
         ArrayList<PieEntry> pValues = new ArrayList<>();
 
-        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn1), "Plastic"));
-        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn2), "Paper"));
-        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn3), "Glass"));
-        pValues.add(new PieEntry(user.getTotalPieceOfMaterial(MaterialType.matn4), "Metal"));
+        int total_plastic = user.getTotalPieceOfMaterial(MaterialType.matn1);
+        int total_paper   = user.getTotalPieceOfMaterial(MaterialType.matn2);
+        int total_glass   = user.getTotalPieceOfMaterial(MaterialType.matn3);
+        int total_metal   = user.getTotalPieceOfMaterial(MaterialType.matn4);
+
+        pValues.add(new PieEntry(total_plastic, "Plastic"));
+        pValues.add(new PieEntry(total_paper,   "Paper"));
+        pValues.add(new PieEntry(total_glass,   "Glass"));
+        pValues.add(new PieEntry(total_metal,   "Metal"));
 
         PieDataSet dataSet = new PieDataSet(pValues, "Materials");
         dataSet.setSliceSpace(3f);
@@ -69,6 +77,35 @@ public class UserStatisticsFragment extends Fragment {
 
         piechart.setData(data);
 
+        // Set to labels total piece by material
+        ((TextView)view.findViewById(R.id.lblPlastic)).setText( String.valueOf(total_plastic));
+        ((TextView)view.findViewById(R.id.lblPaper)).setText(   String.valueOf(total_paper  ));
+        ((TextView)view.findViewById(R.id.lblGlass)).setText(   String.valueOf(total_glass  ));
+        ((TextView)view.findViewById(R.id.lblMetal)).setText(   String.valueOf(total_metal  ));
+        ((TextView)view.findViewById(R.id.lblTotal)).setText(   String.valueOf(total_plastic + total_glass + total_paper + total_metal)  );
+
+        setScoreView(view);
+        ((Button)view.findViewById(R.id.btnTakeCash)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.setNewScore();
+                setScoreView(view);
+            }
+        });
+
         return view;
+    }
+
+    private void setScoreView(View view){
+        lblScore = view.findViewById(R.id.lblLevel);
+        lblScore.setText(String.valueOf(user.getScore()));
+
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setProgress( (int)Math.abs((user.getScore()-(int)user.getScore())*100));
+
+        // Set label score view
+        ((TextView)view.findViewById(R.id.lblLevel)).setText(   String.valueOf(user.getScore())  );
+        // Set balance
+        ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$" );
     }
 }

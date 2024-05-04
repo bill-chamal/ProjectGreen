@@ -22,8 +22,19 @@
     <string name="logout">Logout</string>
     <string name="about_us">About Us</string>
     <string name="text_description_1">Click to register new recycled materials</string>
-    <string name="open_nav">Open Navigation Drawer</string>
-    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="open_nav">Open Drawer</string>
+    <string name="close_nav">Close Drawer</string>
+    <string name="adminStat">Statistics</string>
+    <string name="rewards">Rewards</string>
+    <string name="request_to_recycle">Request to recycle</string>
+    <string name="request_time">Request time:</string>
+    <string name="material">Material</string>
+    <string name="approve">APPROVE</string>
+    <string name="reject">REJECT</string>
+    <string name="requests">Requests</string>
+    <string name="statistics">Statistics</string>
+    <string name="tune_rewards">Tune rewards</string>
+    <string name="enter_pieces">Enter pieces</string>
 
     <string-array name="materials">
         <item>Plastic</item>

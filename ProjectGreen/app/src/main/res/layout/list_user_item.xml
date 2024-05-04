@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="12dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="10dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/listImage"
+            android:scaleType="centerCrop"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            app:shapeAppearanceOverlay="@style/roundedImageViewRound"/>
+
+        <TextView
+            android:id="@+id/listMatName"
+            android:layout_width="105dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/listImage"
+            android:text="Approved"
+            android:textColor="@color/font_dark_green"
+            android:textSize="24sp"
+            android:fontFamily="@font/candara"/>
+
+        <TextView
+            android:id="@+id/listUserName"
+            android:layout_width="175dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@+id/listMatName"
+            android:text="Dasilas"
+            android:textSize="16sp"
+            android:fontFamily="@font/candara"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

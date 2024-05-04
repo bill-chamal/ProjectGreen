@@ -48,8 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="49dp" />
 
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -67,8 +65,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter pieces"
-            android:textColor="@color/btn_dark_green"
+            android:text="@string/enter_pieces"
             android:layout_marginLeft="30dp"
             android:textSize="16sp"/>
 
@@ -78,7 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:inputType="numberSigned"/>
+            android:textAlignment="center"
+            android:inputType="numberSigned" />
 
     </LinearLayout>
 
@@ -94,11 +92,11 @@
 
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnRequestNewRecycle"
             android:layout_width="wrap_content"
             android:layout_height="68dp"
             android:layout_weight="1"
-            android:text="OK" />
+            android:text="REQUSET FOR APPROVAL" />
 
     </LinearLayout>
 

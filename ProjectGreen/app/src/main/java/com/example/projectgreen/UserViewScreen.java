@@ -1,6 +1,5 @@
 package com.example.projectgreen;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,13 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.projectgreen.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 
@@ -45,6 +47,10 @@ public class UserViewScreen extends Fragment {
     private User user;
     private NavigationView naview;
     private DrawerLayout drawerLayout;
+    private Dialog dialog;
+    private Button btnRequest;
+    private EditText editTextPieces;
+    private Spinner spinnerMat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,16 +75,20 @@ public class UserViewScreen extends Fragment {
         naview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("TAG", "Menu onNavigationItemSelected clicked!");
                 if(item.getItemId() == R.id.nav_home){
-                    Toast.makeText(getActivity(), "Home clicked", Toast.LENGTH_LONG);
-                } else if(item.getItemId() == R.id.nav_about){
-                    Toast.makeText(getActivity(), "about  clicked", Toast.LENGTH_LONG);
+                    Toast.makeText(getActivity(), "Home clicked", Toast.LENGTH_LONG).show();
+                }
+                if(item.getItemId() == R.id.nav_about){
+                    Toast.makeText(getActivity(), "about  clicked", Toast.LENGTH_LONG).show();
 
-                } else if (item.getItemId() == R.id.nav_future) {
-                    Toast.makeText(getActivity(), "futu clicked", Toast.LENGTH_LONG);
+                }
+                if (item.getItemId() == R.id.nav_future) {
+                    Toast.makeText(getActivity(), "futu clicked", Toast.LENGTH_LONG).show();
 
-                } else if (item.getItemId() == R.id.nav_logout) {
-                    Toast.makeText(getActivity(), "logout clicked", Toast.LENGTH_LONG);
+                }
+                if (item.getItemId() == R.id.nav_logout) {
+                    Toast.makeText(getActivity(), "logout clicked", Toast.LENGTH_LONG).show();
                 }
                 drawerLayout.closeDrawer((GravityCompat.START));
                 //drawerLayout.close();
@@ -86,27 +96,53 @@ public class UserViewScreen extends Fragment {
             }
         });
 
-        // FAB BUTTON
+        // FAB BUTTON // REGISTER NEW RECYCLE MATERIAL DOCUMENT FIELD
+        dialog = new Dialog(getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.bottom_user_material_selector_layout);
+
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        Spinner materialSpinner = dialog.findViewById(R.id.material_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dialog.getContext(),
+                R.array.materials, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        materialSpinner.setAdapter(adapter);
         view.findViewById(R.id.userFabBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // When fab button clicked show slide menu
-                final Dialog dialog = new Dialog(getContext());
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(R.layout.bottom_user_material_selector_layout);
-
                 dialog.show();
-                dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-                dialog.getWindow().setGravity(Gravity.BOTTOM);
+            }
+        });
 
-                Spinner materialSpinner = dialog.findViewById(R.id.material_spinner);
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(dialog.getContext(),
-                        R.array.materials, android.R.layout.simple_spinner_item);
+        editTextPieces = dialog.findViewById(R.id.editTextNumberSigned);
+        spinnerMat = dialog.findViewById(R.id.material_spinner);
+        btnRequest = dialog.findViewById(R.id.btnRequestNewRecycle);
+        btnRequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String matName = spinnerMat.getSelectedItem().toString();
+                Material mat1;
 
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                materialSpinner.setAdapter(adapter);
+                if (matName.equalsIgnoreCase(MaterialType.matn1))
+                    mat1 = MaterialType.PLASTIC();
+                else if (matName.equalsIgnoreCase(MaterialType.matn2))
+                    mat1 = MaterialType.PAPER();
+                else if (matName.equalsIgnoreCase(MaterialType.matn3))
+                    mat1 = MaterialType.GLASS();
+                else // Aluminium
+                    mat1 = MaterialType.METAL();
+
+                Recycled rec = new Recycled(mat1, Integer.parseInt(editTextPieces.getText().toString()), Timestamp.now(), Recycled.NOT_APPROVED);
+                user.addRecycle(rec);
+                user.sendUser();
+                Toast.makeText(getContext(), "Material " + mat1.getMatName() +" request completed", Toast.LENGTH_SHORT).show();
+                Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
             }
         });
 
@@ -117,7 +153,7 @@ public class UserViewScreen extends Fragment {
             if (item.getItemId() == R.id.points)
                 replaceFragment(new UserStatisticsFragment(user));
              else if (item.getItemId() == R.id.reg)
-                replaceFragment(new UserRegisterFragment());
+                replaceFragment(new UserRegisterFragment(user));
 
             return true;
         });

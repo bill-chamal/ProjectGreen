@@ -35,11 +35,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link UserLoginScreen#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class UserLoginScreen extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -63,15 +58,6 @@ public class UserLoginScreen extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserLoginScreen.
-     */
-    // TODO: Rename and change types and number of parameters
     public static UserLoginScreen newInstance(String param1, String param2) {
         UserLoginScreen fragment = new UserLoginScreen();
         Bundle args = new Bundle();
@@ -92,17 +78,17 @@ public class UserLoginScreen extends Fragment {
     }
 
      // When initializing your Activity, check to see if the user is currently signed in
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
-            Toast.makeText(getContext(), "Successfully auto sign in " + currentUser.getDisplayName() + ", email:" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-            fb_user = currentUser;
-            getCredentials();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if(currentUser != null){
+//            Toast.makeText(getContext(), "Successfully auto sign in " + currentUser.getDisplayName() + ", email:" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+//            fb_user = currentUser;
+//            getCredentials();
+//        }
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,11 +100,6 @@ public class UserLoginScreen extends Fragment {
         txtUserPasswd = view.findViewById(R.id.txtbox_password);
         btnSignIn = view.findViewById(R.id.btnCreateNewAccount);
 
-        /*
-        user1
-        user1@gmail.com
-        passwd1
-         */
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +170,13 @@ public class UserLoginScreen extends Fragment {
 
                     printSuccessfulLogIn();
 
-                    NavDirections action = UserLoginScreenDirections.actionUserLoginScreenToUserViewScreen(user);
+                    NavDirections action;
+
+                    if (!user.isAdmin())
+                        action = UserLoginScreenDirections.actionUserLoginScreenToUserViewScreen(user);
+                    else
+                        action = UserLoginScreenDirections.actionUserLoginScreenToAdminMainScreen(user);
+
                     Navigation.findNavController(view).navigate(action);
                 } else
                     printUnsuccessfulLogIn();
