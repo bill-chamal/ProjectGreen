@@ -45,9 +45,7 @@
 
  - 05/05/2024
 
-![agile board1](img/agile3.png)
-
-![agile board2](img/agile3.png)
+![agile board1](img/agile4.png)
 
 ![Sprint burnout](img/sprintburnout.jpg)
 
