@@ -4,7 +4,7 @@
 <img src="img/UOMLOGOGRWHITE.png#gh-dark-mode-only" alt= “” width="20%" height="20%"> 
 
 <table>
-  <caption>Ομάδα #7</caption>
+  <caption>Ομάδα 7</caption>
     <tr>
         <th>Τζήκα</th>
         <th>Μπαλατσού</th>
