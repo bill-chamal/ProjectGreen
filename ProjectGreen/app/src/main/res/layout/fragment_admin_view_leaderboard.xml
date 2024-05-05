@@ -12,26 +12,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Leaderboard"
-                android:textAlignment="center"
-                android:textSize="24sp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/candara_bold"
-                android:layout_marginTop="10dp"/>
+                android:text="@string/leaderboard"
+                android:textAlignment="center"
+                android:textSize="24sp" />
 
             <ListView
+                android:id="@+id/listTopUsersView"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
-                android:id="@+id/listTopUsersView"
-                android:scrollbars="vertical"
                 android:layout_marginTop="12dp"
-                tools:listitem="@layout/list_user_item"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="10.0sp"/>
+                android:dividerHeight="10.0sp"
+                android:scrollbars="vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                tools:listitem="@layout/list_user_item" />
 
             <View
                 android:id="@+id/divider3"
@@ -42,16 +44,16 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Most recycled material"
-                android:textAlignment="center"
-                android:textSize="24sp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/candara_bold"/>
+                android:fontFamily="@font/candara_bold"
+                android:text="@string/total_recycle_value"
+                android:textAlignment="center"
+                android:textSize="24sp" />
 
             <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/adminBarChart"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:id="@+id/adminBarChart"/>
+                android:layout_height="400dp" />
 
             <View
                 android:id="@+id/divider4"

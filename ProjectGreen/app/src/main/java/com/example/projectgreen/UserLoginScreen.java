@@ -78,17 +78,17 @@ public class UserLoginScreen extends Fragment {
     }
 
      // When initializing your Activity, check to see if the user is currently signed in
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        FirebaseUser currentUser = mAuth.getCurrentUser();
-//        if(currentUser != null){
-//            Toast.makeText(getContext(), "Successfully auto sign in " + currentUser.getDisplayName() + ", email:" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
-//            fb_user = currentUser;
-//            getCredentials();
-//        }
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            Toast.makeText(getContext(), "Successfully auto sign in " + currentUser.getDisplayName() + ", email:" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+            fb_user = currentUser;
+            getCredentials();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminTuneRewards">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/candara_bold"
+                android:text="@string/tune_material_value"
+                android:textAlignment="center"
+                android:textColor="@color/font_dark_green"
+                android:textSize="26sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/plastic" />
+
+                <EditText
+                    android:id="@+id/editPlasticValue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/paper" />
+
+                <EditText
+                    android:id="@+id/editPaperValue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/glass" />
+
+                <EditText
+                    android:id="@+id/editGlassValue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/metal" />
+
+                <EditText
+                    android:id="@+id/editMetalValue"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/candara_bold"
+                android:text="@string/tune_bonus_by_quantity"
+                android:textAlignment="center"
+                android:textColor="@color/font_dark_green"
+                android:textSize="26sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/give_bonus_after" />
+
+                <EditText
+                    android:id="@+id/editBonusQuantity"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:ems="6"
+                    android:inputType="numberSigned"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pieces" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:id="@+id/btnSaveAndSetTuneFields"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save_amp_set" />
+
+                <Button
+                    android:id="@+id/btnRestoreDefaultTuneValues"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/font_gray"
+                    android:text="@string/restore_to_defaults" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="?android:attr/listDivider" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    app:layout_constraintCircleRadius="30dp"
+    tools:context=".AboutPopup">
+
+    <ScrollView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="ProjectGreen"
+                android:textAlignment="center"
+                android:textColor="@color/font_dark_green"
+                android:textSize="24sp"
+                android:fontFamily="@font/candara_bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:textSize="19sp"
+                android:fontFamily="@font/candara"
+                android:text="Developers"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/candara"
+                android:textSize="20sp"
+                android:text="Vasileios-Sotirios Chamalidis\nDimidtra Tzika\nArgyro Balatsou\nDimitrios Foulidis\nEriola Hajdari\nIoanna Tserkezi"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:textColor="@color/font_dark_green"
+                android:fontFamily="@font/candara_bold_italic"
+                android:text="https://github.com/bill-chamal/ProjectGreen"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:textSize="19sp"
+                android:fontFamily="@font/candara"
+                android:text="University of Macedonia\nThessaloniki Greece"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:fontFamily="@font/candara"
+                android:text="The MIT License Copyright © 2024\ngithub.com/bill-chamal/ProjectGreen/blob/main/LICENSE"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

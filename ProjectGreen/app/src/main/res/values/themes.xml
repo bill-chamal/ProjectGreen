@@ -5,7 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="colorPrimary">@color/btn_dark_green</item>
-        <item name="colorPrimaryVariant">@color/light_green</item>
+<!--        <item name="colorPrimaryVariant">@color/light_green</item>-->
 <!--        <item name="colorOnPrimary">@color/light_green</item>-->
         <item name="colorPrimaryDark">@color/btn_dark_green</item>
 

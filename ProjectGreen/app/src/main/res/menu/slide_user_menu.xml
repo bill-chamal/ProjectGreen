@@ -3,24 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group
-        android:id="@+id/menugrpHome"
-        android:checkableBehavior="all">
-
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
-            android:title="@string/home" />
-
-        <item
-            android:id="@+id/nav_future"
-            android:title="Future setting" />
+    <group>
 
         <item
             android:id="@+id/nav_about"
-            android:title="@string/about_us" />
+            android:title="@string/about_us"
+            android:icon="@drawable/ic_info"/>
     </group>
-
 
     <group android:id="@+id/menugrpLogout">
         <item

@@ -30,6 +30,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +70,7 @@ public class AdminViewLeaderboard extends Fragment {
                     }
 
                     userList.sort(new UserComparator());
+                    Collections.reverse(userList);
                     ArrayList<User> tempList = userList;
 
                     if (userList.size() > 5)
@@ -85,10 +88,10 @@ public class AdminViewLeaderboard extends Fragment {
                     int total_metal   = 0;
 
                     for (User u : userList) {
-                        total_plastic += u.getValueOfTotalPieceOfMaterial(MaterialType.matn1);
-                        total_paper += u.getValueOfTotalPieceOfMaterial(MaterialType.matn2);
-                        total_glass += u.getValueOfTotalPieceOfMaterial(MaterialType.matn3);
-                        total_metal += u.getValueOfTotalPieceOfMaterial(MaterialType.matn4);
+                        total_plastic +=    u.getValueOfTotalPieceOfMaterial(MaterialType.matn1);
+                        total_paper +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn2);
+                        total_glass +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn3);
+                        total_metal +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn4);
                     }
 
                     // Bar Chart

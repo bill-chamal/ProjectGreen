@@ -2,8 +2,6 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="12dp"
-    android:layout_marginEnd="12dp"
     android:layout_marginVertical="10dp"
     android:layout_marginHorizontal="10dp"
     app:cardCornerRadius="20dp"
@@ -39,7 +37,7 @@
 
         <TextView
             android:id="@+id/listUserName"
-            android:layout_width="175dp"
+            android:layout_width="200dp"
             android:layout_height="35dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"

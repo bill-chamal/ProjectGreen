@@ -45,7 +45,6 @@ public class UserStatisticsFragment extends Fragment {
         piechart.animateXY(900,900);
         piechart.setDrawRoundedSlices(false);
 
-        piechart.setCenterText( String.valueOf(user.getPoints()) );
         piechart.setCenterTextSize(34f);
         piechart.setCenterTextColor(R.color.font_dark_green);
         piechart.setDrawCenterText(true);
@@ -103,9 +102,11 @@ public class UserStatisticsFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         progressBar.setProgress( (int)Math.abs((user.getScore()-(int)user.getScore())*100));
 
+        piechart.setCenterText( String.valueOf(user.getPoints()) + "\npoints" );
+
         // Set label score view
         ((TextView)view.findViewById(R.id.lblLevel)).setText(   String.valueOf(user.getScore())  );
         // Set balance
-        ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$" );
+        ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$ + " + String.valueOf(user.getPoints()) + " points" );
     }
 }

@@ -1,5 +1,7 @@
 package com.example.projectgreen;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,14 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class admin_main_screen extends Fragment {
 
     private User user;
     private NavigationView naview;
     private DrawerLayout drawerLayout;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,26 +46,27 @@ public class admin_main_screen extends Fragment {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
+        toolbar.setTitle(R.string.app_name);
         // Set username to the slide menu bar
         ((TextView)naview.getHeaderView(0).findViewById(R.id.lblSlideMenuName)).setText("Hi, " + user.getUserName());
 
-        drawerLayout.openDrawer(GravityCompat.START);
-        // Not working!!
+        // The profile view overlapping the menus
+        naview.bringToFront();
+        drawerLayout.requestLayout();
         naview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.nav_home){
-                    Toast.makeText(getActivity(), "Home clicked", Toast.LENGTH_LONG).show();
-                } else if(item.getItemId() == R.id.nav_about){
-                    Toast.makeText(getActivity(), "about  clicked", Toast.LENGTH_LONG).show();
-                } else if (item.getItemId() == R.id.nav_future) {
-                    Toast.makeText(getActivity(), "future clicked", Toast.LENGTH_LONG).show();
+                if(item.getItemId() == R.id.nav_about){
+                    Dialog aboutDialog = new Dialog(getContext());
+                    aboutDialog.setContentView(R.layout.fragment_about_popup);
+                    aboutDialog.show();
                 } else if (item.getItemId() == R.id.nav_logout) {
-                    Toast.makeText(getActivity(), "logout clicked", Toast.LENGTH_LONG).show();
+                    mAuth.signOut();
+                    Intent gotoMainActivity = new Intent(getContext(), MainActivity.class);
+                    gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(gotoMainActivity);
                 }
                 drawerLayout.closeDrawer((GravityCompat.START));
-                //drawerLayout.close();
                 return true;
             }
         });
@@ -76,7 +81,7 @@ public class admin_main_screen extends Fragment {
             else if (item.getItemId() == R.id.adminLeaderboardMenu)
                 replaceFragment(new AdminViewLeaderboard());
             else if (item.getItemId() == R.id.adminTuneRewardsMenu) {
-                
+                replaceFragment(new AdminTuneRewards());
             }
             return true;
         });

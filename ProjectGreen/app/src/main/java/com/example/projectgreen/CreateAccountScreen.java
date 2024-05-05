@@ -121,18 +121,6 @@ public class CreateAccountScreen extends Fragment {
                                         Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
 
                                         User user1 = new User(name, email, false, new ArrayList<>(), 0,0,0);
-
-                                        // TEST
-//                                        Random r = new Random();
-//                                        user1.addRecycle(new Recycled(MaterialType.PAPER()  , r.nextInt(50-4+1)+4, Timestamp.now(), Recycled.NOT_APPROVED ));
-//                                        SystemClock.sleep(100);
-//                                        user1.addRecycle( new Recycled(MaterialType.GLASS() , r.nextInt(50-4+1)+4, Timestamp.now(), Recycled.NOT_APPROVED )) ;
-//                                        SystemClock.sleep(140);
-//                                        user1.addRecycle( new Recycled(MaterialType.METAL() , r.nextInt(50-4+1)+4, Timestamp.now(), Recycled.NOT_APPROVED )) ;
-//                                        SystemClock.sleep(150);
-//                                        user1.addRecycle( new Recycled(MaterialType.PAPER() , r.nextInt(50-4+1)+4, Timestamp.now(), Recycled.NOT_APPROVED )) ;
-//                                        SystemClock.sleep(160);
-
                                         user1.sendUser();
 
                                         // updateUI(userData); NEXT FRAGMENT

@@ -25,20 +25,20 @@ import java.util.Map;
 
 public class User implements Serializable {
     // User fields
-    private static final String FIELD_RECYCLE   = "recycle";
-    private static final String FIELD_NAME      = "name";
-    private static final String FIELD_IS_ADMIN  = "isAdmin";
-    private static final String FIELD_EMAIL     = "email";
-    private static final String FIELD_SCORE     = "score";
-    private static final String FIELD_BALANCE   = "balance";
-    private static final String FIELD_POINTS    = "points";
+    private static final String FIELD_RECYCLE = "recycle";
+    private static final String FIELD_NAME = "name";
+    private static final String FIELD_IS_ADMIN = "isAdmin";
+    private static final String FIELD_EMAIL = "email";
+    private static final String FIELD_SCORE = "score";
+    private static final String FIELD_BALANCE = "balance";
+    private static final String FIELD_POINTS = "points";
     // Recycle fields
     private static final String FIELD_TIMESTAMP = "timestamp";
-    private static final String FIELD_PIECES    = "pieces";
-    private static final String FIELD_MATERIAL  = "material";
-    private static final String FIELD_APPROVED  = "approved";
+    private static final String FIELD_PIECES = "pieces";
+    private static final String FIELD_MATERIAL = "material";
+    private static final String FIELD_APPROVED = "approved";
     // Material fields
-    private static final String FIELD_MAT_NAME  = "material_name";
+    private static final String FIELD_MAT_NAME = "material_name";
     private static final String FIELD_MAT_VALUE = "value";
 
     private String userName;
@@ -51,58 +51,57 @@ public class User implements Serializable {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
-    public User (String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re){
+    public User(String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re) {
         this.userName = name;
         this.email = gmail;
         this.isAdmin = isAdmin;
         this.recycledList = re;
     }
 
-    public User (String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re, double balance, int points, double score){
+    public User(String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re, double balance, int points, double score) {
         this.userName = name;
         this.email = gmail;
         this.isAdmin = isAdmin;
         this.recycledList = re;
-        this.balance = (int)(balance*100+0.5)/100.0 ;
+        this.balance = (int) (balance * 100 + 0.5) / 100.0;
         this.points = points;
         this.score = score;
     }
 
-    public User (){
+    public User() {
         // Empty constructor
     }
 
-    public void populate(@NonNull Map<String, Object> m){
-        if (!m.containsKey(FIELD_RECYCLE)){
+    public void populate(@NonNull Map<String, Object> m) {
+        if (!m.containsKey(FIELD_RECYCLE)) {
             m.put(FIELD_RECYCLE, new HashMap<String, Object>());
         }
 
-        if (!m.containsKey(FIELD_BALANCE)){
-            m.put(FIELD_BALANCE,    0);
-            m.put(FIELD_POINTS,     0);
-            m.put(FIELD_SCORE,      0);
+        if (!m.containsKey(FIELD_BALANCE)) {
+            m.put(FIELD_BALANCE, 0);
+            m.put(FIELD_POINTS, 0);
+            m.put(FIELD_SCORE, 0);
         }
 
         convertMapToUser(m);
     }
 
-    public void sendUser(){
+    public void sendUser() {
         // send him to cloud!!!
         // New user => user creation
-        db.collection("user").document( this.email ).set( convertUserToMap() ).addOnCompleteListener(new OnCompleteListener<Void>() {
+        db.collection("user").document(this.email).set(convertUserToMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "User: " + userName + " data uploaded successful. Email: " + email);
-                }
-                else {
+                } else {
                     Log.d(TAG, "Error while uploading User: " + email + " data");
                 }
             }
         });
     }
 
-    private Map<String, Object> convertUserToMap(){
+    private Map<String, Object> convertUserToMap() {
 
         Map<String, Object> recycle_list = new HashMap<String, Object>();
 
@@ -127,19 +126,19 @@ public class User implements Serializable {
         usermap.put(FIELD_BALANCE, balance);
         usermap.put(FIELD_SCORE, score);
         usermap.put(FIELD_POINTS, points);
-        usermap.put(FIELD_RECYCLE, recycle_list );
+        usermap.put(FIELD_RECYCLE, recycle_list);
         usermap.put(FIELD_IS_ADMIN, isAdmin);
 
         return usermap;
     }
 
     private void convertMapToUser(Map<String, Object> m) {
-        this.userName   = (String)          m.get(FIELD_NAME);
-        this.email      = (String)          m.get(FIELD_EMAIL);
-        this.isAdmin    = (boolean)         m.get(FIELD_IS_ADMIN);
-        this.balance    = (double)          m.get(FIELD_BALANCE);
-        this.score      = (double)          m.get(FIELD_SCORE);
-        this.points     = Integer.parseInt( m.get(FIELD_POINTS).toString());
+        this.userName = (String) m.get(FIELD_NAME);
+        this.email = (String) m.get(FIELD_EMAIL);
+        this.isAdmin = (boolean) m.get(FIELD_IS_ADMIN);
+        this.balance = (double) m.get(FIELD_BALANCE);
+        this.score = (double) m.get(FIELD_SCORE);
+        this.points = Integer.parseInt(m.get(FIELD_POINTS).toString());
 
         recycledList = new ArrayList<>();
 
@@ -159,53 +158,53 @@ public class User implements Serializable {
                 Timestamp t = (Timestamp) rec.get(FIELD_TIMESTAMP);
                 int aprv = Integer.parseInt(rec.get(FIELD_APPROVED).toString());
 
-                Recycled recycled = new Recycled(material, p, t , aprv );
+                Recycled recycled = new Recycled(material, p, t, aprv);
 
                 recycledList.add(recycled);
             }
     }
 
-    public void addRecycle(Recycled recycled){
+    public void addRecycle(Recycled recycled) {
         recycledList.add(recycled);
     }
 
-    public int getTotalPieceOfMaterial(String mat_name){
+    public int getTotalPieceOfMaterial(String mat_name) {
         int sum = 0;
-        for (Recycled r : recycledList){
+        for (Recycled r : recycledList) {
             if (r.getMat().getMatName().equals(mat_name) && r.isApproved() == Recycled.APPROVED)
                 sum += r.getPieces();
         }
         return sum;
     }
 
-    public int getValueOfTotalPieceOfMaterial(String mat_name){
+    public int getValueOfTotalPieceOfMaterial(String mat_name) {
         int sumvalue = 0;
-        for (Recycled r : recycledList){
+        for (Recycled r : recycledList) {
             if (r.getMat().getMatName().equals(mat_name) && r.isApproved() == Recycled.APPROVED)
-                sumvalue += r.getPieces()*r.getMat().getValue();
+                sumvalue += r.getPieces() * r.getMat().getValue();
         }
         return sumvalue;
     }
 
-    public int getTotalPieceOfUnapprovedMaterial(){
+    public int getTotalPieceOfUnapprovedMaterial() {
         int sum = 0;
-        for (Recycled r : recycledList){
+        for (Recycled r : recycledList) {
             if (r.isApproved() == Recycled.NOT_APPROVED)
                 sum += r.getPieces();
         }
         return sum;
     }
 
-    public int countOfUnapprovedMaterial(){
+    public int countOfUnapprovedMaterial() {
         int count = 0;
-        for (Recycled r : recycledList){
+        for (Recycled r : recycledList) {
             if (r.isApproved() == Recycled.NOT_APPROVED)
-                count ++;
+                count++;
         }
         return count;
     }
 
-    public ArrayList<Recycled> getUnapprovedMat(){
+    public ArrayList<Recycled> getUnapprovedMat() {
         ArrayList<Recycled> recUn = new ArrayList<>();
         for (Recycled r :
                 recycledList) {
@@ -215,31 +214,35 @@ public class User implements Serializable {
         return recUn;
     }
 
-    public void approveRecycleRequest(Recycled r){
+    public void approveRecycleRequest(Recycled r) {
         r.setApproved(Recycled.APPROVED);
-        balance += (int)(r.getPieces() * r.getMat().getValue()*100+0.5)/100;
+        balance += (int) (r.getPieces() * r.getMat().getValue() * 100 + 0.5) / 100;
 
-        switch (r.getMat().getMatName()){
-            case MaterialType.matn1:
-                points += 2 + Math.floor(r.getPieces() * 0.3);
-                break;
-            case MaterialType.matn2:
-                points += 1 + Math.floor(r.getPieces() * 0.1);
-                break;
-            case MaterialType.matn3:
-                points += 6 + Math.floor(r.getPieces() * 0.7);
-                break;
-            case MaterialType.matn4:
-                points += 8 + Math.floor(r.getPieces() * 0.8);
-                break;
-            default:
-                Log.w("User.java approveRecycleRequest", "Not material type found to give points");
-        }
+        points += 2;
+
+        if (points > MaterialType.getBonus())
+            switch (r.getMat().getMatName()) {
+                case MaterialType.matn1:
+                    points += 2 + Math.floor(r.getPieces() * 0.3);
+                    break;
+                case MaterialType.matn2:
+                    points += 1 + Math.floor(r.getPieces() * 0.1);
+                    break;
+                case MaterialType.matn3:
+                    points += 6 + Math.floor(r.getPieces() * 0.7);
+                    break;
+                case MaterialType.matn4:
+                    points += 8 + Math.floor(r.getPieces() * 0.8);
+                    break;
+                default:
+                    Log.w("User.java approveRecycleRequest", "Not material type found to give points");
+            }
     }
 
-    public void setNewScore(){
-        score += (int)(balance*100+.5)/100. ;
+    public void setNewScore() {
+        score += (int) ((balance + points * 0.3) * 100 + .5) / 100.0;
         balance = 0;
+        points = 0;
         sendUser();
     }
 
@@ -298,7 +301,7 @@ public class User implements Serializable {
 
 }
 
-class UserComparator implements Comparator<User>{
+class UserComparator implements Comparator<User> {
 
     @Override
     public int compare(User o1, User o2) {

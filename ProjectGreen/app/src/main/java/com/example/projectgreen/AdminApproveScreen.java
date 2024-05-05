@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class AdminApproveScreen extends Fragment {
 
-    private TextView txtUserName, txtUserEmail, txtReqTime, txtMat, txtMatPieces;
+    private TextView txtUserName, txtUserEmail, txtReqTime, txtMat, txtMatPieces, txtMatValue;
     private Button btnApprove, btnReject;
     private User user;
     private Recycled rec;
@@ -36,6 +36,7 @@ public class AdminApproveScreen extends Fragment {
         txtReqTime = view.findViewById(R.id.textReqTime);
         txtMat = view.findViewById(R.id.textMatType);
         txtMatPieces = view.findViewById(R.id.textMatPiece);
+        txtMatValue = view.findViewById(R.id.textMatTotalVule);
         btnApprove = view.findViewById(R.id.btnApprove);
         btnReject = view.findViewById(R.id.btnReject);
         // Initialize components
@@ -43,7 +44,8 @@ public class AdminApproveScreen extends Fragment {
         txtUserEmail.setText(user.getEmail());
         txtReqTime.setText(rec.getTimestamp().toDate().toString());
         txtMat.setText(rec.getMat().getMatName());
-        txtMatPieces.setText(String.valueOf(rec.getPieces()));
+        txtMatPieces.setText(String.valueOf(rec.getPieces()) + " pieces");
+        txtMatValue.setText( String.valueOf(rec.getMat().getValue()) + "$ per piece. In total: " +  String.valueOf(rec.getMat().getValue()*rec.getPieces()) + "$");
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override

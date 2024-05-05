@@ -72,20 +72,8 @@ public class EnterScreen extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_enter_screen, container, false);
 
-//        AnimatorSet set = new AnimatorSet();
-//        set.playTogether(
-//                Glider.glide(Skill.SineEaseOut, 2400,
-//                        ObjectAnimator.ofFloat(view.findViewById(R.id.textView), "translationY", 0, 100))
-//        );
-//
-//        set.playTogether(
-//                Glider.glide(Skill.SineEaseOut, 2400,
-//                        ObjectAnimator.ofFloat(view.findViewById(R.id.textView2), "translationY", 0, 100))
-//        );
-//
-//        set.setDuration(2400);
-//        set.start();
-
+        // Load material (worthy) values from Firestore
+        MaterialType.inflateMatValues();
 
         YoYo.with(Techniques.SlideInDown).duration(1000).repeat(0)
                 .playOn(view.findViewById(R.id.textView));

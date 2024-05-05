@@ -32,6 +32,8 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="8dp">
 
@@ -40,6 +42,7 @@
                     android:layout_width="380dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
+                    android:src="@drawable/chromeos"
                     android:scaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
@@ -100,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/material"
+                android:text="@string/material1"
                 android:textColor="@color/font_dark_green"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -119,6 +122,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:text="26 ps"
+                android:textSize="16sp" />
+
+            <!--  MATERIAL TOTAL VALUE  -->
+            <TextView
+                android:id="@+id/text18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/recycle_value"
+                android:textColor="@color/font_dark_green"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textMatTotalVule"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:text="123$"
                 android:textSize="16sp" />
 
             <Space

@@ -35,12 +35,21 @@
 
 ![Prototype UI](img/export1.jpg)
 
+![Prototype UI](img/ui_showcase.png)
 
 ## Agile-Scrum
 
  - 15/04/2024
 
 ![agile board](img/agile2_Page_1.png)
+
+ - 05/05/2024
+
+![agile board1](img/agile3.png)
+
+![agile board2](img/agile3.png)
+
+![Sprint burnout](img/sprintburnout.jpg)
 
 ## <a href="https://mit-license.org/">The MIT License (MIT)</a>
 

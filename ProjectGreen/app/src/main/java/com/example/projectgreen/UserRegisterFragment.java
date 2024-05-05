@@ -13,6 +13,7 @@ import android.widget.ListView;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class UserRegisterFragment extends Fragment {
@@ -28,8 +29,9 @@ public class UserRegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_register, container, false);
-
-        allRecycleListAdapter = new AllRecycleListAdapter(getContext(), user.getRecycledList());
+        ArrayList<Recycled> recTemp = user.getRecycledList();
+        Collections.reverse(recTemp);
+        allRecycleListAdapter = new AllRecycleListAdapter(getContext(), recTemp);
         listView = view.findViewById(R.id.listUsersAllMatView);
         listView.setAdapter(allRecycleListAdapter);
         listView.setClickable(true);

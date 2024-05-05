@@ -13,6 +13,8 @@
         android:layout_marginTop="12dp"
         tools:listitem="@layout/list_user_item"
         android:divider="@android:color/transparent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:dividerHeight="10.0sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

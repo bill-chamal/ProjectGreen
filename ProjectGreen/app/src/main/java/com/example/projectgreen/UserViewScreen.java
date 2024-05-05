@@ -1,6 +1,7 @@
 package com.example.projectgreen;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -51,6 +53,7 @@ public class UserViewScreen extends Fragment {
     private Button btnRequest;
     private EditText editTextPieces;
     private Spinner spinnerMat;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,31 +70,29 @@ public class UserViewScreen extends Fragment {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         naview = (NavigationView)view.findViewById(R.id.nav_view);
-
+        toolbar.setTitle(R.string.app_name);
         // Set username to the slide menu bar
         ((TextView)naview.getHeaderView(0).findViewById(R.id.lblSlideMenuName)).setText("Hi, " + user.getUserName());
 
-        // Not working!!
+        // The profile view overlapping the menus
+        naview.bringToFront();
+        drawerLayout.requestLayout();
         naview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.d("TAG", "Menu onNavigationItemSelected clicked!");
-                if(item.getItemId() == R.id.nav_home){
-                    Toast.makeText(getActivity(), "Home clicked", Toast.LENGTH_LONG).show();
-                }
+
                 if(item.getItemId() == R.id.nav_about){
-                    Toast.makeText(getActivity(), "about  clicked", Toast.LENGTH_LONG).show();
-
-                }
-                if (item.getItemId() == R.id.nav_future) {
-                    Toast.makeText(getActivity(), "futu clicked", Toast.LENGTH_LONG).show();
-
+                    Dialog aboutDialog = new Dialog(getContext());
+                    aboutDialog.setContentView(R.layout.fragment_about_popup);
+                    aboutDialog.show();
                 }
                 if (item.getItemId() == R.id.nav_logout) {
-                    Toast.makeText(getActivity(), "logout clicked", Toast.LENGTH_LONG).show();
+                    mAuth.signOut();
+                    Intent gotoMainActivity = new Intent(getContext(), MainActivity.class);
+                    gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(gotoMainActivity);
                 }
                 drawerLayout.closeDrawer((GravityCompat.START));
-                //drawerLayout.close();
                 return true;
             }
         });
@@ -130,13 +131,13 @@ public class UserViewScreen extends Fragment {
                 Material mat1;
 
                 if (matName.equalsIgnoreCase(MaterialType.matn1))
-                    mat1 = MaterialType.PLASTIC();
+                    mat1 = new Material(MaterialType.matn1, MaterialType.PLASTIC().getValue()) ;
                 else if (matName.equalsIgnoreCase(MaterialType.matn2))
-                    mat1 = MaterialType.PAPER();
+                    mat1 = new Material(MaterialType.matn2, MaterialType.PAPER().getValue()) ;
                 else if (matName.equalsIgnoreCase(MaterialType.matn3))
-                    mat1 = MaterialType.GLASS();
+                    mat1 = new Material(MaterialType.matn3, MaterialType.GLASS().getValue()) ;
                 else // Aluminium
-                    mat1 = MaterialType.METAL();
+                    mat1 = new Material(MaterialType.matn4, MaterialType.METAL().getValue()) ;
 
                 Recycled rec = new Recycled(mat1, Integer.parseInt(editTextPieces.getText().toString()), Timestamp.now(), Recycled.NOT_APPROVED);
                 user.addRecycle(rec);
