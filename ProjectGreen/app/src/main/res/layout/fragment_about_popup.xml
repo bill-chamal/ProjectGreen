@@ -11,7 +11,8 @@
     <ScrollView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="ProjectGreen"
+                android:text="@string/app_name"
                 android:textAlignment="center"
                 android:textColor="@color/font_dark_green"
                 android:textSize="24sp"
@@ -33,7 +34,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
-                android:textSize="19sp"
                 android:fontFamily="@font/candara"
                 android:text="Developers"/>
 
@@ -50,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
+                android:autoLink="all"
+                android:linksClickable="true"
                 android:textColor="@color/font_dark_green"
                 android:fontFamily="@font/candara_bold_italic"
                 android:text="https://github.com/bill-chamal/ProjectGreen"/>
@@ -61,15 +63,36 @@
                 android:textAlignment="center"
                 android:textSize="19sp"
                 android:fontFamily="@font/candara"
-                android:text="University of Macedonia\nThessaloniki Greece"/>
+                android:text="@string/university_of_macedonia_nthessaloniki_greece"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
+                android:textSize="19sp"
                 android:fontFamily="@font/candara"
-                android:text="The MIT License Copyright © 2024\ngithub.com/bill-chamal/ProjectGreen/blob/main/LICENSE"/>
+                android:text="Version 1.01\n5/5/24"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:autoLink="all"
+                android:linksClickable="true"
+                android:fontFamily="@font/candara"
+                android:text="@string/the_mit_license_copyright"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:fontFamily="@font/candara"
+                android:text="@string/GDPR"/>
 
         </LinearLayout>
 

@@ -4,7 +4,7 @@
 <img src="img/UOMLOGOGRWHITE.png#gh-dark-mode-only" alt= “” width="20%" height="20%"> 
 
 <table>
-  <caption>Ομάδα 28</caption>
+  <caption>Ομάδα #7</caption>
     <tr>
         <th>Τζήκα</th>
         <th>Μπαλατσού</th>
@@ -63,7 +63,6 @@
 **About:**
 
  - Created: 1 Apr 2024
- - Version: 0.0.1
  - Thessaloniki 2024 6th semester UOM
 
 ## Android Studio Version
@@ -87,15 +86,20 @@ Registry:
  - com.google.firebase:firebase-firestore:24.4.1
  - com.daimajia.easing:library:2.4@aar
 
+<hr>
 
- *Fake accounts to log in*
+Accounts to log in
 
 WITH ADMIN RIGHTS
-  - Admin
+  - admin
   - admin@gmail.com
-  - 24admin
+  - passwd1
   
 WITH USER RIGHTS
  - user1
  - user1@gmail.com
  - passwd1
+
+ <br>
+
+_Due to **GDPR** law of the European Union, we would like to inform you, any account you create or any action you perfom may be safed into Google Firebase NoSQL database. Because of that, it would be better to use non personal related information. You can always request you data under the law of the [Rights of the Subject](https://www.edps.europa.eu/data-protection/our-work/subjects/rights-individual_en#:~:text=The%20GDPR%20has%20a%20chapter,decision%20based%20solely%20on%20automated). We do not guarantee any integrity or confidentiality of your personal data._
