@@ -102,4 +102,4 @@ WITH USER RIGHTS
 
  <br>
 
-_Due to **GDPR** law of the European Union, we would like to inform you, any account you create or any action you perfom may be safed into Google Firebase NoSQL database. Because of that, it would be better to use non personal related information. You can always request you data under the law of the [Rights of the Subject](https://www.edps.europa.eu/data-protection/our-work/subjects/rights-individual_en#:~:text=The%20GDPR%20has%20a%20chapter,decision%20based%20solely%20on%20automated). We do not guarantee any integrity or confidentiality of your personal data._
+_Due to **GDPR** law of the European Union, we would like to inform you, any account you create or any action you perform may be saved into Google Firebase Services. Because of that, it would be better to use non personal related information. You can always request you data under the law of the [Rights of the Subject](https://www.edps.europa.eu/data-protection/our-work/subjects/rights-individual_en#:~:text=The%20GDPR%20has%20a%20chapter,decision%20based%20solely%20on%20automated). We do not guarantee any integrity or confidentiality of your personal data._

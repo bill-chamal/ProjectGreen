@@ -54,7 +54,7 @@
     <string name="per_piece_total">$ per piece. Total: </string>
     <string name="the_mit_license_copyright">The MIT License \nCopyright © 2024\ngithub.com/bill-chamal/ProjectGreen/blob/main/LICENSE</string>
     <string name="university_of_macedonia_nthessaloniki_greece">University of Macedonia\nThessaloniki Greece</string>
-    <string name="GDPR">Due to GDPR law of the European Union, we would like to inform you, any account you create or any action you perfom may be safed into Google Firebase NoSQL database. Because of that, it would be better to use non personal related information. You can always request you data under the law of the Rights of the Subject. We do not guarantee any integrity or confidentiality of your personal data.</string>
+    <string name="GDPR">Due to GDPR law of the European Union, we would like to inform you, any account you create or any action you perform may be saved into Google Firebase Services. Because of that, it would be better to use non personal related information. You can always request you data under the law of the Rights of the Subject. We do not guarantee any integrity or confidentiality of your personal data.</string>
 
     <string-array name="materials">
         <item>Plastic</item>
