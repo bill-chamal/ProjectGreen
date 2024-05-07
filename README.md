@@ -80,25 +80,19 @@ Registry:
     ide.text.editor.with.preview.show.floating.toolbar=false
     gradle.version.catalogs.dynamic.support=true
 
-### Libraries that used in the project
-
- - com.google.firebase:firebase-auth:21.0.3
- - com.google.firebase:firebase-firestore:24.4.1
- - com.daimajia.easing:library:2.4@aar
-
 <hr>
 
 Accounts to log in
 
-WITH ADMIN RIGHTS
-  - admin
-  - admin@gmail.com
-  - passwd1
-  
-WITH USER RIGHTS
- - user1
- - user1@gmail.com
- - passwd1
+ - with admin rights
+ -   - admin
+ -   - admin@gmail.com
+ -   - passwd1
+ -   
+ - with user rights
+ -  - user1
+ -  - user1@gmail.com
+ -  - passwd1
 
  <br>
 
