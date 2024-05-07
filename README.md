@@ -49,6 +49,18 @@
 
 ![Sprint burnout](img/sprintburnout.jpg)
 
+Accounts to log in
+
+ - with **admin** rights
+ -   - admin
+ -   - admin@gmail.com
+ -   - passwd1
+    
+ - with **user** rights
+ -  - {user1/user2}
+ -  - {user1/user2}@gmail.com
+ -  - {passwd1/passwd2}
+
 ## <a href="https://mit-license.org/">The MIT License (MIT)</a>
 
 <p>Copyright © 2024 Bill Chamalidis, Dimidtra Tzika, Argyro Balatsou, Dimitrios Foulidis, Eriola Hajdari, Ioanna Tserkezi</p>
@@ -82,17 +94,7 @@ Registry:
 
 <hr>
 
-Accounts to log in
 
- - with admin rights
- -   - admin
- -   - admin@gmail.com
- -   - passwd1
- -   
- - with user rights
- -  - user1
- -  - user1@gmail.com
- -  - passwd1
 
  <br>
 
