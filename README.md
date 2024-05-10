@@ -52,12 +52,10 @@
 Accounts to log in
 
  - with **admin** rights
- -   - admin
  -   - admin@gmail.com
  -   - passwd1
     
  - with **user** rights
- -  - {user1/user2}
  -  - {user1/user2}@gmail.com
  -  - {passwd1/passwd2}
 
