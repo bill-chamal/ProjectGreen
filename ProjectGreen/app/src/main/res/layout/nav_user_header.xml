@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/candara"
-        android:text="Just do it"
+        android:text="administrator"
         android:textColor="@color/font_dark_green"
         android:textSize="14sp" />
 

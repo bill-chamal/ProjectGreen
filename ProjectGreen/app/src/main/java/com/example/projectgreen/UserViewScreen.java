@@ -73,6 +73,7 @@ public class UserViewScreen extends Fragment {
         toolbar.setTitle(R.string.app_name);
         // Set username to the slide menu bar
         ((TextView)naview.getHeaderView(0).findViewById(R.id.lblSlideMenuName)).setText("Hi, " + user.getUserName());
+        ((TextView)naview.getHeaderView(0).findViewById(R.id.lblSlideMenu)).setText(user.getEmail());
 
         // The profile view overlapping the menus
         naview.bringToFront();
