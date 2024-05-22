@@ -1,22 +1,12 @@
-
 package com.example.projectgreen;
 
 import static android.content.ContentValues.TAG;
-
-import android.os.SystemClock;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,7 +38,8 @@ public class User implements Serializable {
     private int points;
     private double score;
     private ArrayList<Recycled> recycledList;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private transient FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private transient Timestamp t;
 
 
     public User(String name, String gmail, boolean isAdmin, @NonNull ArrayList<Recycled> re) {
@@ -155,7 +146,7 @@ public class User implements Serializable {
                 Material material = new Material((String) mat.get(FIELD_MAT_NAME), (double) mat.get(FIELD_MAT_VALUE));
 
                 int p = Integer.parseInt(rec.get(FIELD_PIECES).toString());
-                Timestamp t = (Timestamp) rec.get(FIELD_TIMESTAMP);
+                t = (Timestamp) rec.get(FIELD_TIMESTAMP);
                 int aprv = Integer.parseInt(rec.get(FIELD_APPROVED).toString());
 
                 Recycled recycled = new Recycled(material, p, t, aprv);
@@ -301,7 +292,7 @@ public class User implements Serializable {
 
 }
 
-class UserComparator implements Comparator<User> {
+class UserComparator implements Comparator<User>, Serializable {
 
     @Override
     public int compare(User o1, User o2) {

@@ -140,11 +140,19 @@ public class UserViewScreen extends Fragment {
                 else // Aluminium
                     mat1 = new Material(MaterialType.matn4, MaterialType.METAL().getValue()) ;
 
-                Recycled rec = new Recycled(mat1, Integer.parseInt(editTextPieces.getText().toString()), Timestamp.now(), Recycled.NOT_APPROVED);
-                user.addRecycle(rec);
-                user.sendUser();
-                Toast.makeText(getContext(), "Material " + mat1.getMatName() +" request completed", Toast.LENGTH_SHORT).show();
-                Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
+                // Check if a number exist in the NumberField
+                if(!editTextPieces.getText().toString().equals("")) {
+                    Recycled rec = new Recycled(mat1, Integer.parseInt(editTextPieces.getText().toString()), Timestamp.now(), Recycled.NOT_APPROVED);
+                    user.addRecycle(rec);
+                    user.sendUser();
+                    Toast.makeText(getContext(), "Material " + mat1.getMatName() + " request completed", Toast.LENGTH_SHORT).show();
+                    Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "Enter an number to Quantity", Toast.LENGTH_SHORT).show();
+                    Log.i("NaN", "Tried to convert empty string to number. UserViewScreen - Material Register");
+                }
             }
         });
 

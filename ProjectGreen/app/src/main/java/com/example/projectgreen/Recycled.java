@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Recycled implements Serializable {
-    private Timestamp timestamp;
+    private transient Timestamp timestamp;
     private int pieces;
     private Material mat;
 

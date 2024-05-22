@@ -75,8 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="6"
-            android:textAlignment="center"
-            android:inputType="numberSigned" />
+            android:inputType="numberSigned"
+            android:textAlignment="center" />
 
     </LinearLayout>
 

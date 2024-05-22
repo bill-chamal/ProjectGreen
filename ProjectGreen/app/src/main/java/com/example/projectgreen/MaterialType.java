@@ -9,10 +9,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MaterialType {
+public class MaterialType implements Serializable {
     // class of predefined materials
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static final String matn1 = "plastic";
