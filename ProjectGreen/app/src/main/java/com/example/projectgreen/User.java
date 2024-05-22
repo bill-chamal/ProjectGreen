@@ -3,19 +3,14 @@ package com.example.projectgreen;
 
 import static android.content.ContentValues.TAG;
 
-import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -87,7 +82,7 @@ public class User implements Serializable {
     }
 
     public void sendUser() {
-        // send him to cloud!!!
+        // send user to cloud!!!
         // New user => user creation
         db.collection("user").document(this.email).set(convertUserToMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -295,9 +290,7 @@ public class User implements Serializable {
         return points;
     }
 
-    public double getScore() {
-        return score;
-    }
+    public double getTotalCashback() { return score; }
 
 }
 
@@ -305,9 +298,9 @@ class UserComparator implements Comparator<User> {
 
     @Override
     public int compare(User o1, User o2) {
-        if (o1.getScore() == o2.getScore())
+        if (o1.getTotalCashback() == o2.getTotalCashback())
             return 0;
-        else if (o1.getScore() > o2.getScore())
+        else if (o1.getTotalCashback() > o2.getTotalCashback())
             return 1;
         else
             return -1;

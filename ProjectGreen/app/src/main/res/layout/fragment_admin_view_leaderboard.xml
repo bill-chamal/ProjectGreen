@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/candara_bold"
-                android:text="@string/total_recycle_value"
+                android:text="@string/total_recycle_quantity"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
@@ -58,9 +58,22 @@
             <View
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
                 android:background="?android:attr/listDivider" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/candara_bold"
+                android:text="@string/total_recycle_value"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/adminValueBarChart"
+                android:layout_width="match_parent"
+                android:layout_height="400dp" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,6 +25,28 @@
                 android:layout_height="400dp">
 
             </com.github.mikephil.charting.charts.PieChart>
+
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="37dp"
+                android:progress="72"
+                android:scaleY="3"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+
+                android:fontFamily="@font/candara"
+                android:text="Great progress! Keep it up to cash in your available balance."
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
 
             <View
                 android:id="@+id/divider"
@@ -50,18 +73,11 @@
                 android:textColor="@color/font_dark_green"
                 android:textSize="60sp" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="37dp"
-                android:progress="72"
-                android:textAlignment="center" />
-
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/candara"
                 android:text="Total pieces of each material"
                 android:textAlignment="center"
@@ -211,13 +227,14 @@
 
                 <TextView
                     android:id="@+id/textView24"
-                    android:layout_width="201dp"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/candara"
                     android:text="Current approved cashback"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/lblbalance"
@@ -228,21 +245,23 @@
                     android:text="123 $"
                     android:textAlignment="center"
                     android:textColor="@color/font_dark_green"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/btnTakeCash"
-                android:layout_width="match_parent"
+                android:layout_width="380dp"
                 android:layout_height="75dp"
+                android:layout_gravity="center"
                 android:fontFamily="@font/candara"
-                android:text="Cash in!" />
+                android:text="Cash in!"
+                app:cornerRadius="20dp" />
 
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="?android:attr/listDivider" />
+                android:layout_height="100dp" />
 
 
         </LinearLayout>

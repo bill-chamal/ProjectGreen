@@ -33,7 +33,7 @@ public class LeaderboardListAdapter extends ArrayAdapter<User> {
         listImage.setImageResource(R.drawable.ic_rewarded);
 
         txtUserName.setText(user.getUserName());
-        txtScore.setText(String.valueOf(user.getScore()) + " score");
+        txtScore.setText(String.format("%.2f", user.getTotalCashback()) + " $");
         return view;
     }
 }

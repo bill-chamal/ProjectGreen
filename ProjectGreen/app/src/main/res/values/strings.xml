@@ -35,8 +35,9 @@
     <string name="statistics">Statistics</string>
     <string name="tune_rewards">Tune rewards</string>
     <string name="enter_pieces">Enter pieces</string>
-    <string name="total_recycle_value">Total Recycle Value</string>
-    <string name="leaderboard">Leaderboard</string>
+    <string name="total_recycle_quantity">Total approved quantity by material</string>
+    <string name="total_recycle_value">Total approved cashback by material</string>
+    <string name="leaderboard">Top users by total cashback</string>
     <string name="metal">Metal</string>
     <string name="glass">Glass</string>
     <string name="paper">Paper</string>
@@ -60,6 +61,6 @@
         <item>Plastic</item>
         <item>Glass</item>
         <item>Paper</item>
-        <item>Aluminium</item>
+        <item>Metal</item>
     </string-array>
 </resources>

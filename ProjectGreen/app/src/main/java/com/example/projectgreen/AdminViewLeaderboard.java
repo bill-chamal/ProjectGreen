@@ -42,6 +42,8 @@ public class AdminViewLeaderboard extends Fragment {
     private ListView listView;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private BarChart barChart;
+    private BarChart valueBarChart;
+
 
     private List<String> xValues = Arrays.asList(MaterialType.matn1, MaterialType.matn2, MaterialType.matn3, MaterialType.matn4);
 
@@ -53,6 +55,8 @@ public class AdminViewLeaderboard extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_view_leaderboard, container, false);
         barChart = view.findViewById(R.id.adminBarChart);
+        valueBarChart = view.findViewById(R.id.adminValueBarChart);
+
         // Get all users collection from firestore
         db.collection("user").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -81,21 +85,34 @@ public class AdminViewLeaderboard extends Fragment {
                     listView.setAdapter(leaderboardListAdapter);
                     listView.setClickable(true);
 
-                    // Get total recycle consumption by material
                     int total_plastic = 0;
-                    int total_paper   = 0;
-                    int total_glass   = 0;
-                    int total_metal   = 0;
+                    int total_paper = 0;
+                    int total_glass = 0;
+                    int total_metal = 0;
+                    int totalValue_plastic = 0;
+                    int totalValue_paper   = 0;
+                    int totalValue_glass   = 0;
+                    int totalValue_metal   = 0;
 
+                    // Get total recycled pieces by material
                     for (User u : userList) {
-                        total_plastic +=    u.getValueOfTotalPieceOfMaterial(MaterialType.matn1);
-                        total_paper +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn2);
-                        total_glass +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn3);
-                        total_metal +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn4);
+                        total_plastic +=    u.getTotalPieceOfMaterial(MaterialType.matn1);
+                        total_paper +=      u.getTotalPieceOfMaterial(MaterialType.matn2);
+                        total_glass +=      u.getTotalPieceOfMaterial(MaterialType.matn3);
+                        total_metal +=      u.getTotalPieceOfMaterial(MaterialType.matn4);
+                    }
+
+                    // Get total recycle value by material
+                    for (User u : userList) {
+                        totalValue_plastic +=    u.getValueOfTotalPieceOfMaterial(MaterialType.matn1);
+                        totalValue_paper +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn2);
+                        totalValue_glass +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn3);
+                        totalValue_metal +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn4);
                     }
 
                     // Bar Chart
-                    barChart.getAxisRight().setDrawLabels(true);
+                    barChart.getAxisRight().setEnabled(false);
+                    valueBarChart.getAxisRight().setEnabled(false);
                     // 0~3 index from xValues names
                     ArrayList<BarEntry> entries = new ArrayList<>();
                     entries.add(new BarEntry(0, total_plastic));
@@ -103,18 +120,35 @@ public class AdminViewLeaderboard extends Fragment {
                     entries.add(new BarEntry(2, total_glass));
                     entries.add(new BarEntry(3, total_metal));
 
+                    ArrayList<BarEntry> valueEntries = new ArrayList<>();
+                    valueEntries.add(new BarEntry(0, totalValue_plastic));
+                    valueEntries.add(new BarEntry(1, totalValue_paper));
+                    valueEntries.add(new BarEntry(2, totalValue_glass));
+                    valueEntries.add(new BarEntry(3, totalValue_metal));
+
                     YAxis yAxis = barChart.getAxisLeft();
                     yAxis.setAxisMinimum(0f);
-//                    yAxis.setAxisMaximum(100f);
                     yAxis.setAxisLineWidth(2f);
                     yAxis.setAxisLineColor(Color.GRAY);
                     yAxis.setLabelCount(10);
 
+                    YAxis valueyAxis = valueBarChart.getAxisLeft();
+                    valueyAxis.setAxisMinimum(0f);
+                    valueyAxis.setAxisLineWidth(2f);
+                    valueyAxis.setAxisLineColor(Color.GRAY);
+                    valueyAxis.setLabelCount(10);
+
                     BarDataSet dataSet = new BarDataSet(entries, "Materials");
                     dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
+                    BarDataSet valueDataSet = new BarDataSet(valueEntries, "Materials");
+                    valueDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+
                     BarData barData = new BarData(dataSet);
                     barChart.setData(barData);
+
+                    BarData valueBarData = new BarData(valueDataSet);
+                    valueBarChart.setData(valueBarData);
 
                     barChart.getDescription().setEnabled(false);
                     barChart.invalidate();
@@ -122,6 +156,17 @@ public class AdminViewLeaderboard extends Fragment {
                     barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                     barChart.getXAxis().setGranularity(1f);
                     barChart.getXAxis().setGranularityEnabled(true);
+
+                    barData.setValueTextSize(16f);
+
+                    valueBarChart.getDescription().setEnabled(false);
+                    valueBarChart.invalidate();
+                    valueBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xValues));
+                    valueBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+                    valueBarChart.getXAxis().setGranularity(1f);
+                    valueBarChart.getXAxis().setGranularityEnabled(true);
+
+                    valueBarData.setValueTextSize(16f);
 
                     Log.i("ADMIN_LEADERBOARD", "Successfully load of leaderboard! - AdminViewLeaderboard.java");
                 } else {

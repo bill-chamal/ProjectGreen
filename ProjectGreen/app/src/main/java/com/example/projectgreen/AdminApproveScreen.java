@@ -45,7 +45,10 @@ public class AdminApproveScreen extends Fragment {
         txtReqTime.setText(rec.getTimestamp().toDate().toString());
         txtMat.setText(rec.getMat().getMatName());
         txtMatPieces.setText(String.valueOf(rec.getPieces()) + " pieces");
-        txtMatValue.setText( String.valueOf(rec.getMat().getValue()) + "$ per piece. In total: " +  String.valueOf(rec.getMat().getValue()*rec.getPieces()) + "$");
+
+        double totalMatValue = rec.getMat().getValue()*rec.getPieces();
+        String formattedMatValue = String.format("%.2f", totalMatValue);
+        txtMatValue.setText(rec.getMat().getValue() + "$ per piece. In total: " + formattedMatValue + "$");
 
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
