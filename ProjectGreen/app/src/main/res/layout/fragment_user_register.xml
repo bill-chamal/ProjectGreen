@@ -7,16 +7,15 @@
     tools:context=".UserRegisterFragment">
 
 
-
-            <ListView
-                android:id="@+id/listUsersAllMatView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="12dp"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="10.0sp"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/list_user_item"/>
+    <ListView
+        android:id="@+id/listUsersAllMatView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/list_user_item" />
 
                 <Space
                     android:layout_width="match_parent"

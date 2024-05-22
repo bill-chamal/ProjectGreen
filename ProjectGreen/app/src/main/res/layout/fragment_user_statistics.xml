@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/candara"
-                android:text="Your current Level"
+                android:text="Total redeemed cashback"
                 android:textAlignment="center"
                 android:textSize="16sp" />
 
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:fontFamily="@font/candara"
-                android:text="Total weight of each material"
+                android:text="Total pieces of each material"
                 android:textAlignment="center"
                 android:textSize="14sp" />
 
@@ -211,11 +211,11 @@
 
                 <TextView
                     android:id="@+id/textView24"
-                    android:layout_width="wrap_content"
+                    android:layout_width="201dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/candara"
-                    android:text="Balance"
+                    android:text="Current approved cashback"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
