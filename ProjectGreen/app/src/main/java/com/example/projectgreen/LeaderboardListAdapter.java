@@ -11,9 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class LeaderboardListAdapter extends ArrayAdapter<User> {
+public class LeaderboardListAdapter extends ArrayAdapter<User> implements Serializable {
     public LeaderboardListAdapter(@NonNull Context context, ArrayList<User> userArrayList) {
         super(context, R.layout.list_user_item , userArrayList);
     }
@@ -34,6 +35,8 @@ public class LeaderboardListAdapter extends ArrayAdapter<User> {
 
         txtUserName.setText(user.getUserName());
         txtScore.setText(String.format("%.2f", user.getTotalCashback()) + " $");
+        txtScore.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
         return view;
     }
 }

@@ -6,18 +6,14 @@
     android:orientation="vertical"
     tools:context=".UserRegisterFragment">
 
-
     <ListView
         android:id="@+id/listUsersAllMatView"
         android:layout_width="match_parent"
-        android:layout_height="670dp"
+        android:layout_height="match_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"
         android:scrollbars="vertical"
-        tools:listitem="@layout/list_user_item"></ListView>
+        android:paddingBottom="62dp"
+        tools:listitem="@layout/list_user_item"/>
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
 </LinearLayout>

@@ -40,10 +40,9 @@
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/candara"
-                android:text="Great progress! Keep it up to cash in your available balance."
+                android:text="@string/great_progress_keep_it_up_to_cash_in_your_available_balance"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -261,7 +260,8 @@
             <View
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
-                android:layout_height="100dp" />
+                android:layout_height="100dp"
+                android:background="@color/color_white" />
 
 
         </LinearLayout>

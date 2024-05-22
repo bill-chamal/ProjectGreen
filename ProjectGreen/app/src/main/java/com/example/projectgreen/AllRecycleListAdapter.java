@@ -41,6 +41,7 @@ public class AllRecycleListAdapter extends ArrayAdapter<Recycled> {
 
         txtMatName.setText(appr);
         txtApproveStatus.setText(recycled.getMat().getMatName()+" "+String.valueOf(recycled.getPieces()) + " pieces\n"+recycled.getTimestamp().toDate());
+
         return view;
     }
 }

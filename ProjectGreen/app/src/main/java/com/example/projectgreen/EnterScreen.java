@@ -36,7 +36,6 @@ public class EnterScreen extends Fragment {
 
     public EnterScreen() {
         // Required empty public constructor
-        System.out.println("Hola\n");
     }
 
     /**
