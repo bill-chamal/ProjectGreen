@@ -74,6 +74,12 @@
                 android:id="@+id/adminValueBarChart"
                 android:layout_width="match_parent"
                 android:layout_height="400dp" />
+
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="?android:attr/listDivider" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
