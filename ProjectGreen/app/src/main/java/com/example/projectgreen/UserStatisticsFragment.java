@@ -60,10 +60,18 @@ public class UserStatisticsFragment extends Fragment {
         int total_glass   = user.getTotalPieceOfMaterial(MaterialType.matn3);
         int total_metal   = user.getTotalPieceOfMaterial(MaterialType.matn4);
 
-        pValues.add(new PieEntry(total_plastic, "Plastic"));
-        pValues.add(new PieEntry(total_paper,   "Paper"));
-        pValues.add(new PieEntry(total_glass,   "Glass"));
-        pValues.add(new PieEntry(total_metal,   "Metal"));
+        if (total_plastic > 0) {
+            pValues.add(new PieEntry(total_plastic, "Plastic"));
+        }
+        if (total_paper > 0) {
+            pValues.add(new PieEntry(total_paper, "Paper"));
+        }
+        if (total_glass > 0) {
+            pValues.add(new PieEntry(total_glass, "Glass"));
+        }
+        if (total_metal > 0) {
+            pValues.add(new PieEntry(total_metal, "Metal"));
+        }
 
         PieDataSet dataSet = new PieDataSet(pValues, "Materials");
         dataSet.setSliceSpace(3f);
@@ -97,15 +105,16 @@ public class UserStatisticsFragment extends Fragment {
 
     private void setScoreView(View view){
         lblScore = view.findViewById(R.id.lblLevel);
-        lblScore.setText(String.valueOf(user.getScore()));
+        lblScore.setText(String.valueOf(user.getTotalCashback()));
 
         progressBar = view.findViewById(R.id.progressBar);
-        progressBar.setProgress( (int)Math.abs((user.getScore()-(int)user.getScore())*100));
+        progressBar.setProgress( (int)Math.abs((user.getTotalCashback()-(int)user.getTotalCashback())*100));
 
         piechart.setCenterText( String.valueOf(user.getPoints()) + "\npoints" );
 
         // Set label score view
-        ((TextView)view.findViewById(R.id.lblLevel)).setText(   String.valueOf(user.getScore())  );
+        String formattedCashback = String.format("%.2f", user.getTotalCashback());
+        ((TextView)view.findViewById(R.id.lblLevel)).setText(formattedCashback + " $");
         // Set balance
         ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$ + " + String.valueOf(user.getPoints()) + " points" );
     }

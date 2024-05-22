@@ -78,7 +78,7 @@ public class User implements Serializable {
     }
 
     public void sendUser() {
-        // send him to cloud!!!
+        // send user to cloud!!!
         // New user => user creation
         db.collection("user").document(this.email).set(convertUserToMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -286,9 +286,7 @@ public class User implements Serializable {
         return points;
     }
 
-    public double getScore() {
-        return score;
-    }
+    public double getTotalCashback() { return score; }
 
 }
 
@@ -296,9 +294,9 @@ class UserComparator implements Comparator<User>, Serializable {
 
     @Override
     public int compare(User o1, User o2) {
-        if (o1.getScore() == o2.getScore())
+        if (o1.getTotalCashback() == o2.getTotalCashback())
             return 0;
-        else if (o1.getScore() > o2.getScore())
+        else if (o1.getTotalCashback() > o2.getTotalCashback())
             return 1;
         else
             return -1;
