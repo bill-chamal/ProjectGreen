@@ -35,7 +35,7 @@
 
 ![Prototype UI](img/export1.jpg)
 
-![Prototype UI](img/ui_showcase.png)
+![Prototype UI](img/export3.jpg)
 
 ## Agile-Scrum
 
