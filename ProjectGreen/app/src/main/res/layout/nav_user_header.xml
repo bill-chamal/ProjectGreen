@@ -12,6 +12,7 @@
         android:fitsSystemWindows="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:src="@mipmap/ic_profile_round" />
 
     <TextView
@@ -22,7 +23,7 @@
 
         android:text="Hi, user.getName()"
         android:textColor="@color/font_dark_green"
-        android:textSize="18sp"
+        android:textSize="21sp"
         android:textStyle="bold" />
 
     <TextView
@@ -33,6 +34,6 @@
 
         android:text="Administrator"
         android:textColor="@color/font_dark_green"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
