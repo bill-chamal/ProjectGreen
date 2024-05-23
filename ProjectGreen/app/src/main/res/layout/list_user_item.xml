@@ -37,10 +37,10 @@
         <TextView
             android:id="@+id/listUserName"
             android:layout_width="180dp"
-            android:layout_height="wrap_content"
+            android:layout_height="39dp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="17dp"
             android:layout_marginEnd="20dp"
             android:layout_toEndOf="@+id/listMatName"
             android:fontFamily="@font/candara"

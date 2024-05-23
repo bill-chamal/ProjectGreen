@@ -42,6 +42,18 @@ public class AllRecycleListAdapter extends ArrayAdapter<Recycled> {
         txtMatName.setText(appr);
         txtApproveStatus.setText(recycled.getMat().getMatName()+" "+String.valueOf(recycled.getPieces()) + " pieces\n"+recycled.getTimestamp().toDate());
 
+        ViewGroup.LayoutParams params = txtApproveStatus.getLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        ViewGroup.MarginLayoutParams mparams = (ViewGroup.MarginLayoutParams) txtApproveStatus.getLayoutParams();
+        int marginInDp = 3;
+        float scale = getContext().getResources().getDisplayMetrics().density;
+        int marginInPixels = (int) (marginInDp * scale + 0.5f);
+        mparams.topMargin = marginInPixels;
+
+        txtApproveStatus.setLayoutParams(params);
+        txtApproveStatus.setLayoutParams(mparams);
+
         return view;
     }
 }

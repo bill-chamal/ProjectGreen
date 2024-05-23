@@ -250,11 +250,13 @@
 
             <Button
                 android:id="@+id/btnTakeCash"
-                android:layout_width="380dp"
+                android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/candara"
-                android:text="Cash in!"
+                android:text="@string/cash_in"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 app:cornerRadius="20dp" />
 
             <View
@@ -262,7 +264,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/color_white" />
-
 
         </LinearLayout>
 

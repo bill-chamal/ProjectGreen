@@ -72,7 +72,7 @@
                 android:textAlignment="center"
                 android:textSize="19sp"
                 android:fontFamily="@font/candara"
-                android:text="Version 1.11\n23/5/24"/>
+                android:text="Version 1.12\n23/5/24"/>
 
             <TextView
                 android:layout_width="match_parent"
