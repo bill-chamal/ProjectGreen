@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="215dp"
+    android:layout_height="245dp"
     android:background="@drawable/dialog_backimg"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -9,11 +9,12 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:fitsSystemWindows="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_marginBottom="5dp"
-        android:src="@mipmap/ic_profile_round" />
+        android:fitsSystemWindows="true"
+        android:scaleType="fitStart"
+        android:src="@mipmap/ic_profile_plant" />
 
     <TextView
         android:id="@+id/lblSlideMenuName"
@@ -31,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/candara"
-
+        android:layout_marginBottom="5dp"
         android:text="Administrator"
         android:textColor="@color/font_dark_green"
         android:textSize="18sp" />
