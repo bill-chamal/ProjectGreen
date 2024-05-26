@@ -169,12 +169,10 @@
                     android:text="@string/reject" />
 
             </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
+            <View
+                android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/white"/>
-
+                android:layout_height="100dp" />
         </LinearLayout>
 
     </ScrollView>

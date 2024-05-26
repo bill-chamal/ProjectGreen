@@ -110,8 +110,7 @@ public class UserStatisticsFragment extends Fragment {
         lblScore.setText(String.valueOf(user.getTotalCashback()));
 
         progressBar = view.findViewById(R.id.progressBar);
-//        progressBar.setProgress( (int)Math.abs((user.getTotalCashback()-(int)user.getTotalCashback())*100));
-        progressBar.setProgress( user.getPoints() );
+        progressBar.setProgress(user.getPoints());
 
         if(user.getPoints() < 100)
             ((Button)view.findViewById(R.id.btnTakeCash)).setEnabled(false);

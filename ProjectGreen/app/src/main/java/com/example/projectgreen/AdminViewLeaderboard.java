@@ -182,16 +182,6 @@ public class AdminViewLeaderboard extends Fragment {
 
                     barData.setValueTextSize(16f);
 
-                    Legend l = barChart.getLegend();
-                    l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-                    l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-                    l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-                    l.setDrawInside(false);
-                    l.setForm(Legend.LegendForm.SQUARE);
-                    l.setFormSize(9f);
-                    l.setTextSize(11f);
-                    l.setXEntrySpace(4f);
-
                     valueBarChart.getDescription().setEnabled(false);
                     valueBarChart.invalidate();
                     valueBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xValues));
