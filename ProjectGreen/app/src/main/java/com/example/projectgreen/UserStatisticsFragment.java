@@ -128,7 +128,8 @@ public class UserStatisticsFragment extends Fragment {
         String formattedBalance = String.format("%.2f", user.getBalance());
         ((TextView)view.findViewById(R.id.lblbalance)).setText(formattedBalance + " $");
 
-        bonusValue = (int) Math.ceil(user.getApprMatQ() / MaterialType.getBonus()); // ALLAGH OTAN GINEI TO USER BALANCE
+        // ALLAGH OTAN GINEI TO USER BALANCE // DONE 27.5.24
+        bonusValue = user.calculateBonusValue();
 
         ((TextView)view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue)+ "$  from\n" + user.getApprMatQ() + " pieces");
 

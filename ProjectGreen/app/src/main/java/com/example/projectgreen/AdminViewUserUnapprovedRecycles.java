@@ -31,9 +31,6 @@ public class AdminViewUserUnapprovedRecycles extends Fragment {
         this.user = user;
         this.adminViewMaterialApprove = adminViewMaterialApprove;
     }
-//    public AdminViewUserUnapprovedRecycles(User user){
-//        this.user = user;
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

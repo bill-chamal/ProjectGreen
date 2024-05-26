@@ -11,12 +11,12 @@
         android:id="@+id/listUnapprovedMaterialsView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"
         android:paddingBottom="114dp"
         android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/txtViewUserName"
+        app:layout_constraintTop_toBottomOf="@+id/btnViewAdminBackToUsersList"
         tools:listitem="@layout/list_user_item" />
 
     <TextView

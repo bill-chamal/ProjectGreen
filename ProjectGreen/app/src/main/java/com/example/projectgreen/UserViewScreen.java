@@ -162,7 +162,7 @@ public class UserViewScreen extends Fragment {
                             dialog.dismiss();
                             // If user didn't open this fragment then has not context for the list-adapter
                             if (userRegisterFragment.getContext() != null)
-                                userRegisterFragment.getAllRecycleListAdapter().add(rec);
+                                userRegisterFragment.addNewRec(rec);
                             Toast.makeText(getContext(), "Material " + mat1.getMatName() + " request completed", Toast.LENGTH_SHORT).show();
                             Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
                         } else {

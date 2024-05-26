@@ -3,9 +3,7 @@ package com.example.projectgreen;
 import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Comparator;
 
 public class Recycled implements Serializable {
     private transient Timestamp timestamp;
@@ -17,9 +15,10 @@ public class Recycled implements Serializable {
     public final static int REJECTED = 2;
     private int approved;
 
-    public Recycled(){}
+    public Recycled() {
+    }
 
-    public Recycled(Material mat, int pieces, Timestamp tt, int approved){
+    public Recycled(Material mat, int pieces, Timestamp tt, int approved) {
         this.mat = mat;
         this.pieces = pieces;
         this.timestamp = tt;
@@ -59,5 +58,13 @@ public class Recycled implements Serializable {
 
     public void setApproved(int approved) {
         this.approved = approved;
+    }
+}
+
+class RecycledComperater implements Comparator<Recycled>, Serializable {
+
+    @Override
+    public int compare(Recycled o1, Recycled o2) {
+        return o1.getTimestamp().compareTo(o2.getTimestamp());
     }
 }
