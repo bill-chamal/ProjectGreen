@@ -22,6 +22,7 @@ public class User implements Serializable {
     private static final String FIELD_SCORE = "score";
     private static final String FIELD_BALANCE = "balance";
     private static final String FIELD_POINTS = "points";
+    private static final String FIELD_APPROVED_MATQ = "approved_material_quantity";
     // Recycle fields
     private static final String FIELD_TIMESTAMP = "timestamp";
     private static final String FIELD_PIECES = "pieces";
@@ -37,6 +38,7 @@ public class User implements Serializable {
     private double balance;
     private int points;
     private double score;
+    private int apprMatQ;
     private ArrayList<Recycled> recycledList;
     private transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     private transient Timestamp t;
@@ -64,9 +66,11 @@ public class User implements Serializable {
     }
 
     public void populate(@NonNull Map<String, Object> m) {
-        if (!m.containsKey(FIELD_RECYCLE)) {
+        if (!m.containsKey(FIELD_RECYCLE))
             m.put(FIELD_RECYCLE, new HashMap<String, Object>());
-        }
+
+        if (!m.containsKey(FIELD_APPROVED_MATQ))
+            m.put(FIELD_APPROVED_MATQ, 0);
 
         if (!m.containsKey(FIELD_BALANCE)) {
             m.put(FIELD_BALANCE, 0);
@@ -119,6 +123,7 @@ public class User implements Serializable {
         usermap.put(FIELD_POINTS, points);
         usermap.put(FIELD_RECYCLE, recycle_list);
         usermap.put(FIELD_IS_ADMIN, isAdmin);
+        usermap.put(FIELD_APPROVED_MATQ, apprMatQ);
 
         return usermap;
     }
@@ -130,6 +135,7 @@ public class User implements Serializable {
         this.balance = (double) m.get(FIELD_BALANCE);
         this.score = (double) m.get(FIELD_SCORE);
         this.points = Integer.parseInt(m.get(FIELD_POINTS).toString());
+        this.apprMatQ = Integer.parseInt(m.get(FIELD_APPROVED_MATQ).toString());
 
         recycledList = new ArrayList<>();
 
@@ -207,33 +213,36 @@ public class User implements Serializable {
 
     public void approveRecycleRequest(Recycled r) {
         r.setApproved(Recycled.APPROVED);
-        balance += (int) (r.getPieces() * r.getMat().getValue() * 100 + 0.5) / 100;
+        balance += ((int) (r.getPieces() * r.getMat().getValue() * 100 + 0.5)) / 100;
 
-        points += 2;
+        //points += 2;
+        apprMatQ += r.getPieces();
 
-        if (points > MaterialType.getBonus())
+        if (apprMatQ > MaterialType.getBonus())
             switch (r.getMat().getMatName()) {
                 case MaterialType.matn1:
-                    points += 2 + Math.floor(r.getPieces() * 0.3);
+                    points +=  Math.floor(r.getPieces() * 0.5);
                     break;
                 case MaterialType.matn2:
-                    points += 1 + Math.floor(r.getPieces() * 0.1);
+                    points +=  Math.floor(r.getPieces() * 0.4);
                     break;
                 case MaterialType.matn3:
-                    points += 6 + Math.floor(r.getPieces() * 0.7);
+                    points +=  Math.floor(r.getPieces() * 0.9);
                     break;
                 case MaterialType.matn4:
-                    points += 8 + Math.floor(r.getPieces() * 0.8);
+                    points +=  Math.floor(r.getPieces() * 1.2);
                     break;
                 default:
                     Log.w("User.java approveRecycleRequest", "Not material type found to give points");
             }
+
     }
 
     public void setNewScore() {
         score += (int) ((balance + points * 0.3) * 100 + .5) / 100.0;
         balance = 0;
         points = 0;
+        apprMatQ = 0;
         sendUser();
     }
 
@@ -287,6 +296,10 @@ public class User implements Serializable {
     }
 
     public double getTotalCashback() { return score; }
+
+    public int getApprMatQ() {
+        return apprMatQ;
+    }
 
 }
 

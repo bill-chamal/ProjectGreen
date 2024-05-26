@@ -31,8 +31,7 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="10.0sp"
                 android:scrollbars="vertical"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 tools:listitem="@layout/list_user_item" />
 
             <View

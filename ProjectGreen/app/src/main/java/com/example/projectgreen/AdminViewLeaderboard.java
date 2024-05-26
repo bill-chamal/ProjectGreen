@@ -15,11 +15,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -178,12 +182,24 @@ public class AdminViewLeaderboard extends Fragment {
 
                     barData.setValueTextSize(16f);
 
+                    Legend l = barChart.getLegend();
+                    l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+                    l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+                    l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+                    l.setDrawInside(false);
+                    l.setForm(Legend.LegendForm.SQUARE);
+                    l.setFormSize(9f);
+                    l.setTextSize(11f);
+                    l.setXEntrySpace(4f);
+
                     valueBarChart.getDescription().setEnabled(false);
                     valueBarChart.invalidate();
                     valueBarChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(xValues));
                     valueBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                     valueBarChart.getXAxis().setGranularity(1f);
                     valueBarChart.getXAxis().setGranularityEnabled(true);
+
+                    barChart.getLegend().setEnabled(true);
 
                     valueBarData.setValueTextSize(16f);
 

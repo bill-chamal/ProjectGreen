@@ -108,14 +108,19 @@ public class UserStatisticsFragment extends Fragment {
         lblScore.setText(String.valueOf(user.getTotalCashback()));
 
         progressBar = view.findViewById(R.id.progressBar);
-        progressBar.setProgress( (int)Math.abs((user.getTotalCashback()-(int)user.getTotalCashback())*100));
+//        progressBar.setProgress( (int)Math.abs((user.getTotalCashback()-(int)user.getTotalCashback())*100));
+        progressBar.setProgress( user.getPoints() );
 
-        piechart.setCenterText( String.valueOf(user.getPoints()) + "\npoints" );
+        if(user.getPoints() < 100)
+            ((Button)view.findViewById(R.id.btnTakeCash)).setEnabled(false);
+
+
+        piechart.setCenterText( String.valueOf(((int) (user.getPoints()*0.3 * 100 + 0.5)) / 100 ) + "\npoints" );
 
         // Set label score view
         String formattedCashback = String.format("%.2f", user.getTotalCashback());
         ((TextView)view.findViewById(R.id.lblLevel)).setText(formattedCashback + " $");
         // Set balance
-        ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$ + " + String.valueOf(user.getPoints()) + " points" );
+        ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$ + " + String.valueOf(((int) (user.getPoints()*0.3 * 100 + 0.5)) / 100 ) + " points" );
     }
 }
