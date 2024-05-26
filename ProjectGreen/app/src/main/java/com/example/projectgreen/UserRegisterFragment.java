@@ -30,7 +30,6 @@ public class UserRegisterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_register, container, false);
         ArrayList<Recycled> recTemp = user.getRecycledList();
-        Collections.reverse(recTemp);
         allRecycleListAdapter = new AllRecycleListAdapter(getContext(), recTemp);
         listView = view.findViewById(R.id.listUsersAllMatView);
         listView.setAdapter(allRecycleListAdapter);

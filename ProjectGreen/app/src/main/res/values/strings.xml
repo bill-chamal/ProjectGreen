@@ -36,7 +36,7 @@
     <string name="tune_rewards">Tune rewards</string>
     <string name="enter_pieces">Enter pieces</string>
     <string name="total_recycle_quantity">Total approved quantity by material</string>
-    <string name="total_recycle_value">Total approved cashback by material</string>
+    <string name="total_recycle_value">Approximate total approved cashback by material in $</string>
     <string name="leaderboard">Top users by total cashback</string>
     <string name="metal">Metal</string>
     <string name="glass">Glass</string>
@@ -45,8 +45,8 @@
     <string name="tune_material_value">Tune material value</string>
     <string name="tune_bonus_by_quantity">Tune bonus by quantity</string>
     <string name="quantity">Quantity</string>
-    <string name="pieces">pieces</string>
-    <string name="give_bonus_after">Give bonus after</string>
+    <string name="pieces">pieces approved</string>
+    <string name="give_bonus_after">Give bonus for every</string>
     <string name="restore_to_defaults">Restore defaults</string>
     <string name="save_amp_set"><![CDATA[SAVE & SET]]></string>
     <string name="recycle_value">Recycle value:</string>

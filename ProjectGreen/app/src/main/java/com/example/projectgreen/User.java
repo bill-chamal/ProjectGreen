@@ -39,6 +39,7 @@ public class User implements Serializable {
     private int points;
     private double score;
     private int apprMatQ;
+    public int bonusValue;
     private ArrayList<Recycled> recycledList;
     private transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     private transient Timestamp t;
@@ -82,7 +83,7 @@ public class User implements Serializable {
     }
 
     public void sendUser() {
-        // send user to cloud!!!
+        // send user data to cloud!!!
         // New user => user creation
         db.collection("user").document(this.email).set(convertUserToMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -213,38 +214,47 @@ public class User implements Serializable {
 
     public void approveRecycleRequest(Recycled r) {
         r.setApproved(Recycled.APPROVED);
-        balance += ((int) (r.getPieces() * r.getMat().getValue() * 100 + 0.5)) / 100;
+        balance += r.getPieces() * r.getMat().getValue();
 
-        //points += 2;
+        points += 1; //basic point reward for the recycle request
         apprMatQ += r.getPieces();
 
-        if (apprMatQ > MaterialType.getBonus())
-            switch (r.getMat().getMatName()) {
-                case MaterialType.matn1:
-                    points +=  Math.floor(r.getPieces() * 0.5);
-                    break;
-                case MaterialType.matn2:
-                    points +=  Math.floor(r.getPieces() * 0.4);
-                    break;
-                case MaterialType.matn3:
-                    points +=  Math.floor(r.getPieces() * 0.9);
-                    break;
-                case MaterialType.matn4:
-                    points +=  Math.floor(r.getPieces() * 1.2);
-                    break;
-                default:
-                    Log.w("User.java approveRecycleRequest", "Not material type found to give points");
-            }
+        switch (r.getMat().getMatName()) { //custom point reward based on the quantity and type of the materials recycled
+            case MaterialType.matn1:
+                points +=  Math.floor(r.getPieces() * 0.5); //Plastic
+                break;
+            case MaterialType.matn2:
+                points +=  Math.floor(r.getPieces() * 0.3); //Paper
+                break;
+            case MaterialType.matn3:
+                points +=  Math.floor(r.getPieces() * 0.6); //Glass
+                break;
+            case MaterialType.matn4:
+                points +=  Math.floor(r.getPieces() * 0.8); //Metal
+                break;
+            default:
+                Log.w("User.java approveRecycleRequest", "Not material type found to give points");
+        }
 
     }
 
-    public void setNewScore() {
-        score += (int) ((balance + points * 0.3) * 100 + .5) / 100.0;
+    public void setNewScore( double newScore) {
+        score += newScore;
         balance = 0;
         points = 0;
         apprMatQ = 0;
+        bonusValue = 0;
+
         sendUser();
     }
+    public int calculateBonusValue(){
+        if(points<100) //if the progressBar isn't full, continue raising the bonus
+            return (int) Math.ceil(apprMatQ / MaterialType.getBonus());
+        else // if the progress bar is full, do not give any more bonus from approvals to endorse fair and fast cash ins.
+            return bonusValue;
+
+    }
+
 
     // = = =    GETTERS AND SETTERS     = = = //
     public String getUserName() {

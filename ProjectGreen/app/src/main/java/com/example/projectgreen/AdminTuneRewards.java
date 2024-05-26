@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AdminTuneRewards extends Fragment {
 
@@ -43,6 +44,8 @@ public class AdminTuneRewards extends Fragment {
                 MaterialType.uploadMatValue(new Material(MaterialType.matn4, Double.parseDouble(editMetal.getText().toString())));
 
                 MaterialType.uploadBonusLimit(Integer.parseInt(editBonus.getText().toString()));
+
+                Toast.makeText(v.getContext(), "Material values updated", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -54,6 +57,8 @@ public class AdminTuneRewards extends Fragment {
                 editGlass.setText   (String.valueOf(MaterialType.MATV3));
                 editMetal.setText   (String.valueOf(MaterialType.MATV4));
                 editBonus.setText   (String.valueOf(MaterialType.BONUS));
+
+                Toast.makeText(v.getContext(), "Material values have been reset", Toast.LENGTH_SHORT).show();
             }
         });
 

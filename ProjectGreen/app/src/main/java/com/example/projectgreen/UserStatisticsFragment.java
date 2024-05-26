@@ -27,6 +27,7 @@ public class UserStatisticsFragment extends Fragment {
     private PieChart piechart;
     private TextView lblScore;
     private ProgressBar progressBar;
+    private int bonusValue;
     public UserStatisticsFragment(User user){
         this.user = user;
     }
@@ -95,7 +96,8 @@ public class UserStatisticsFragment extends Fragment {
         ((Button)view.findViewById(R.id.btnTakeCash)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.setNewScore();
+                double score = user.getBalance() + bonusValue;
+                user.setNewScore(score);
                 setScoreView(view);
             }
         });
@@ -115,12 +117,25 @@ public class UserStatisticsFragment extends Fragment {
             ((Button)view.findViewById(R.id.btnTakeCash)).setEnabled(false);
 
 
-        piechart.setCenterText( String.valueOf(((int) (user.getPoints()*0.3 * 100 + 0.5)) / 100 ) + "\npoints" );
+        piechart.setCenterText(String.valueOf(user.getPoints()) + "\npoints" );
+
+        //specify bonus
+        ((TextView)view.findViewById(R.id.apprQty)).setText("Approved material\nquantity bonus\n(1$ per " + MaterialType.getBonus() + " pieces)");
 
         // Set label score view
         String formattedCashback = String.format("%.2f", user.getTotalCashback());
         ((TextView)view.findViewById(R.id.lblLevel)).setText(formattedCashback + " $");
-        // Set balance
-        ((TextView)view.findViewById(R.id.lblbalance)).setText( String.valueOf(user.getBalance()) + "$ + " + String.valueOf(((int) (user.getPoints()*0.3 * 100 + 0.5)) / 100 ) + " points" );
+
+        String formattedBalance = String.format("%.2f", user.getBalance());
+        ((TextView)view.findViewById(R.id.lblbalance)).setText(formattedBalance + " $");
+
+        bonusValue = (int) Math.ceil(user.getApprMatQ() / MaterialType.getBonus()); // ALLAGH OTAN GINEI TO USER BALANCE
+
+        ((TextView)view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue)+ "$  from\n" + user.getApprMatQ() + " pieces");
+
+        // Set total balance for cashback (basic material cashback value and bonus depending on quantity of materials)
+        String formattedtotal = String.format("%.2f", user.getBalance() + bonusValue);
+        ((TextView)view.findViewById(R.id.totalBalance)).setText(formattedtotal +" $");
+
     }
 }

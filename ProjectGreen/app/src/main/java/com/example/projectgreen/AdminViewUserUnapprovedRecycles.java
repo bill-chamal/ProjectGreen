@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AdminViewUserUnapprovedRecycles extends Fragment {
 
@@ -35,8 +37,14 @@ public class AdminViewUserUnapprovedRecycles extends Fragment {
                 recycledArrayList.add(r);
         }
 
+        // Sort the list of Recycled objects by timestamp
+        Collections.sort(recycledArrayList, (r1, r2) -> {
+            return r2.getTimestamp().compareTo(r1.getTimestamp()); // Descending order
+        });
 
+        // Create an adapter with the sorted list
         recycleListAdapter = new RecycleListAdapter(getContext(), recycledArrayList);
+
         listView = view.findViewById(R.id.listUnapprovedMaterialsView);
         listView.setAdapter(recycleListAdapter);
         listView.setClickable(true);

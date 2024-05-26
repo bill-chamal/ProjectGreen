@@ -140,17 +140,38 @@ public class UserViewScreen extends Fragment {
                 else // Aluminium
                     mat1 = new Material(MaterialType.matn4, MaterialType.METAL().getValue()) ;
 
-                // Check if a number exist in the NumberField
-                if(!editTextPieces.getText().toString().equals("")) {
-                    Recycled rec = new Recycled(mat1, Integer.parseInt(editTextPieces.getText().toString()), Timestamp.now(), Recycled.NOT_APPROVED);
-                    user.addRecycle(rec);
-                    user.sendUser();
-                    Toast.makeText(getContext(), "Material " + mat1.getMatName() + " request completed", Toast.LENGTH_SHORT).show();
-                    Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
-                }
-                else
-                {
-                    Toast.makeText(getContext(), "Enter an number to Quantity", Toast.LENGTH_SHORT).show();
+                // Get the input from editTextPieces
+                String input = editTextPieces.getText().toString();
+
+                // Check if the input is not empty
+                if (!input.isEmpty()) {
+                    // Regular expression to match only positive integers
+                    String regex = "^[1-9]\\d*$";
+
+                    // Check if the input matches the regular expression
+                    if (input.matches(regex)) {
+                        // Convert the input to an integer
+                        int quantity = Integer.parseInt(input);
+
+                        // Check if the quantity is greater than zero
+                        if (quantity > 0) {
+                            // Create and add the Recycled object
+                            Recycled rec = new Recycled(mat1, quantity, Timestamp.now(), Recycled.NOT_APPROVED);
+                            user.addRecycle(rec);
+                            user.sendUser();
+                            Toast.makeText(getContext(), "Material " + mat1.getMatName() + " request completed", Toast.LENGTH_SHORT).show();
+                            Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
+                        } else {
+                            // Show error message for zero or negative quantity
+                            Toast.makeText(getContext(), "Enter a non-zero positive number for quantity", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        // Show error message for non-numeric input
+                        Toast.makeText(getContext(), "Enter a valid positive number for quantity", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Show error message for empty input
+                    Toast.makeText(getContext(), "Quantity field cannot be empty", Toast.LENGTH_SHORT).show();
                     Log.i("NaN", "Tried to convert empty string to number. UserViewScreen - Material Register");
                 }
             }

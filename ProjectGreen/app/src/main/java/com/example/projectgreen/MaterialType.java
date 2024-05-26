@@ -21,18 +21,18 @@ public class MaterialType implements Serializable {
     public static final String matn3 = "glass" ;
     public static final String matn4 = "metal" ;
 
-    public static final double MATV1 = 0.45;
-    public static final double MATV2 = 0.05;
-    public static final double MATV3 = 1.10;
-    public static final double MATV4 = 1.45;
-    public static final int BONUS = 5;
+    public static final double MATV1 = 0.04;
+    public static final double MATV2 = 0.03;
+    public static final double MATV3 = 0.06;
+    public static final double MATV4 = 0.08;
+    public static final int BONUS = 30;
 
     private static Material mat1 = new Material(matn1, MATV1);
     private static Material mat2 = new Material(matn2, MATV2);
     private static Material mat3 = new Material(matn3, MATV3);
     private static Material mat4 = new Material(matn4, MATV4);
 
-    private static int bonusLimit = 5;
+    private static int bonusLimit = 30;
 
     public static Material PLASTIC() {
         return mat1;
