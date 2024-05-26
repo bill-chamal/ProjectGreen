@@ -24,7 +24,7 @@
                 android:layout_marginTop="14dp"
                 android:text="@string/request_to_recycle"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/candara_bold"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardImage"
@@ -42,8 +42,8 @@
                     android:layout_width="380dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/chromeos"
-                    android:scaleType="centerCrop" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/chromeos" />
 
             </androidx.cardview.widget.CardView>
 
@@ -57,7 +57,7 @@
                 android:text="User name:"
                 android:textColor="@color/font_dark_green"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/candara_bold" />
 
             <TextView
                 android:id="@+id/textUserName"
@@ -86,7 +86,7 @@
                 android:text="@string/request_time"
                 android:textColor="@color/font_dark_green"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/candara_bold" />
 
             <TextView
                 android:id="@+id/textReqTime"
@@ -106,7 +106,7 @@
                 android:text="@string/material1"
                 android:textColor="@color/font_dark_green"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/candara_bold" />
 
             <TextView
                 android:id="@+id/textMatType"
@@ -134,7 +134,7 @@
                 android:text="@string/recycle_value"
                 android:textColor="@color/font_dark_green"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/candara_bold" />
 
             <TextView
                 android:id="@+id/textMatTotalVule"
@@ -159,6 +159,7 @@
                     android:layout_width="150dp"
                     android:layout_marginEnd="10dp"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/candara_bold"
                     android:text="@string/approve" />
 
                 <Button
@@ -166,6 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/logout_red"
+                    android:fontFamily="@font/candara_bold"
                     android:text="@string/reject" />
 
             </LinearLayout>

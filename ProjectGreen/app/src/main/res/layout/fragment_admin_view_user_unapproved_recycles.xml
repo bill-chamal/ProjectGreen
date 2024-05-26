@@ -1,20 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdminViewUserUnapprovedRecycles">
 
+
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/listUnapprovedMaterialsView"
-        android:scrollbars="vertical"
-        android:layout_marginTop="12dp"
-        tools:listitem="@layout/list_user_item"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:divider="@android:color/transparent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:dividerHeight="10.0sp"/>
+        android:dividerHeight="10.0sp"
+        android:paddingBottom="114dp"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/txtViewUserName"
+        tools:listitem="@layout/list_user_item" />
+
+    <TextView
+        android:id="@+id/txtViewUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/candara_bold"
+        android:text="Username"
+        android:textColor="@color/font_dark_green"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnViewAdminBackToUsersList" />
+
+    <ImageView
+        android:id="@+id/btnViewAdminBackToUsersList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

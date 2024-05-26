@@ -23,6 +23,7 @@ public class User implements Serializable {
     private static final String FIELD_BALANCE = "balance";
     private static final String FIELD_POINTS = "points";
     private static final String FIELD_APPROVED_MATQ = "approved_material_quantity";
+    private static final String FIELD_BONUS_VALUE = "bonus_value";
     // Recycle fields
     private static final String FIELD_TIMESTAMP = "timestamp";
     private static final String FIELD_PIECES = "pieces";
@@ -67,11 +68,15 @@ public class User implements Serializable {
     }
 
     public void populate(@NonNull Map<String, Object> m) {
+        // Fetch data and check if new fields don't exists in the database
         if (!m.containsKey(FIELD_RECYCLE))
             m.put(FIELD_RECYCLE, new HashMap<String, Object>());
 
         if (!m.containsKey(FIELD_APPROVED_MATQ))
             m.put(FIELD_APPROVED_MATQ, 0);
+
+        if (!m.containsKey(FIELD_BONUS_VALUE))
+            m.put(FIELD_BONUS_VALUE, 0);
 
         if (!m.containsKey(FIELD_BALANCE)) {
             m.put(FIELD_BALANCE, 0);
@@ -98,7 +103,7 @@ public class User implements Serializable {
     }
 
     private Map<String, Object> convertUserToMap() {
-
+        // Convert user to readable type for Google Firestore
         Map<String, Object> recycle_list = new HashMap<String, Object>();
 
         for (Recycled r : recycledList) {
@@ -125,18 +130,21 @@ public class User implements Serializable {
         usermap.put(FIELD_RECYCLE, recycle_list);
         usermap.put(FIELD_IS_ADMIN, isAdmin);
         usermap.put(FIELD_APPROVED_MATQ, apprMatQ);
+        usermap.put(FIELD_BONUS_VALUE, bonusValue);
 
         return usermap;
     }
 
     private void convertMapToUser(Map<String, Object> m) {
-        this.userName = (String) m.get(FIELD_NAME);
-        this.email = (String) m.get(FIELD_EMAIL);
-        this.isAdmin = (boolean) m.get(FIELD_IS_ADMIN);
-        this.balance = (double) m.get(FIELD_BALANCE);
-        this.score = (double) m.get(FIELD_SCORE);
-        this.points = Integer.parseInt(m.get(FIELD_POINTS).toString());
-        this.apprMatQ = Integer.parseInt(m.get(FIELD_APPROVED_MATQ).toString());
+        // Download data type Map<> from Firestore and fetch to its class variables
+        this.userName =     (String) m.get(FIELD_NAME);
+        this.email =        (String) m.get(FIELD_EMAIL);
+        this.isAdmin =      (boolean) m.get(FIELD_IS_ADMIN);
+        this.balance =      (double) m.get(FIELD_BALANCE);
+        this.score =        (double) m.get(FIELD_SCORE);
+        this.points =       Integer.parseInt(m.get(FIELD_POINTS).toString());
+        this.apprMatQ =     Integer.parseInt(m.get(FIELD_APPROVED_MATQ).toString());
+        this.bonusValue =   Integer.parseInt(m.get(FIELD_BONUS_VALUE).toString());
 
         recycledList = new ArrayList<>();
 

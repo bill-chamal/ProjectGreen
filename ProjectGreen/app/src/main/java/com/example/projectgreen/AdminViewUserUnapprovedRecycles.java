@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,9 +24,16 @@ public class AdminViewUserUnapprovedRecycles extends Fragment {
     private RecycleListAdapter recycleListAdapter;
     private ArrayList<Recycled> recycledArrayList = new ArrayList<>();
     private ListView listView;
-    public AdminViewUserUnapprovedRecycles(User user){
+    private TextView txtviewUserName;
+    private ImageView btnBack;
+    AdminViewMaterialApprove adminViewMaterialApprove;
+    public AdminViewUserUnapprovedRecycles(User user, AdminViewMaterialApprove adminViewMaterialApprove){
         this.user = user;
+        this.adminViewMaterialApprove = adminViewMaterialApprove;
     }
+//    public AdminViewUserUnapprovedRecycles(User user){
+//        this.user = user;
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,10 +58,20 @@ public class AdminViewUserUnapprovedRecycles extends Fragment {
         listView.setAdapter(recycleListAdapter);
         listView.setClickable(true);
 
+        txtviewUserName = view.findViewById(R.id.txtViewUserName);
+        txtviewUserName.setText(user.getUserName());
+        btnBack = view.findViewById(R.id.btnViewAdminBackToUsersList);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    replaceFragment(adminViewMaterialApprove);
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
-                replaceFragment(new AdminApproveScreen(user, recycledArrayList.get(i)));
+                replaceFragment(new AdminApproveScreen(user, recycledArrayList.get(i), adminViewMaterialApprove));
             }
         });
 

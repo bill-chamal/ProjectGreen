@@ -74,7 +74,7 @@ public class UserStatisticsFragment extends Fragment {
             pValues.add(new PieEntry(total_metal, "Metal"));
         }
 
-        PieDataSet dataSet = new PieDataSet(pValues, "Materials");
+        PieDataSet dataSet = new PieDataSet(pValues, "Materials Percentage (%)");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);

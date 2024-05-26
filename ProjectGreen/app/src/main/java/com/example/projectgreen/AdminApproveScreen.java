@@ -12,16 +12,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.checkerframework.checker.units.qual.A;
+
 public class AdminApproveScreen extends Fragment {
 
     private TextView txtUserName, txtUserEmail, txtReqTime, txtMat, txtMatPieces, txtMatValue;
     private Button btnApprove, btnReject;
     private User user;
     private Recycled rec;
-
-    public AdminApproveScreen(User user, Recycled recycled){
+    AdminViewMaterialApprove adminViewMaterialApprove;
+    public AdminApproveScreen(User user, Recycled recycled, AdminViewMaterialApprove adminViewMaterialApprove){
         this.user = user;
         this.rec = recycled;
+        this.adminViewMaterialApprove = adminViewMaterialApprove;
     }
 
     @Override
@@ -55,7 +58,11 @@ public class AdminApproveScreen extends Fragment {
             public void onClick(View v) {
                 user.approveRecycleRequest(rec);
                 user.sendUser();
-                replaceFragment(new AdminViewMaterialApprove());
+                if (user.getTotalPieceOfUnapprovedMaterial() == 0)
+                    replaceFragment(new AdminViewMaterialApprove());
+                else
+                    replaceFragment(new AdminViewUserUnapprovedRecycles(user,adminViewMaterialApprove));
+
             }
         });
 
@@ -64,7 +71,10 @@ public class AdminApproveScreen extends Fragment {
             public void onClick(View v) {
                 rec.setApproved(Recycled.REJECTED);
                 user.sendUser();
-                replaceFragment(new AdminViewMaterialApprove());
+                if (user.getTotalPieceOfUnapprovedMaterial() == 0)
+                    replaceFragment(adminViewMaterialApprove);
+                else
+                    replaceFragment(new AdminViewUserUnapprovedRecycles(user,adminViewMaterialApprove));
             }
         });
 

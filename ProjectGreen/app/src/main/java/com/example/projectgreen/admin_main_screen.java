@@ -3,6 +3,14 @@ package com.example.projectgreen;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,16 +21,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class admin_main_screen extends Fragment {
 
@@ -30,6 +39,10 @@ public class admin_main_screen extends Fragment {
     private NavigationView naview;
     private DrawerLayout drawerLayout;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    ListView listView;
+    UserListAdapter userListAdapter;
+    ArrayList<User> userList = new ArrayList<>();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,18 +50,19 @@ public class admin_main_screen extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_admin_main_screen, container, false);
 
+
         user = admin_main_screenArgs.fromBundle(getArguments()).getAdminData();
 
         // LEFT SLIDE MENU
         drawerLayout = view.findViewById(R.id.drawer_layout_admin);
         Toolbar toolbar = view.findViewById(R.id.toolbar_admin);
-        naview = (NavigationView)view.findViewById(R.id.nav_view_admin);
+        naview = (NavigationView) view.findViewById(R.id.nav_view_admin);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         toolbar.setTitle(R.string.app_name);
         // Set username to the slide menu bar
-        ((TextView)naview.getHeaderView(0).findViewById(R.id.lblSlideMenuName)).setText("Hi, " + user.getUserName());
+        ((TextView) naview.getHeaderView(0).findViewById(R.id.lblSlideMenuName)).setText("Hi, " + user.getUserName());
 
         // The profile view overlapping the menus
         naview.bringToFront();
@@ -56,7 +70,7 @@ public class admin_main_screen extends Fragment {
         naview.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if(item.getItemId() == R.id.nav_about){
+                if (item.getItemId() == R.id.nav_about) {
                     Dialog aboutDialog = new Dialog(getContext());
                     aboutDialog.setContentView(R.layout.fragment_about_popup);
                     aboutDialog.show();
@@ -71,13 +85,36 @@ public class admin_main_screen extends Fragment {
             }
         });
 
-        // Slide between fragments
-        replaceFragment(new AdminViewMaterialApprove());
+        db.collection("user").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Map<String, Object> doc = null;
+                    // Foreach document collection get every user
+                    for (DocumentSnapshot document : task.getResult()) {
+                        doc = document.getData();
+                        User user1 = new User();
+                        user1.populate(doc);
+                        if (!user1.isAdmin()) {
+                            if (user1.countOfUnapprovedMaterial() > 0)
+                                userList.add(user1);
+                        }
+                    }
+
+                    // Move between fragments
+                    replaceFragment(new AdminViewMaterialApprove(userList));
+                    Log.i("ADMIN", "Successfully load of users data! - AdminViewMaterialApprove.java");
+                } else {
+                    Toast.makeText(getContext(), "Error while transferring user data ", Toast.LENGTH_SHORT).show();
+                    Log.e("ADMIN", "Error while transferring user data - AdminViewMaterialApprove.java");
+                }
+            }
+        });
 
         ((BottomNavigationView) view.findViewById(R.id.bottomUserNavView_admin)).setOnItemSelectedListener(item -> {
             // From file "bottom_user_menu.xml" id name
             if (item.getItemId() == R.id.adminRequestMenu)
-                replaceFragment(new AdminViewMaterialApprove());
+                replaceFragment(new AdminViewMaterialApprove(userList));
             else if (item.getItemId() == R.id.adminLeaderboardMenu)
                 replaceFragment(new AdminViewLeaderboard());
             else if (item.getItemId() == R.id.adminTuneRewardsMenu) {
@@ -89,10 +126,13 @@ public class admin_main_screen extends Fragment {
         return view;
     }
 
-    private  void replaceFragment(Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container_admin, fragment);
         fragmentTransaction.commit();
     }
+
+
 }
+

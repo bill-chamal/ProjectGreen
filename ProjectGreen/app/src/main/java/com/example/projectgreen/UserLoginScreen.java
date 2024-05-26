@@ -1,37 +1,33 @@
 package com.example.projectgreen;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import android.provider.Telephony;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -77,13 +73,13 @@ public class UserLoginScreen extends Fragment {
         }
     }
 
-     // When initializing your Activity, check to see if the user is currently signed in
+    // When initializing your Activity, check to see if the user is currently signed in
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Toast.makeText(getContext(), "Successfully auto sign in " + currentUser.getDisplayName() + ", email:" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
             fb_user = currentUser;
             getCredentials();
@@ -114,15 +110,15 @@ public class UserLoginScreen extends Fragment {
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user1 = mAuth.getCurrentUser();
-                            Toast.makeText(getContext(), "Authentication successful:" + user1.getEmail(), Toast.LENGTH_SHORT).show();
-                            fb_user = user1;
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                FirebaseUser user1 = mAuth.getCurrentUser();
+                                Toast.makeText(getContext(), "Authentication successful:" + user1.getEmail(), Toast.LENGTH_SHORT).show();
+                                fb_user = user1;
 
-                            // Search the user from Firestore db to find his name and admin rights
-                            getCredentials();}
-                            else
+                                // Search the user from Firestore db to find his name and admin rights
+                                getCredentials();
+                            } else
                                 printUnsuccessfulLogIn();
                         }
                     });
@@ -159,13 +155,11 @@ public class UserLoginScreen extends Fragment {
                         doc = document.getData();
 
                     // if no user data are registered to firestore
-                    if (doc == null)
-                    {
+                    if (doc == null) {
                         Random r = new Random();
-                        user = new User("user"+ r.toString(), fb_user.getEmail(), false, new ArrayList<Recycled>());
+                        user = new User("user" + r.toString(), fb_user.getEmail(), false, new ArrayList<Recycled>());
                         user.sendUser();
-                    }
-                    else
+                    } else
                         user.populate(doc);
 
                     printSuccessfulLogIn();
@@ -184,11 +178,11 @@ public class UserLoginScreen extends Fragment {
         });
     }
 
-    private void printUnsuccessfulLogIn(){
+    private void printUnsuccessfulLogIn() {
         Toast.makeText(getContext(), "Authentication failure", Toast.LENGTH_SHORT).show();
     }
 
-    private void printSuccessfulLogIn(){
+    private void printSuccessfulLogIn() {
         Toast.makeText(getContext(), "Welcome back, " + user.getUserName(), Toast.LENGTH_SHORT).show();
     }
 }
