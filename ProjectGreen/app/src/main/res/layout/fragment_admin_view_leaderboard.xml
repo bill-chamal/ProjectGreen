@@ -109,7 +109,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:visibility="invisible"
-                android:text="The upper content is produced with the assistance of Gemini, a large language model by Google AI"
+                android:text="The upper content is produced with the assistance of Gemini™, a large language model and API by Google AI"
                 android:textSize="16sp" />
 
             <View

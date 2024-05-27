@@ -29,13 +29,20 @@
     </tr>
 </table>
 <br>
-<hr>
 
-> One of the priorities of the European Union is sustainability and saving resources. In this context, an application was created which will allow users to drop off items for recycling and receive rewards through a points system.
+One of the priorities of the European Union is sustainability and saving resources. In this context, an application was created which will allow users to drop off items for recycling and receive rewards through a points system.
 
 ![Prototype UI](img/export1.jpg)
 
+AI will do some magic
+
+![Prototype UI](img/era_of_ai.jpg)
+
+![Prototype UI](img/export2.jpg)
+
 ![Prototype UI](img/export3.jpg)
+
+
 
 ## Agile-Scrum
 
