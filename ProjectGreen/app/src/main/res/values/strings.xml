@@ -57,7 +57,7 @@
     <string name="university_of_macedonia_nthessaloniki_greece">University of Macedonia\nThessaloniki Greece</string>
     <string name="GDPR">Due to GDPR law of the European Union, we would like to inform you, any account you create or any action you perform may be saved into Google\'s Firebase Services. Because of that, it would be better to use non personal related information. You can always request you data under the law of the Rights of the Subject. We do not guarantee any integrity or confidentiality of your personal data.</string>
     <string name="cash_in">Cash in!</string>
-    <string name="data_analysis">Data analysis</string>
+    <string name="data_analysis">AI Data analysis</string>
 
     <string-array name="materials">
         <item>Plastic</item>

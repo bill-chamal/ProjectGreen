@@ -77,7 +77,9 @@
             <View
                 android:id="@+id/divider6"
                 android:layout_width="match_parent"
-                android:layout_height="60dp" />
+                android:layout_height="30dp"
+                android:background="?android:attr/listDivider" />
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -97,7 +99,7 @@
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/candara_italic"
                 android:lineSpacingExtra="10sp"
-                android:text="Gemini might take some time to finish."
+                android:text="Gemini is analysing the data and might take some time to finish."
                 android:textSize="24sp" />
 
             <TextView
