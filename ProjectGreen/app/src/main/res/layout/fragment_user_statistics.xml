@@ -38,11 +38,11 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/txtEncourageUser"
+                android:id="@+id/progressComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/candara"
-                android:text=""
+                android:text="Progress Comment"
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
@@ -198,13 +198,14 @@
 
                 <TextView
                     android:id="@+id/textView19"
-                    android:layout_width="wrap_content"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/candara"
                     android:text="Total"
                     android:textAlignment="center"
-                    android:textSize="20sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/lblTotal"
@@ -269,6 +270,33 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textView27"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/candara"
+                    android:text="Current bonus"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/bonusInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/candara"
+                    android:text="Bonus Information"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
                     android:id="@+id/apprQty"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
@@ -287,7 +315,7 @@
                     android:fontFamily="@font/candara"
                     android:text="X pieces"
                     android:textAlignment="center"
-                    android:textSize="24sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout

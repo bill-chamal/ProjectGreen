@@ -41,6 +41,7 @@ public class User implements Serializable {
     private double score;
     private int apprMatQ;
     public int bonusValue;
+    private boolean stopBonus = false;
     private ArrayList<Recycled> recycledList;
     private transient FirebaseFirestore db = FirebaseFirestore.getInstance();
     private transient Timestamp t;
@@ -244,6 +245,12 @@ public class User implements Serializable {
                 Log.w("User.java approveRecycleRequest", "Not material type found to give points");
         }
 
+        if(stopBonus!=true) { //Give bonus reward only if the cash in threshold hasnt been reached.
+            //bonus will get updated for every approval before 100 points (the point value where the cash in progress bar is full)
+            bonusValue = (int) Math.ceil(apprMatQ / MaterialType.getBonus());
+
+            if(points>=100) stopBonus = true; //in the last approval that will fill the progress bar, turn the controller boolean stopBonus to true
+        }
     }
 
     public void setNewScore( double newScore) {
@@ -254,13 +261,6 @@ public class User implements Serializable {
         bonusValue = 0;
 
         sendUser();
-    }
-    public int calculateBonusValue(){
-        if(points<100) //if the progressBar isn't full, continue raising the bonus
-            return (int) Math.ceil(apprMatQ / MaterialType.getBonus());
-        else // if the progress bar is full, do not give any more bonus from approvals to endorse fair and fast cash ins.
-            return bonusValue;
-
     }
 
 
@@ -313,12 +313,17 @@ public class User implements Serializable {
         return points;
     }
 
-    public double getTotalCashback() { return score; }
+    public double getTotalCashback() {
+        return score;
+    }
 
     public int getApprMatQ() {
         return apprMatQ;
     }
 
+    public int getBonusValue(){
+        return bonusValue;
+    }
 }
 
 class UserComparator implements Comparator<User>, Serializable {

@@ -35,7 +35,7 @@ public class UserStatisticsFragment extends Fragment {
 
     private User user;
     private PieChart piechart;
-    private TextView lblScore, txtEncUser;
+    private TextView lblScore;
     private ProgressBar progressBar;
     private int bonusValue;
     public UserStatisticsFragment(User user){
@@ -46,10 +46,6 @@ public class UserStatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_statistics, container, false);
-
-        txtEncUser = view.findViewById(R.id.txtEncourageUser);
-
-        generativeModelGemini(txtEncUser);
 
         // PIE CHART
         piechart = (PieChart) view.findViewById(R.id.piechartuser);
@@ -88,7 +84,7 @@ public class UserStatisticsFragment extends Fragment {
             pValues.add(new PieEntry(total_metal, "Metal"));
         }
 
-        PieDataSet dataSet = new PieDataSet(pValues, "Materials Percentage (%)");
+        PieDataSet dataSet = new PieDataSet(pValues, "Total recycled materials (rounded percentage %)");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -107,6 +103,11 @@ public class UserStatisticsFragment extends Fragment {
         ((TextView)view.findViewById(R.id.lblTotal)).setText(   String.valueOf(total_plastic + total_glass + total_paper + total_metal)  );
 
         setScoreView(view);
+
+        if(user.getPoints()<100)
+        ((TextView)view.findViewById(R.id.progressComment)).setText("Great progress! Keep it up to cash in your available balance");
+        else  ((TextView)view.findViewById(R.id.progressComment)).setText("Your balance is available to cash in! Scroll down for more details");
+
         ((Button)view.findViewById(R.id.btnTakeCash)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,8 +133,11 @@ public class UserStatisticsFragment extends Fragment {
 
         piechart.setCenterText(String.valueOf(user.getPoints()) + "\npoints" );
 
+        //provide info about the current bonus
+        ((TextView)view.findViewById(R.id.bonusInfo)).setText("1$ per " + MaterialType.getBonus() + " pieces\nuntil progress bar \nfull");
+
         //specify bonus
-        ((TextView)view.findViewById(R.id.apprQty)).setText("Approved material\nquantity bonus\n(1$ per " + MaterialType.getBonus() + " pieces)");
+        ((TextView)view.findViewById(R.id.apprQty)).setText("Approved material quantity bonus");
 
         // Set label score view
         String formattedCashback = String.format("%.2f", user.getTotalCashback());
@@ -142,10 +146,10 @@ public class UserStatisticsFragment extends Fragment {
         String formattedBalance = String.format("%.2f", user.getBalance());
         ((TextView)view.findViewById(R.id.lblbalance)).setText(formattedBalance + " $");
 
-        // ALLAGH OTAN GINEI TO USER BALANCE // DONE 27.5.24
-        bonusValue = user.calculateBonusValue();
+        //calculate the bonus value and stop giving bonus if the user has already reached the cash in threshold to incentivise fast cash ins.
+        bonusValue = user.getBonusValue();
 
-        ((TextView)view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue)+ "$  from\n" + user.getApprMatQ() + " pieces");
+        ((TextView)view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue)+ "$  from " + bonusValue*30 +"/" + user.getApprMatQ() + "\napproved pieces");
 
         // Set total balance for cashback (basic material cashback value and bonus depending on quantity of materials)
         String formattedtotal = String.format("%.2f", user.getBalance() + bonusValue);
