@@ -34,13 +34,15 @@ One of the priorities of the European Union is sustainability and saving resourc
 
 ![Prototype UI](img/export1.jpg)
 
+AI will do some magic
+
+![Prototype UI](img/era_of_ai.jpg)
+
 ![Prototype UI](img/export2.jpg)
 
 ![Prototype UI](img/export3.jpg)
 
-AI do to some magic
 
-![Prototype UI](img/era_of_ai.jpg)
 
 ## Agile-Scrum
 
