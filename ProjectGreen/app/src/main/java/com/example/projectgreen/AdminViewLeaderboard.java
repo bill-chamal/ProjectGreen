@@ -1,40 +1,42 @@
 package com.example.projectgreen;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.GenerativeModelFutures;
+import com.google.ai.client.generativeai.type.Content;
+import com.google.ai.client.generativeai.type.GenerateContentResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,7 @@ public class AdminViewLeaderboard extends Fragment {
     private BarChart barChart;
     private BarChart valueBarChart;
     private List<String> xValues = Arrays.asList(MaterialType.matn1, MaterialType.matn2, MaterialType.matn3, MaterialType.matn4);
-
+    Bitmap bitmap1, bitmap2;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -56,6 +58,7 @@ public class AdminViewLeaderboard extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public static AdminViewLeaderboard newInstance(String param1, String param2) {
         AdminViewLeaderboard fragment = new AdminViewLeaderboard();
         Bundle args = new Bundle();
@@ -64,6 +67,7 @@ public class AdminViewLeaderboard extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -79,6 +83,8 @@ public class AdminViewLeaderboard extends Fragment {
         View view = inflater.inflate(R.layout.fragment_admin_view_leaderboard, container, false);
         barChart = view.findViewById(R.id.adminBarChart);
         valueBarChart = view.findViewById(R.id.adminValueBarChart);
+        TextView geminiView = view.findViewById(R.id.geminiTextView);
+        TextView citeGem = view.findViewById(R.id.citeGemini);
 
         // Get all users collection from firestore
         db.collection("user").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -101,9 +107,9 @@ public class AdminViewLeaderboard extends Fragment {
                     ArrayList<User> tempList = userList;
 
                     if (userList.size() > 5)
-                        tempList = new ArrayList<>(userList.subList(0,5));
+                        tempList = new ArrayList<>(userList.subList(0, 5));
 
-                    leaderboardListAdapter = new LeaderboardListAdapter(getContext(), tempList );
+                    leaderboardListAdapter = new LeaderboardListAdapter(getContext(), tempList);
                     listView = view.findViewById(R.id.listTopUsersView);
                     listView.setAdapter(leaderboardListAdapter);
                     listView.setClickable(true);
@@ -113,24 +119,24 @@ public class AdminViewLeaderboard extends Fragment {
                     int total_glass = 0;
                     int total_metal = 0;
                     int totalValue_plastic = 0;
-                    int totalValue_paper   = 0;
-                    int totalValue_glass   = 0;
-                    int totalValue_metal   = 0;
+                    int totalValue_paper = 0;
+                    int totalValue_glass = 0;
+                    int totalValue_metal = 0;
 
                     // Get total recycled pieces by material
                     for (User u : userList) {
-                        total_plastic +=    u.getTotalPieceOfMaterial(MaterialType.matn1);
-                        total_paper +=      u.getTotalPieceOfMaterial(MaterialType.matn2);
-                        total_glass +=      u.getTotalPieceOfMaterial(MaterialType.matn3);
-                        total_metal +=      u.getTotalPieceOfMaterial(MaterialType.matn4);
+                        total_plastic += u.getTotalPieceOfMaterial(MaterialType.matn1);
+                        total_paper += u.getTotalPieceOfMaterial(MaterialType.matn2);
+                        total_glass += u.getTotalPieceOfMaterial(MaterialType.matn3);
+                        total_metal += u.getTotalPieceOfMaterial(MaterialType.matn4);
                     }
 
                     // Get total recycle value by material
                     for (User u : userList) {
-                        totalValue_plastic +=    u.getValueOfTotalPieceOfMaterial(MaterialType.matn1);
-                        totalValue_paper +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn2);
-                        totalValue_glass +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn3);
-                        totalValue_metal +=      u.getValueOfTotalPieceOfMaterial(MaterialType.matn4);
+                        totalValue_plastic += u.getValueOfTotalPieceOfMaterial(MaterialType.matn1);
+                        totalValue_paper += u.getValueOfTotalPieceOfMaterial(MaterialType.matn2);
+                        totalValue_glass += u.getValueOfTotalPieceOfMaterial(MaterialType.matn3);
+                        totalValue_metal += u.getValueOfTotalPieceOfMaterial(MaterialType.matn4);
                     }
 
                     // Bar Chart
@@ -193,6 +199,11 @@ public class AdminViewLeaderboard extends Fragment {
 
                     valueBarData.setValueTextSize(16f);
 
+                    bitmap1 = barChart.getChartBitmap();
+                    bitmap2 = valueBarChart.getChartBitmap();
+
+                    generativeModelGemini(geminiView, citeGem, bitmap1, bitmap2);
+
                     Log.i("ADMIN_LEADERBOARD", "Successfully load of leaderboard! - AdminViewLeaderboard.java");
                 } else {
                     Log.e("ADMIN_LEADERBOARD", "Error while transferring user data - AdminViewLeaderboard.java");
@@ -200,6 +211,52 @@ public class AdminViewLeaderboard extends Fragment {
             }
         });
 
+
         return view;
+    }
+
+    private void generativeModelGemini(TextView geminiView, TextView citeGemini, Bitmap bitmap1, Bitmap bitmap2) {
+        /*
+        ! READ IMPORTANT NOTICE !
+        This is the AI Model from Google AI called Gemini.
+        Gemini requires API Level 21 and higher.
+        The usage of Gemini does not violate any Google’s Policy listed here https://policies.google.com/terms/generative-ai/use-policy https://ai.google.dev/gemini-api/terms#use-restrictions
+        Gemini is not free in EU. Requires a linked billing account. Provides 300$ free for new accounts, for a specific period of time. https://ai.google.dev/gemini-api/docs/available-regions#unpaid-tier-unavailable
+        The linked billing account will be removed in order to avoid any unwilling charges.
+         */
+        // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
+        GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro-vision",
+// Access your API key as a Build Configuration variable (see "Set up your API key" above)
+                /* apiKey */ "AIzaSyDGq-JkuIHRm8DzpF0LTRkLSzf3Cf_2lQU");
+        GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+
+        String textInput = "You are the assistant of a data analyst and you received 2 bar chart images. Each chart has the same materials starting from plastic, paper, glass and metal. Each material is a recycled material that recycled by a user. When a recycled material request is approved by the administrator the user is rewarded by dollar. The first one has the title “Total approved quantity by material”. The first one shows, the total quantity that users requested for approval by the administrator AND the administrator approved it. The second chart has title “Total approved cashback by material”. The second one shows, the total value approved recycled material for all user by each material. You must answer the following questions. Explain both charts. What is being represented on the x and y axes of both charts? What is the most recyclable material? What is the most valuable material? What are the key takeaways or insights you can glean from the chart? (What are the biggest differences, trends, or patterns?) Based on the data, what materials might require more emphasis in recycling programs? (Can inform educational or infrastructure improvements) Keep your answer scientific and serious.";
+
+        Content content = new Content.Builder()
+                .addText(textInput)
+                .addImage(bitmap1)
+                .addImage(bitmap2)
+                .build();
+
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                @Override
+                public void onSuccess(GenerateContentResponse result) {
+                    String resultText = result.getText();
+                    System.out.println(resultText);
+                    citeGemini.setVisibility(View.VISIBLE);
+                    geminiView.setText(resultText);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    geminiView.setText(t.toString());
+                    t.printStackTrace();
+                }
+            }, this.getActivity().getMainExecutor());
+        }
+        else
+            geminiView.setText("Gemini requires API level 21 and higher");
     }
 }

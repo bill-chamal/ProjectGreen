@@ -1,10 +1,13 @@
 package com.example.projectgreen;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,13 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.ai.client.generativeai.GenerativeModel;
+import com.google.ai.client.generativeai.java.GenerativeModelFutures;
+import com.google.ai.client.generativeai.type.Content;
+import com.google.ai.client.generativeai.type.GenerateContentResponse;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
 
@@ -25,7 +35,7 @@ public class UserStatisticsFragment extends Fragment {
 
     private User user;
     private PieChart piechart;
-    private TextView lblScore;
+    private TextView lblScore, txtEncUser;
     private ProgressBar progressBar;
     private int bonusValue;
     public UserStatisticsFragment(User user){
@@ -36,6 +46,10 @@ public class UserStatisticsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_statistics, container, false);
+
+        txtEncUser = view.findViewById(R.id.txtEncourageUser);
+
+        generativeModelGemini(txtEncUser);
 
         // PIE CHART
         piechart = (PieChart) view.findViewById(R.id.piechartuser);
@@ -137,5 +151,48 @@ public class UserStatisticsFragment extends Fragment {
         String formattedtotal = String.format("%.2f", user.getBalance() + bonusValue);
         ((TextView)view.findViewById(R.id.totalBalance)).setText(formattedtotal +" $");
 
+    }
+
+    private void generativeModelGemini(TextView geminiView) {
+        /*
+        ! READ IMPORTANT NOTICE !
+        This is the AI Model from Google AI called Gemini.
+        Gemini requires API Level 21 and higher.
+        The usage of Gemini does not violate any Google’s Policy listed here https://policies.google.com/terms/generative-ai/use-policy https://ai.google.dev/gemini-api/terms#use-restrictions
+        Gemini is not free in EU. Requires a linked billing account. Provides 300$ free for new accounts, for a specific period of time. https://ai.google.dev/gemini-api/docs/available-regions#unpaid-tier-unavailable
+        The linked billing account will be removed in order to avoid any unwilling charges.
+         */
+        // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
+        GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro",
+// Access your API key as a Build Configuration variable (see "Set up your API key" above)
+                /* apiKey */ "AIzaSyDGq-JkuIHRm8DzpF0LTRkLSzf3Cf_2lQU");
+        GenerativeModelFutures model = GenerativeModelFutures.from(gm);
+
+        String textInput =  String.format("You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are close to 0. Encourage the user to continue recycling when the points are above 0. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user and friendly. The user now has %d points, what should you say to him. Max words 7-15.", user.getPoints());
+
+        Content content = new Content.Builder()
+                .addText(textInput)
+                .build();
+
+        ListenableFuture<GenerateContentResponse> response = model.generateContent(content);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
+                @Override
+                public void onSuccess(GenerateContentResponse result) {
+                    String resultText = result.getText();
+                    System.out.println(resultText);
+                    geminiView.setText(resultText);
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    t.printStackTrace();
+                    geminiView.setText("Great progress! Keep it up to cash in your available balance.");
+                    Log.e("GeminiAI", t.toString());
+                }
+            }, this.getActivity().getMainExecutor());
+        }
+        else
+            geminiView.setText("Great progress! Keep it up to cash in your available balance.");
     }
 }

@@ -78,6 +78,44 @@
                 android:id="@+id/divider6"
                 android:layout_width="match_parent"
                 android:layout_height="60dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/candara_bold"
+                android:text="@string/data_analysis"
+                android:textAlignment="center"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/geminiTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:fontFamily="@font/candara_italic"
+                android:lineSpacingExtra="10sp"
+                android:text="Gemini might take some time to finish."
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/citeGemini"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/candara_italic"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:visibility="invisible"
+                android:text="The upper content is produced with the assistance of Gemini, a large language model by Google AI"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="90dp" />
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -38,11 +38,11 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/txtEncourageUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/candara"
-                android:text="@string/great_progress_keep_it_up_to_cash_in_your_available_balance"
+                android:text=""
                 android:textAlignment="center"
                 android:textSize="14sp"
                 android:textStyle="bold"/>
