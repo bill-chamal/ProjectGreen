@@ -1,6 +1,5 @@
 package com.example.projectgreen;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,20 +12,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -37,10 +38,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class UserViewScreen extends Fragment {
-    public UserViewScreen() {
-        // Required empty public constructor
-    }
-
     private User user;
     private NavigationView naview;
     private DrawerLayout drawerLayout;
@@ -51,6 +48,11 @@ public class UserViewScreen extends Fragment {
     private UserStatisticsFragment userStatisticsFragment;
     private UserRegisterFragment userRegisterFragment;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private BottomNavigationView bottomNavigationView;
+
+    public UserViewScreen() {
+        // Required empty public constructor
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +63,10 @@ public class UserViewScreen extends Fragment {
         user = UserViewScreenArgs.fromBundle(getArguments()).getUserData();
 
         userStatisticsFragment = new UserStatisticsFragment(user);
-        userRegisterFragment = new UserRegisterFragment(user);
 
         // LEFT SLIDE MENU
         drawerLayout = view.findViewById(R.id.drawer_layout);
+        userRegisterFragment = new UserRegisterFragment(user, this);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
@@ -157,12 +159,13 @@ public class UserViewScreen extends Fragment {
                         if (quantity > 0) {
                             // Create and add the Recycled object
                             Recycled rec = new Recycled(mat1, quantity, Timestamp.now(), Recycled.NOT_APPROVED);
-                            user.addRecycle(rec);
-                            user.sendUser();
+                            // must refresh the user before add new data to avoid overwrite
+                            user.refreshUserAddRec(rec, userRegisterFragment);
                             dialog.dismiss();
                             // If user didn't open this fragment then has not context for the list-adapter
                             if (userRegisterFragment.getContext() != null)
                                 userRegisterFragment.addNewRec(rec);
+
                             Toast.makeText(getContext(), "Material " + mat1.getMatName() + " request completed", Toast.LENGTH_SHORT).show();
                             Log.i("NEW_MAT_REQ", "New material request from " + user.getEmail() + ", mat:" + mat1.toString());
                         } else {
@@ -180,20 +183,45 @@ public class UserViewScreen extends Fragment {
                 }
             }
         });
-
+        // Set default fragment
         replaceFragment(new UserStatisticsFragment(user));
-
-        ((BottomNavigationView) view.findViewById(R.id.bottomUserNavView)).setOnItemSelectedListener(item -> {
+        // Navigate between fragments Stats<->Register
+        bottomNavigationView =  view.findViewById(R.id.bottomUserNavView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             // From file "bottom_user_menu.xml" id name
-            if (item.getItemId() == R.id.points)
-                replaceFragment(userStatisticsFragment);
-            else if (item.getItemId() == R.id.reg)
+            if (item.getItemId() == R.id.points) {
+                // Keep the user stat updated and sych from cloud
+                user.refresh(this);
+            } else if (item.getItemId() == R.id.reg)
                 replaceFragment(userRegisterFragment);
 
             return true;
         });
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Clear history stack and goto enter screen
+                if (drawerLayout.isDrawerOpen(GravityCompat.START))
+                    drawerLayout.closeDrawer((GravityCompat.START));
+                else {
+                    Intent gotoMainActivity = new Intent(getContext(), MainActivity.class);
+                    gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(gotoMainActivity);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
         return view;
+    }
+
+    // Keep the user data updated
+    public void replaceStatFragmentAndNotify() {
+        // In case of any changes, notify the adapter
+        if (userRegisterFragment.getContext() != null)
+            userRegisterFragment.notifyAdapter();
+        replaceFragment(userStatisticsFragment);
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -201,5 +229,13 @@ public class UserViewScreen extends Fragment {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
+    }
+
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
+    }
+
+    public BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
     }
 }

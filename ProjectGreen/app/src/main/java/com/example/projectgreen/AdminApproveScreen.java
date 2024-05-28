@@ -2,6 +2,7 @@ package com.example.projectgreen;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.checkerframework.checker.units.qual.A;
@@ -20,7 +22,8 @@ public class AdminApproveScreen extends Fragment {
     private Button btnApprove, btnReject;
     private User user;
     private Recycled rec;
-    AdminViewMaterialApprove adminViewMaterialApprove;
+    private AdminViewMaterialApprove adminViewMaterialApprove;
+    private ImageView btnBack;
     public AdminApproveScreen(User user, Recycled recycled, AdminViewMaterialApprove adminViewMaterialApprove){
         this.user = user;
         this.rec = recycled;
@@ -42,6 +45,7 @@ public class AdminApproveScreen extends Fragment {
         txtMatValue = view.findViewById(R.id.textMatTotalVule);
         btnApprove = view.findViewById(R.id.btnApprove);
         btnReject = view.findViewById(R.id.btnReject);
+        btnBack = view.findViewById(R.id.btnMatApprScreenToBack);
         // Initialize components
         txtUserName.setText(user.getUserName());
         txtUserEmail.setText(user.getEmail());
@@ -59,10 +63,9 @@ public class AdminApproveScreen extends Fragment {
                 user.approveRecycleRequest(rec);
                 user.sendUser();
                 if (user.getTotalPieceOfUnapprovedMaterial() == 0)
-                    replaceFragment(new AdminViewMaterialApprove());
+                    gotoAdminFragmentRmUser();
                 else
                     replaceFragment(new AdminViewUserUnapprovedRecycles(user,adminViewMaterialApprove));
-
             }
         });
 
@@ -72,13 +75,27 @@ public class AdminApproveScreen extends Fragment {
                 rec.setApproved(Recycled.REJECTED);
                 user.sendUser();
                 if (user.getTotalPieceOfUnapprovedMaterial() == 0)
-                    replaceFragment(adminViewMaterialApprove);
+                    gotoAdminFragmentRmUser();
                 else
                     replaceFragment(new AdminViewUserUnapprovedRecycles(user,adminViewMaterialApprove));
             }
         });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                replaceFragment(new AdminViewUserUnapprovedRecycles(user,adminViewMaterialApprove));
+            }
+        });
+
         return view;
+    }
+
+    private void gotoAdminFragmentRmUser(){
+        // User has not other requests
+        // Remove it from the list and notify adapter
+        adminViewMaterialApprove.removeUser(user);
+        replaceFragment(adminViewMaterialApprove);
     }
 
     private  void replaceFragment(Fragment fragment) {

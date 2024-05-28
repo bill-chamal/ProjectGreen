@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminViewMaterialApprove">
+    tools:context=".AdminViewMaterialApprove"
+    android:orientation="vertical">
+
+   <TextView
+       android:id="@+id/txtNotifyAdminNoReq"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="@string/no_requests_at_the_moment"
+       android:textAlignment="center"
+       android:fontFamily="@font/candara"
+       android:textSize="24dp"
+       android:layout_marginTop="20dp"
+       android:visibility="gone" />
 
    <ListView
        android:id="@+id/listUsersView"
@@ -13,6 +25,7 @@
        android:divider="@android:color/transparent"
        android:dividerHeight="10.0sp"
        android:scrollbars="vertical"
+       android:paddingBottom="58dp"
        app:layout_constraintEnd_toEndOf="parent"
        app:layout_constraintStart_toStartOf="parent"
        tools:layout_editor_absoluteY="12dp"
@@ -20,4 +33,4 @@
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

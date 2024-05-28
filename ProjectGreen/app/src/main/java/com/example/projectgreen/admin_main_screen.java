@@ -8,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -39,10 +40,9 @@ public class admin_main_screen extends Fragment {
     private NavigationView naview;
     private DrawerLayout drawerLayout;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    ListView listView;
-    UserListAdapter userListAdapter;
     ArrayList<User> userList = new ArrayList<>();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    BottomNavigationView bottomNavigationView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,21 +111,61 @@ public class admin_main_screen extends Fragment {
             }
         });
 
-        ((BottomNavigationView) view.findViewById(R.id.bottomUserNavView_admin)).setOnItemSelectedListener(item -> {
+        bottomNavigationView = ((BottomNavigationView) view.findViewById(R.id.bottomUserNavView_admin));
+        bottomNavigationView.setOnItemSelectedListener(item -> {
             // From file "bottom_user_menu.xml" id name
-            if (item.getItemId() == R.id.adminRequestMenu)
-                replaceFragment(new AdminViewMaterialApprove(userList));
-            else if (item.getItemId() == R.id.adminLeaderboardMenu)
-                replaceFragment(new AdminViewLeaderboard());
+            if (item.getItemId() == R.id.adminRequestMenu) {
+                db.collection("user").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        userList.clear();
+                        if (task.isSuccessful()) {
+                            Map<String, Object> doc = null;
+                            // Foreach document collection get every user
+                            for (DocumentSnapshot document : task.getResult()) {
+                                doc = document.getData();
+                                User user1 = new User();
+                                user1.populate(doc);
+                                if (!user1.isAdmin()) {
+                                    if (user1.countOfUnapprovedMaterial() > 0)
+                                        userList.add(user1);
+                                }
+                            }
+                            // Move between fragments
+                            replaceFragment(new AdminViewMaterialApprove(userList));
+                            Log.i("ADMIN", "Successfully load of users data! - AdminViewMaterialApprove.java");
+                        } else {
+                            Toast.makeText(getContext(), "Error while transferring user data ", Toast.LENGTH_SHORT).show();
+                            Log.e("ADMIN", "Error while transferring user data - AdminViewMaterialApprove.java");
+                        }
+                    }
+                });
+            } else if (item.getItemId() == R.id.adminLeaderboardMenu)
+                replaceFragment(new AdminViewLeaderboard(this));
             else if (item.getItemId() == R.id.adminTuneRewardsMenu) {
-                replaceFragment(new AdminTuneRewards());
+                replaceFragment(new AdminTuneRewards(this));
             }
             return true;
         });
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Clear history stack and goto enter screen
+                if (drawerLayout.isDrawerOpen(GravityCompat.START))
+                    drawerLayout.closeDrawer((GravityCompat.START));
+                else {
+                    Intent gotoMainActivity = new Intent(getContext(), MainActivity.class);
+                    gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(gotoMainActivity);
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
         return view;
     }
-
+    
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -133,6 +173,12 @@ public class admin_main_screen extends Fragment {
         fragmentTransaction.commit();
     }
 
+    public DrawerLayout getDrawerLayout() {
+        return drawerLayout;
+    }
 
+    public BottomNavigationView getBottomNavigationView() {
+        return bottomNavigationView;
+    }
 }
 

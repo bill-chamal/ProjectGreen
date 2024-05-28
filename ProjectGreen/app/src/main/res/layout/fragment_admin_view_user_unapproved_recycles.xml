@@ -26,8 +26,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/candara_bold"
         android:text="Username"
-        android:textColor="@color/font_dark_green"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnViewAdminBackToUsersList" />
@@ -36,7 +35,7 @@
         android:id="@+id/btnViewAdminBackToUsersList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/arrow_back"
         app:layout_constraintStart_toStartOf="parent"

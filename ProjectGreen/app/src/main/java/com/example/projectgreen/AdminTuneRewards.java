@@ -2,6 +2,8 @@ package com.example.projectgreen;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,6 +17,12 @@ public class AdminTuneRewards extends Fragment {
 
     private EditText editPlastic, editPaper, editGlass, editMetal, editBonus;
     private Button btnSave, btnRestore;
+
+    admin_main_screen adminMainScreen;
+
+    public AdminTuneRewards(admin_main_screen adminMainScreen) {
+        this.adminMainScreen = adminMainScreen;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,6 +69,20 @@ public class AdminTuneRewards extends Fragment {
                 Toast.makeText(v.getContext(), "Material values have been reset", Toast.LENGTH_SHORT).show();
             }
         });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Clear history stack and goto enter screen
+                if (adminMainScreen.getDrawerLayout().isDrawerOpen(GravityCompat.START))
+                    adminMainScreen.getDrawerLayout().closeDrawer((GravityCompat.START));
+                else
+                    adminMainScreen.getBottomNavigationView().setSelectedItemId(R.id.adminRequestMenu);
+
+
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return view;
     }

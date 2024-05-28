@@ -58,6 +58,8 @@
     <string name="GDPR">Due to GDPR law of the European Union, we would like to inform you, any account you create or any action you perform may be saved into Google\'s Firebase Services. Because of that, it would be better to use non personal related information. You can always request you data under the law of the Rights of the Subject. We do not guarantee any integrity or confidentiality of your personal data.</string>
     <string name="cash_in">Cash in!</string>
     <string name="data_analysis">AI data analysis</string>
+    <string name="no_requests_at_the_moment">No requests at the moment</string>
+    <string name="your_request_list_is_empty_nrequest_new_recycled_material">Your request list is empty\nRequest new recycled material</string>
 
     <string-array name="materials">
         <item>Plastic</item>

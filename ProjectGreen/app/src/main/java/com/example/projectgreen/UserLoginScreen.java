@@ -1,14 +1,9 @@
 package com.example.projectgreen;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -102,9 +97,22 @@ public class UserLoginScreen extends Fragment {
                 String email = String.valueOf(txtUserEmail.getText());
                 String password = String.valueOf(txtUserPasswd.getText());
 
-                if (email.length() == 0 || password.length() == 0)
+                boolean flag = true;
+
+                if (email.length() == 0 || password.length() == 0) {
                     Toast.makeText(getContext(), "Fields cant be empty", Toast.LENGTH_SHORT).show();
-                else {
+                    flag = false;
+                }
+                if (!email.contains("@") || email.contains(" ") || !email.contains(".")) {
+                    showError(txtUserEmail, "Email is not valid");
+                    flag = false;
+                }
+                if (password.length() < 6) {
+                    showError(txtUserPasswd, "Password must be 7 to 30 in length");
+                    flag = false;
+                }
+
+                if (flag){
                     // doc https://firebase.google.com/docs/firestore/query-data/queries#java
                     // Sign in method - when successfully completed, do the followings
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -184,5 +192,10 @@ public class UserLoginScreen extends Fragment {
 
     private void printSuccessfulLogIn() {
         Toast.makeText(getContext(), "Welcome back, " + user.getUserName(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showError(EditText t, String e) {
+        t.setError(e);
+        t.requestFocus();
     }
 }

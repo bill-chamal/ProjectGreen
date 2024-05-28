@@ -1,12 +1,8 @@
 package com.example.projectgreen;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -35,12 +33,14 @@ public class UserStatisticsFragment extends Fragment {
 
     private User user;
     private PieChart piechart;
-    private TextView lblScore;
+    private TextView lblScore, txtProgress;
     private ProgressBar progressBar;
     private int bonusValue;
-    public UserStatisticsFragment(User user){
+
+    public UserStatisticsFragment(User user) {
         this.user = user;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class UserStatisticsFragment extends Fragment {
         piechart.getDescription().setEnabled(false);
         piechart.setExtraOffsets(5, 10, 5, 5);
         piechart.setDragDecelerationFrictionCoef(0.95f);
-        piechart.animateXY(900,900);
+        piechart.animateXY(900, 900);
         piechart.setDrawRoundedSlices(false);
 
         piechart.setCenterTextSize(34f);
@@ -67,9 +67,9 @@ public class UserStatisticsFragment extends Fragment {
         ArrayList<PieEntry> pValues = new ArrayList<>();
 
         int total_plastic = user.getTotalPieceOfMaterial(MaterialType.matn1);
-        int total_paper   = user.getTotalPieceOfMaterial(MaterialType.matn2);
-        int total_glass   = user.getTotalPieceOfMaterial(MaterialType.matn3);
-        int total_metal   = user.getTotalPieceOfMaterial(MaterialType.matn4);
+        int total_paper = user.getTotalPieceOfMaterial(MaterialType.matn2);
+        int total_glass = user.getTotalPieceOfMaterial(MaterialType.matn3);
+        int total_metal = user.getTotalPieceOfMaterial(MaterialType.matn4);
 
         if (total_plastic > 0) {
             pValues.add(new PieEntry(total_plastic, "Plastic"));
@@ -96,19 +96,24 @@ public class UserStatisticsFragment extends Fragment {
         piechart.setData(data);
 
         // Set to labels total piece by material
-        ((TextView)view.findViewById(R.id.lblPlastic)).setText( String.valueOf(total_plastic));
-        ((TextView)view.findViewById(R.id.lblPaper)).setText(   String.valueOf(total_paper  ));
-        ((TextView)view.findViewById(R.id.lblGlass)).setText(   String.valueOf(total_glass  ));
-        ((TextView)view.findViewById(R.id.lblMetal)).setText(   String.valueOf(total_metal  ));
-        ((TextView)view.findViewById(R.id.lblTotal)).setText(   String.valueOf(total_plastic + total_glass + total_paper + total_metal)  );
+        ((TextView) view.findViewById(R.id.lblPlastic)).setText(String.valueOf(total_plastic));
+        ((TextView) view.findViewById(R.id.lblPaper)).setText(String.valueOf(total_paper));
+        ((TextView) view.findViewById(R.id.lblGlass)).setText(String.valueOf(total_glass));
+        ((TextView) view.findViewById(R.id.lblMetal)).setText(String.valueOf(total_metal));
+        ((TextView) view.findViewById(R.id.lblTotal)).setText(String.valueOf(total_plastic + total_glass + total_paper + total_metal));
 
         setScoreView(view);
 
-        if(user.getPoints()<100)
-        ((TextView)view.findViewById(R.id.progressComment)).setText("Great progress! Keep it up to cash in your available balance");
-        else  ((TextView)view.findViewById(R.id.progressComment)).setText("Your balance is available to cash in! Scroll down for more details");
+        txtProgress = view.findViewById(R.id.progressComment);
 
-        ((Button)view.findViewById(R.id.btnTakeCash)).setOnClickListener(new View.OnClickListener() {
+        if (user.getPoints() < 100)
+            txtProgress.setText("Great progress! Keep it up to cash in your available balance");
+        else
+            txtProgress.setText("Your balance is available to cash in! Scroll down for more details");
+
+        generativeModelGemini(txtProgress);
+
+        ((Button) view.findViewById(R.id.btnTakeCash)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 double score = user.getBalance() + bonusValue;
@@ -120,40 +125,40 @@ public class UserStatisticsFragment extends Fragment {
         return view;
     }
 
-    private void setScoreView(View view){
+    private void setScoreView(View view) {
         lblScore = view.findViewById(R.id.lblLevel);
         lblScore.setText(String.valueOf(user.getTotalCashback()));
-
         progressBar = view.findViewById(R.id.progressBar);
-        progressBar.setProgress(user.getPoints());
+        // progress bar has maximum of 100
+        progressBar.setProgress(Math.min(user.getPoints(), 100));
 
-        if(user.getPoints() < 100)
-            ((Button)view.findViewById(R.id.btnTakeCash)).setEnabled(false);
+        if (user.getPoints() < 100)
+            ((Button) view.findViewById(R.id.btnTakeCash)).setEnabled(false);
 
 
-        piechart.setCenterText(String.valueOf(user.getPoints()) + "\npoints" );
+        piechart.setCenterText(String.valueOf(user.getPoints()) + "\npoints");
 
         //provide info about the current bonus
-        ((TextView)view.findViewById(R.id.bonusInfo)).setText("1$ per " + MaterialType.getBonus() + " pieces\nuntil progress bar \nfull");
+        ((TextView) view.findViewById(R.id.bonusInfo)).setText("1$ per " + MaterialType.getBonus() + " pieces\nuntil progress bar full");
 
         //specify bonus
-        ((TextView)view.findViewById(R.id.apprQty)).setText("Approved material quantity bonus");
+        ((TextView) view.findViewById(R.id.apprQty)).setText("Approved material quantity bonus");
 
         // Set label score view
         String formattedCashback = String.format("%.2f", user.getTotalCashback());
-        ((TextView)view.findViewById(R.id.lblLevel)).setText(formattedCashback + " $");
+        ((TextView) view.findViewById(R.id.lblLevel)).setText(formattedCashback + " $");
 
         String formattedBalance = String.format("%.2f", user.getBalance());
-        ((TextView)view.findViewById(R.id.lblbalance)).setText(formattedBalance + " $");
+        ((TextView) view.findViewById(R.id.lblbalance)).setText(formattedBalance + " $");
 
         //calculate the bonus value and stop giving bonus if the user has already reached the cash in threshold to incentivise fast cash ins.
         bonusValue = user.getBonusValue();
 
-        ((TextView)view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue)+ "$  from " + bonusValue*30 +"/" + user.getApprMatQ() + "\napproved pieces");
+        ((TextView) view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue) + "$  from " + bonusValue * 30 + "/" + user.getApprMatQ() + "\napproved pieces");
 
         // Set total balance for cashback (basic material cashback value and bonus depending on quantity of materials)
         String formattedtotal = String.format("%.2f", user.getBalance() + bonusValue);
-        ((TextView)view.findViewById(R.id.totalBalance)).setText(formattedtotal +" $");
+        ((TextView) view.findViewById(R.id.totalBalance)).setText(formattedtotal + " $");
 
     }
 
@@ -172,7 +177,9 @@ public class UserStatisticsFragment extends Fragment {
                 /* apiKey */ "AIzaSyDGq-JkuIHRm8DzpF0LTRkLSzf3Cf_2lQU");
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
-        String textInput =  String.format("You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are close to 0. Encourage the user to continue recycling when the points are above 0. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user and friendly. The user now has %d points, what should you say to him. Max words 7-15.", user.getPoints());
+        String textInput = String.format(
+                "You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are close to 0. Encourage the user to continue recycling when the points are above 0. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user, be creative and friendly. For example, you could say: Great progress! Keep it up to cash in your available balance. For example, when the points are 100 or above you could say: Your balance is available to cash in! Scroll down for more details. The user now has %d points, what should you say to him. Max words 7-15.",
+                user.getPoints());
 
         Content content = new Content.Builder()
                 .addText(textInput)
@@ -191,12 +198,9 @@ public class UserStatisticsFragment extends Fragment {
                 @Override
                 public void onFailure(Throwable t) {
                     t.printStackTrace();
-                    geminiView.setText("Great progress! Keep it up to cash in your available balance.");
                     Log.e("GeminiAI", t.toString());
                 }
             }, this.getActivity().getMainExecutor());
-        }
-        else
-            geminiView.setText("Great progress! Keep it up to cash in your available balance.");
+        } // Else : don't do anything
     }
 }

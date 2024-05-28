@@ -1,31 +1,24 @@
 package com.example.projectgreen;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,40 +97,61 @@ public class CreateAccountScreen extends Fragment {
         view.findViewById(R.id.btnCreateNewAccount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = String.valueOf(((EditText)view.findViewById(R.id.txtbox_UserEmail)).getText());
-                String email = String.valueOf(((EditText)view.findViewById(R.id.txtbox_email)).getText());
-                String password = String.valueOf(((EditText)view.findViewById(R.id.txtbox_password)).getText());
+                boolean flag = true;
+                String name = String.valueOf(((EditText) view.findViewById(R.id.txtbox_UserEmail)).getText());
+                String email = String.valueOf(((EditText) view.findViewById(R.id.txtbox_email)).getText());
+                String password = String.valueOf(((EditText) view.findViewById(R.id.txtbox_password)).getText());
 
-                if (name.length() == 0 || email.length() == 0 || password.length() == 0)
+                if (name.length() == 0 || email.length() == 0 || password.length() == 0) {
                     Toast.makeText(getContext(), "Fields cant be empty", Toast.LENGTH_SHORT).show();
-                else {
+                    flag = false;
+                }
+                if (name.isEmpty()) {
+                    showError(((EditText) view.findViewById(R.id.txtbox_UserEmail)), "User name can't be empty");
+                    flag = false;
+                }
+                if (!email.contains("@") || email.contains(" ") || !email.contains(".")) {
+                    showError(((EditText) view.findViewById(R.id.txtbox_email)), "Email is not valid");
+                    flag = false;
+                }
+                if (password.length() < 6) {
+                    showError(((EditText) view.findViewById(R.id.txtbox_password)), "Password must be 7 to 30 in length");
+                    flag = false;
+                }
+
+                if (flag) {
                     // CREATE ACCOUNT
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener( new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                Toast.makeText(getContext(), "Authentication Successfully. Account created:" + user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                                        User user1 = new User(name, email, false, new ArrayList<>(), 0,0,0);
-                                        user1.sendUser();
+                                User user1 = new User(name, email, false, new ArrayList<>(), 0, 0, 0);
+                                user1.sendUser();
 
-                                        // updateUI(userData); NEXT FRAGMENT
-                                        NavDirections action = CreateAccountScreenDirections.actionCreateAccountScreenToUserViewScreen(user1);
-                                        Navigation.findNavController(view).navigate(action);
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-                                        // updateUI(null);
-                                    }
-                                }
-                            });
+                                // updateUI(userData); NEXT FRAGMENT
+                                NavDirections action = CreateAccountScreenDirections.actionCreateAccountScreenToUserViewScreen(user1);
+                                Navigation.findNavController(view).navigate(action);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Toast.makeText(getContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                // updateUI(null);
+                            }
+                        }
+                    });
                 }
             }
         });
 
         return view;
+    }
+
+    private void showError(EditText t, String e) {
+        t.setError(e);
+        t.requestFocus();
     }
 
 }

@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -51,29 +53,10 @@ public class AdminViewLeaderboard extends Fragment {
     private BarChart valueBarChart;
     private List<String> xValues = Arrays.asList(MaterialType.matn1, MaterialType.matn2, MaterialType.matn3, MaterialType.matn4);
     Bitmap bitmap1, bitmap2;
+    admin_main_screen adminMainScreen;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public static AdminViewLeaderboard newInstance(String param1, String param2) {
-        AdminViewLeaderboard fragment = new AdminViewLeaderboard();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public AdminViewLeaderboard(admin_main_screen adminMainScreen) {
+        this.adminMainScreen = adminMainScreen;
     }
 
     @Override
@@ -211,6 +194,17 @@ public class AdminViewLeaderboard extends Fragment {
             }
         });
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Clear history stack and goto enter screen
+                if (adminMainScreen.getDrawerLayout().isDrawerOpen(GravityCompat.START))
+                    adminMainScreen.getDrawerLayout().closeDrawer((GravityCompat.START));
+                else
+                    adminMainScreen.getBottomNavigationView().setSelectedItemId(R.id.adminRequestMenu);
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return view;
     }
@@ -255,8 +249,7 @@ public class AdminViewLeaderboard extends Fragment {
                     t.printStackTrace();
                 }
             }, this.getActivity().getMainExecutor());
-        }
-        else
+        } else
             geminiView.setText("Gemini requires API level 21 and higher");
     }
 }

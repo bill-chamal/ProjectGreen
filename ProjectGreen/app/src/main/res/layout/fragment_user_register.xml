@@ -6,6 +6,17 @@
     android:orientation="vertical"
     tools:context=".UserRegisterFragment">
 
+    <TextView
+        android:id="@+id/txtViewNotifyUserEmptyList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/your_request_list_is_empty_nrequest_new_recycled_material"
+        android:textAlignment="center"
+        android:fontFamily="@font/candara"
+        android:textSize="24dp"
+        android:layout_marginTop="20dp"
+        android:visibility="gone" />
+
     <ListView
         android:id="@+id/listUsersAllMatView"
         android:layout_width="match_parent"

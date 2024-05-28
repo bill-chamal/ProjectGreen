@@ -26,7 +26,7 @@ public class AdminViewUserUnapprovedRecycles extends Fragment {
     private ListView listView;
     private TextView txtviewUserName;
     private ImageView btnBack;
-    AdminViewMaterialApprove adminViewMaterialApprove;
+    private AdminViewMaterialApprove adminViewMaterialApprove;
     public AdminViewUserUnapprovedRecycles(User user, AdminViewMaterialApprove adminViewMaterialApprove){
         this.user = user;
         this.adminViewMaterialApprove = adminViewMaterialApprove;

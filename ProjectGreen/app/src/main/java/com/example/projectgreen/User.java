@@ -1,12 +1,18 @@
 package com.example.projectgreen;
 
 import static android.content.ContentValues.TAG;
+
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -102,6 +108,62 @@ public class User implements Serializable {
             }
         });
     }
+    // When new mat is registered by user, update, add rec, upload and notify adapter
+    public void refreshUserAddRec(Recycled rec, UserRegisterFragment userRegisterFragment){
+        db.collection("user").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Map<String, Object> doc = null;
+
+                    for (DocumentSnapshot document : task.getResult())
+                        doc = document.getData();
+
+                    if (doc != null)
+                        populate(doc);
+                    // user fetched
+                    addRecycle(rec);
+                    //  upload user data
+                    sendUser();
+
+                    // Check if the user upload finished in time and there is not difference
+                    // between adapter list and user own list, in case user changed fragment
+                    // and and the adapter has the old data
+                    // If user didn't switch fragment it's Context will be empty
+                    if (userRegisterFragment.getContext() != null)
+                        userRegisterFragment.keepListUpdated(rec);
+
+                    Log.i("USER", "User document downloaded: " + doc.get(FIELD_EMAIL));
+
+                } else
+                    Log.e("USER", "User document failed to download: " + email);
+            }
+        });
+    }
+
+    // Refresh the User stat screen with updated data from cloud
+    public void refresh(UserViewScreen userViewScreen) {
+        db.collection("user").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    Map<String, Object> doc = null;
+
+                    for (DocumentSnapshot document : task.getResult())
+                        doc = document.getData();
+
+                    if (doc != null)
+                        populate(doc);
+
+                    userViewScreen.replaceStatFragmentAndNotify();
+
+                    Log.i("USER", "User document downloaded: " + doc.get(FIELD_EMAIL));
+
+                } else
+                    Log.e("USER", "User document failed to download: " + email);
+            }
+        });
+    }
 
     private Map<String, Object> convertUserToMap() {
         // Convert user to readable type for Google Firestore
@@ -138,14 +200,14 @@ public class User implements Serializable {
 
     private void convertMapToUser(Map<String, Object> m) {
         // Download data type Map<> from Firestore and fetch to its class variables
-        this.userName =     (String) m.get(FIELD_NAME);
-        this.email =        (String) m.get(FIELD_EMAIL);
-        this.isAdmin =      (boolean) m.get(FIELD_IS_ADMIN);
-        this.balance =      (double) m.get(FIELD_BALANCE);
-        this.score =        (double) m.get(FIELD_SCORE);
-        this.points =       Integer.parseInt(m.get(FIELD_POINTS).toString());
-        this.apprMatQ =     Integer.parseInt(m.get(FIELD_APPROVED_MATQ).toString());
-        this.bonusValue =   Integer.parseInt(m.get(FIELD_BONUS_VALUE).toString());
+        this.userName = (String) m.get(FIELD_NAME);
+        this.email = (String) m.get(FIELD_EMAIL);
+        this.isAdmin = (boolean) m.get(FIELD_IS_ADMIN);
+        this.balance = (double) m.get(FIELD_BALANCE);
+        this.score = (double) m.get(FIELD_SCORE);
+        this.points = Integer.parseInt(m.get(FIELD_POINTS).toString());
+        this.apprMatQ = Integer.parseInt(m.get(FIELD_APPROVED_MATQ).toString());
+        this.bonusValue = Integer.parseInt(m.get(FIELD_BONUS_VALUE).toString());
 
         recycledList = new ArrayList<>();
 
@@ -230,30 +292,31 @@ public class User implements Serializable {
 
         switch (r.getMat().getMatName()) { //custom point reward based on the quantity and type of the materials recycled
             case MaterialType.matn1:
-                points +=  Math.floor(r.getPieces() * 0.5); //Plastic
+                points += Math.floor(r.getPieces() * 0.5); //Plastic
                 break;
             case MaterialType.matn2:
-                points +=  Math.floor(r.getPieces() * 0.3); //Paper
+                points += Math.floor(r.getPieces() * 0.3); //Paper
                 break;
             case MaterialType.matn3:
-                points +=  Math.floor(r.getPieces() * 0.6); //Glass
+                points += Math.floor(r.getPieces() * 0.6); //Glass
                 break;
             case MaterialType.matn4:
-                points +=  Math.floor(r.getPieces() * 0.8); //Metal
+                points += Math.floor(r.getPieces() * 0.8); //Metal
                 break;
             default:
                 Log.w("User.java approveRecycleRequest", "Not material type found to give points");
         }
 
-        if(stopBonus!=true) { //Give bonus reward only if the cash in threshold hasnt been reached.
+        if (stopBonus != true) { //Give bonus reward only if the cash in threshold hasnt been reached.
             //bonus will get updated for every approval before 100 points (the point value where the cash in progress bar is full)
             bonusValue = (int) Math.ceil(apprMatQ / MaterialType.getBonus());
 
-            if(points>=100) stopBonus = true; //in the last approval that will fill the progress bar, turn the controller boolean stopBonus to true
+            if (points >= 100)
+                stopBonus = true; //in the last approval that will fill the progress bar, turn the controller boolean stopBonus to true
         }
     }
 
-    public void setNewScore( double newScore) {
+    public void setNewScore(double newScore) {
         score += newScore;
         balance = 0;
         points = 0;
@@ -321,13 +384,13 @@ public class User implements Serializable {
         return apprMatQ;
     }
 
-    public int getBonusValue(){
+    public int getBonusValue() {
         return bonusValue;
     }
 }
 
 class UserComparator implements Comparator<User>, Serializable {
-
+    // Compare and sort users by cash
     @Override
     public int compare(User o1, User o2) {
         if (o1.getTotalCashback() == o2.getTotalCashback())
