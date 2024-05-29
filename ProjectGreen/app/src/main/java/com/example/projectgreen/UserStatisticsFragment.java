@@ -140,10 +140,10 @@ public class UserStatisticsFragment extends Fragment {
         piechart.setCenterText(String.valueOf(user.getPoints()) + "\npoints");
 
         //provide info about the current bonus
-        ((TextView) view.findViewById(R.id.bonusInfo)).setText("1$ per " + MaterialType.getBonus() + " pieces\nuntil progress bar full");
+        ((TextView) view.findViewById(R.id.bonusInfo)).setText("1$ per " + MaterialType.getBonus() + " pieces,\nuntil progress bar\nis full");
 
         //specify bonus
-        ((TextView) view.findViewById(R.id.apprQty)).setText("Approved material quantity bonus");
+        ((TextView) view.findViewById(R.id.apprQty)).setText("Approved quantity\nbonus");
 
         // Set label score view
         String formattedCashback = String.format("%.2f", user.getTotalCashback());
@@ -178,7 +178,7 @@ public class UserStatisticsFragment extends Fragment {
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
         String textInput = String.format(Locale.US,
-                "You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are close to 0. Encourage the user to continue recycling when the points are above 0. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user, be creative and friendly. Use of emojis are always nice. For example, you could say: Great progress! Keep it up to cash in your available balance. For example, when the points are 100 or above you could say: Your balance is available to cash in! Scroll down for more details. The user’s name is %s. The user now has %d points, what should you say to him. Max words 7-15."
+                "You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are closer to 0. Encourage the user to continue recycling when they start collecting more points. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user, be creative and friendly. Use of emojis are always nice. For example, you could say: Great progress! Keep it up to cash in your available balance. For example, when the points are 100 or above you could say: Your balance is available to cash in! Scroll down for more details. The user’s name is %s. The user now has %d points, what should you say to him. Max words 7-15."
                 , user.getUserName(), user.getPoints());
 
         Content content = new Content.Builder()
