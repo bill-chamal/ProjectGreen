@@ -30,6 +30,7 @@ public class User implements Serializable {
     private static final String FIELD_POINTS = "points";
     private static final String FIELD_APPROVED_MATQ = "approved_material_quantity";
     private static final String FIELD_BONUS_VALUE = "bonus_value";
+    private static final String FIELD_STOP_BONUS = "stop_bonus";
     // Recycle fields
     private static final String FIELD_TIMESTAMP = "timestamp";
     private static final String FIELD_PIECES = "pieces";
@@ -89,6 +90,13 @@ public class User implements Serializable {
             m.put(FIELD_BALANCE, 0);
             m.put(FIELD_POINTS, 0);
             m.put(FIELD_SCORE, 0);
+        }
+
+        if (!m.containsKey(FIELD_STOP_BONUS)){
+            if(points >= 100)
+                m.put(FIELD_STOP_BONUS, true);
+            else
+                m.put(FIELD_STOP_BONUS, false);
         }
 
         convertMapToUser(m);
@@ -168,7 +176,7 @@ public class User implements Serializable {
     private Map<String, Object> convertUserToMap() {
         // Convert user to readable type for Google Firestore
         Map<String, Object> recycle_list = new HashMap<String, Object>();
-
+        // First the recycle list
         for (Recycled r : recycledList) {
             // Get material type
             Map<String, Object> mat = new HashMap<String, Object>();
@@ -183,7 +191,7 @@ public class User implements Serializable {
             // Put it to array
             recycle_list.put(String.valueOf(r.getTimestamp().hashCode()), recycle);
         }
-
+        // Then use the recycle list and add it as field to user Map
         Map<String, Object> usermap = new HashMap<String, Object>();
         usermap.put(FIELD_NAME, userName);
         usermap.put(FIELD_EMAIL, email);
@@ -194,6 +202,7 @@ public class User implements Serializable {
         usermap.put(FIELD_IS_ADMIN, isAdmin);
         usermap.put(FIELD_APPROVED_MATQ, apprMatQ);
         usermap.put(FIELD_BONUS_VALUE, bonusValue);
+        usermap.put(FIELD_STOP_BONUS, stopBonus);
 
         return usermap;
     }
@@ -208,6 +217,7 @@ public class User implements Serializable {
         this.points = Integer.parseInt(m.get(FIELD_POINTS).toString());
         this.apprMatQ = Integer.parseInt(m.get(FIELD_APPROVED_MATQ).toString());
         this.bonusValue = Integer.parseInt(m.get(FIELD_BONUS_VALUE).toString());
+        this.stopBonus = (boolean) m.get(FIELD_STOP_BONUS);
 
         recycledList = new ArrayList<>();
 
@@ -307,7 +317,7 @@ public class User implements Serializable {
                 Log.w("User.java approveRecycleRequest", "Not material type found to give points");
         }
 
-        if (stopBonus != true) { //Give bonus reward only if the cash in threshold hasnt been reached.
+        if (!stopBonus) { //Give bonus reward only if the cash in threshold hasn't been reached.
             //bonus will get updated for every approval before 100 points (the point value where the cash in progress bar is full)
             bonusValue = (int) Math.ceil(apprMatQ / MaterialType.getBonus());
 
@@ -317,12 +327,13 @@ public class User implements Serializable {
     }
 
     public void setNewScore(double newScore) {
+        // User clicks CASH IN and the progress score is reset
         score += newScore;
         balance = 0;
         points = 0;
         apprMatQ = 0;
         bonusValue = 0;
-
+        // Upload user to database
         sendUser();
     }
 

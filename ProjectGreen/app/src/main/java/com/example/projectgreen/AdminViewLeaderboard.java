@@ -245,7 +245,7 @@ public class AdminViewLeaderboard extends Fragment {
 
                 @Override
                 public void onFailure(Throwable t) {
-                    geminiView.setText("Due to regional restrictions, the AI data analysis is not available from your current location.Please try connecting to a server in the United States using a VPN.");
+                    geminiView.setText("Due to regional restrictions, the AI data analysis is not available from your current location.");
                 }
             }, this.getActivity().getMainExecutor());
         } else
