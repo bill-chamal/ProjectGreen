@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class UserStatisticsFragment extends Fragment {
@@ -173,13 +174,12 @@ public class UserStatisticsFragment extends Fragment {
          */
         // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
         GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro",
-// Access your API key as a Build Configuration variable (see "Set up your API key" above)
                 /* apiKey */ "AIzaSyDGq-JkuIHRm8DzpF0LTRkLSzf3Cf_2lQU");
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
-        String textInput = String.format(
-                "You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are close to 0. Encourage the user to continue recycling when the points are above 0. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user, be creative and friendly. For example, you could say: Great progress! Keep it up to cash in your available balance. For example, when the points are 100 or above you could say: Your balance is available to cash in! Scroll down for more details. The user now has %d points, what should you say to him. Max words 7-15.",
-                user.getPoints());
+        String textInput = String.format(Locale.US,
+                "You are in a Gamification android app that rewards users for doing progress by recycling. Your purpose is to encourage the user to start recycling when the points are close to 0. Encourage the user to continue recycling when the points are above 0. Encourage the user and reward the user. When the points are 100 or above, the user finished his progress. Reward the user when the points are above or equal to 100 and suggest him to cash in to get rewarded. Be nice to the user, be creative and friendly. Use of emojis are always nice. For example, you could say: Great progress! Keep it up to cash in your available balance. For example, when the points are 100 or above you could say: Your balance is available to cash in! Scroll down for more details. The user’s name is %s. The user now has %d points, what should you say to him. Max words 7-15."
+                , user.getUserName(), user.getPoints());
 
         Content content = new Content.Builder()
                 .addText(textInput)
