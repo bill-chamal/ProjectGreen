@@ -15,7 +15,6 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +26,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -188,7 +186,7 @@ public class UserViewScreen extends Fragment {
         // Set default fragment
         replaceFragment(new UserStatisticsFragment(user));
         // Navigate between fragments Stats<->Register
-        bottomNavigationView =  view.findViewById(R.id.bottomUserNavView);
+        bottomNavigationView = view.findViewById(R.id.bottomUserNavView);
         bottomNavigationView.setOnItemSelectedListener(item -> {
             // From file "bottom_user_menu.xml" id name
             if (item.getItemId() == R.id.points) {
