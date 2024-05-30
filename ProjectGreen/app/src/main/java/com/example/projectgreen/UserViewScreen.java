@@ -85,11 +85,13 @@ public class UserViewScreen extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 if (item.getItemId() == R.id.nav_about) {
+                    // Show About dialog
                     Dialog aboutDialog = new Dialog(getContext());
                     aboutDialog.setContentView(R.layout.fragment_about_popup);
                     aboutDialog.show();
                 }
                 if (item.getItemId() == R.id.nav_logout) {
+                    // Sign out and go to the Enter Screen
                     mAuth.signOut();
                     Intent gotoMainActivity = new Intent(getContext(), MainActivity.class);
                     gotoMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -221,7 +223,8 @@ public class UserViewScreen extends Fragment {
         // In case of any changes, notify the adapter
         if (userRegisterFragment.getContext() != null)
             userRegisterFragment.notifyAdapter();
-        replaceFragment(userStatisticsFragment);
+        // Refresh UI on click
+        replaceFragment(new UserStatisticsFragment(user));
     }
 
     private void replaceFragment(Fragment fragment) {

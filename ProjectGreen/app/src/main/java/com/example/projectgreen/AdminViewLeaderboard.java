@@ -131,13 +131,13 @@ public class AdminViewLeaderboard extends Fragment {
                     entries.add(new BarEntry(1, total_paper));
                     entries.add(new BarEntry(2, total_glass));
                     entries.add(new BarEntry(3, total_metal));
-
+                    // Set Values bar
                     ArrayList<BarEntry> valueEntries = new ArrayList<>();
                     valueEntries.add(new BarEntry(0, totalValue_plastic));
                     valueEntries.add(new BarEntry(1, totalValue_paper));
                     valueEntries.add(new BarEntry(2, totalValue_glass));
                     valueEntries.add(new BarEntry(3, totalValue_metal));
-
+                    // Set axis
                     YAxis yAxis = barChart.getAxisLeft();
                     yAxis.setAxisMinimum(0f);
                     yAxis.setAxisLineWidth(2f);
@@ -214,13 +214,11 @@ public class AdminViewLeaderboard extends Fragment {
         ! READ IMPORTANT NOTICE !
         This is the AI Model from Google AI called Gemini.
         Gemini requires API Level 21 and higher.
-        The usage of Gemini does not violate any Google’s Policy listed here https://policies.google.com/terms/generative-ai/use-policy https://ai.google.dev/gemini-api/terms#use-restrictions
-        Gemini is not free in EU. Requires a linked billing account. Provides 300$ free for new accounts, for a specific period of time. https://ai.google.dev/gemini-api/docs/available-regions#unpaid-tier-unavailable
+        Gemini is not free in EU. Requires a linked billing account. Provides 300$ of free to charge use for new accounts, for a specific period of time.
         The linked billing account will be removed in order to avoid any unwilling charges.
          */
         // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
         GenerativeModel gm = new GenerativeModel(/* modelName */ "gemini-pro-vision",
-// Access your API key as a Build Configuration variable (see "Set up your API key" above)
                 /* apiKey */ "AIzaSyDGq-JkuIHRm8DzpF0LTRkLSzf3Cf_2lQU");
         GenerativeModelFutures model = GenerativeModelFutures.from(gm);
 
