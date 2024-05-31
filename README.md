@@ -32,6 +32,8 @@
 
 One of the priorities of the European Union is sustainability and saving resources. In this context, an application was created which will allow users to drop off items for recycling and receive rewards through a points system.
 
+[![](https://markdown-videos-api.jorgenkh.no/youtube/Fip4cMbffZ4)](https://youtu.be/Fip4cMbffZ4)
+
 ![Prototype UI](img/export1.jpg)
 
 AI will do some magic
