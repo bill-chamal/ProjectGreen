@@ -155,7 +155,7 @@ public class UserStatisticsFragment extends Fragment {
         //calculate the bonus value and stop giving bonus if the user has already reached the cash in threshold to incentivise fast cash ins.
         bonusValue = user.getBonusValue();
 
-        ((TextView) view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue) + "$  from " + bonusValue * 30 + "/" + user.getApprMatQ() + "\napproved pieces");
+        ((TextView) view.findViewById(R.id.apprQtyVl)).setText(String.valueOf(bonusValue) + "$  from " + bonusValue * MaterialType.getBonus() + "/" + user.getApprMatQ() + "\napproved pieces");
 
         // Set total balance for cashback (basic material cashback value and bonus depending on quantity of materials)
         String formattedtotal = String.format("%.2f", user.getBalance() + bonusValue);
