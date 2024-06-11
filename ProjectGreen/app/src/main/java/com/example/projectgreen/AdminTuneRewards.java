@@ -66,7 +66,7 @@ public class AdminTuneRewards extends Fragment {
                 editMetal.setText   (String.valueOf(MaterialType.MATV4));
                 editBonus.setText   (String.valueOf(MaterialType.BONUS));
 
-                Toast.makeText(v.getContext(), "Material values have been reset", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Material values have been reset. Press SET & SAVE to upload.", Toast.LENGTH_SHORT).show();
             }
         });
 
