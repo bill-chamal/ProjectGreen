@@ -337,7 +337,6 @@ public class User implements Serializable {
         sendUser();
     }
 
-
     // = = =    GETTERS AND SETTERS     = = = //
     public String getUserName() {
         return userName;

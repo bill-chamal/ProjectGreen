@@ -136,7 +136,6 @@ public class UserStatisticsFragment extends Fragment {
         if (user.getPoints() < 100)
             ((Button) view.findViewById(R.id.btnTakeCash)).setEnabled(false);
 
-
         piechart.setCenterText(String.valueOf(user.getPoints()) + "\npoints");
 
         //provide info about the current bonus
